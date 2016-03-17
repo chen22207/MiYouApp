@@ -25,15 +25,9 @@ android {
         enabled = true
     }
 }
-retrolambda {
-    jdk System.getenv("JAVA8_HOME")
-    oldJdk System.getenv("JAVA7_HOME")
-    jvmArgs '-arg1', '-arg2'
-    defaultMethods false
-    incremental true
-}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:design:23.2.1'
 }
