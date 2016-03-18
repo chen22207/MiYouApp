@@ -1,4 +1,9 @@
 <resources>
-	<string name="app_name">MiYouApp</string>
-	<string name="title_activity_main">MainActivity</string>
+    <string name="app_name">MiYouApp</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="main_tab_home">首页</string>
+    <string name="main_tab_mine">我的</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

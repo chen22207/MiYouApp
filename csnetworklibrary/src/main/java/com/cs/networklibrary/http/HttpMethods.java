@@ -1,20 +1,17 @@
 package com.cs.networklibrary.http;
 
-import com.cs.networklibrary.entity.HttpResult;
-
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.functions.Func1;
 
 /**
  * Created by chenshuai12619 on 2016/3/17 16:39.
  */
 public class HttpMethods {
-	public static final String BASE_URL = "https://api.douban.com/v2/movie/";
+    public static final String BASE_URL = "http://120.26.233.80/API/";
 
 	private static final int DEFAULT_TIMEOUT = 10;
 
@@ -44,19 +41,9 @@ public class HttpMethods {
 		return SingletonHolder.INSTANCE;
 	}
 
-	/**
-	 * 用来统一处理Http的resultCode,并将HttpResult的Data部分剥离出来返回给subscriber
-	 *
-	 * @param <T> Subscriber真正需要的数据类型，也就是Data部分的数据类型
-	 */
-	private class HttpResultFunc<T> implements Func1<HttpResult<T>, T> {
+    public <T> T getClassInstance(Class<T> clazz) {
+        return retrofit.create(clazz);
+    }
 
-		@Override
-		public T call(HttpResult<T> httpResult) {
-			if (!httpResult.getResultCode().equals("0000")) {
-				throw new ApiException(100);
-			}
-			return httpResult.getData();
-		}
-	}
+
 }

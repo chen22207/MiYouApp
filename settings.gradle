@@ -1,1 +1,1 @@
-include ':app', ':csnetworklibrary'
+include ':app', ':csnetworklibrary', ':cswidgetlibrary'
