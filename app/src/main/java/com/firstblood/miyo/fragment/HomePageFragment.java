@@ -8,16 +8,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
 import com.firstblood.miyo.module.NoData;
 import com.firstblood.miyo.netservices.UserServices;
+import com.firstblood.miyo.subscribers.ProgressSubscriber;
 import com.firstblood.miyou.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -69,26 +73,16 @@ public class HomePageFragment extends Fragment {
         ButterKnife.inject(this, view);
         // Inflate the layout for this fragment
         UserServices services = HttpMethods.getInstance().getClassInstance(UserServices.class);
-        services.userLogin("admin", "admin")
+        Map<String, String> queryMap = new HashMap<>();
+        queryMap.put("account", "1112");
+        queryMap.put("password", "1113");
+        services.userLogin(queryMap)
                 .map(new HttpResultFunc<NoData>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<NoData>() {
-                    @Override
-                    public void onCompleted() {
-                        System.out.println("aa");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println(e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(NoData noData) {
-                        homePageTv.setText("登录成功");
-                    }
-                });
+                .subscribe(new ProgressSubscriber<NoData>(o -> {
+                    Toast.makeText(getActivity(), "login success", Toast.LENGTH_SHORT).show();
+                }, getActivity()));
 
 
         return view;
