@@ -1,1 +1,1 @@
-include ':app', ':csnetworklibrary', ':cswidgetlibrary'
+include ':app', ':csnetworklibrary', ':cswidgetlibrary', ':multi-image-selector'

@@ -38,4 +38,5 @@ dependencies {
     compile 'com.android.support:design:23.2.1'
     compile 'com.jakewharton:butterknife:5.1.1'
     compile 'com.android.support:support-v4:23.2.1'
+    compile project(':multi-image-selector')
 }

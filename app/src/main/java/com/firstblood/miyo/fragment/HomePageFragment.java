@@ -1,69 +1,54 @@
 package com.firstblood.miyo.fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
-import com.cs.networklibrary.http.HttpMethods;
-import com.cs.networklibrary.http.HttpResultFunc;
-import com.firstblood.miyo.module.NoData;
-import com.firstblood.miyo.netservices.UserServices;
-import com.firstblood.miyo.subscribers.ProgressSubscriber;
 import com.firstblood.miyou.R;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link HomePageFragment#newInstance} factory method to
- * create an instance of this fragment.
+ *
  */
 public class HomePageFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    @InjectView(R.id.home_page_tv)
-    TextView homePageTv;
+    @InjectView(R.id.home_page_lv)
+    ListView homePageLv;
 
-    private String mParam1;
-    private String mParam2;
+    private MyListAdapter adapter;
 
-    private OnFragmentInteractionListener mListener;
+    private ViewPager vp;
+    private LinearLayout imageIndexLl;
+
+    private List<ImageView> images = new ArrayList<>();
+    private List<ImageView> imageIndexs = new ArrayList<>();
 
     public HomePageFragment() {
     }
 
     public static HomePageFragment newInstance() {
         HomePageFragment fragment = new HomePageFragment();
-        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -71,54 +56,106 @@ public class HomePageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_page, container, false);
         ButterKnife.inject(this, view);
-        // Inflate the layout for this fragment
-        UserServices services = HttpMethods.getInstance().getClassInstance(UserServices.class);
-        Map<String, String> queryMap = new HashMap<>();
-        queryMap.put("account", "1112");
-        queryMap.put("password", "1113");
-        services.userLogin(queryMap)
-                .map(new HttpResultFunc<NoData>())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ProgressSubscriber<NoData>(o -> {
-                    Toast.makeText(getActivity(), "login success", Toast.LENGTH_SHORT).show();
-                }, getActivity()));
+
+        View header = inflater.inflate(R.layout.listitem_home_page_header, null);
+        vp = (ViewPager) header.findViewById(R.id.list_item_home_page_vp);
+        imageIndexLl = (LinearLayout) header.findViewById(R.id.list_item_home_page_image_index_ll);
+
+        adapter = new MyListAdapter();
+        homePageLv.setAdapter(adapter);
+
+        MyPagerAdapter pagerAdapter = new MyPagerAdapter();
+        for (int i = 0; i < 5; i++) {
+            ImageView iv = new ImageView(getActivity());
+            iv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
+            iv.setScaleType(ImageView.ScaleType.FIT_XY);
+            iv.setImageResource(R.drawable.f1);
+            images.add(iv);
+            ImageView iv1 = new ImageView(getActivity());
+            iv1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            iv1.setImageResource(R.drawable.shape_image_index_white);
+            imageIndexs.add(iv1);
+            imageIndexLl.addView(iv1);
+        }
+        vp.setAdapter(pagerAdapter);
+        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                resetAllImageIndex();
+                imageIndexs.get(position).setImageResource(R.drawable.shape_image_index_gray);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
 
+        homePageLv.addHeaderView(header);
         return view;
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    private void resetAllImageIndex() {
+        for (ImageView imageIndex : imageIndexs) {
+            imageIndex.setImageResource(R.drawable.shape_image_index_white);
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
+    private class MyListAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return 10;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ImageView iv = new ImageView(getActivity());
+            iv.setImageResource(R.drawable.f1);
+            return iv;
+        }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    private class MyPagerAdapter extends PagerAdapter {
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            container.addView(images.get(position));
+            return images.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return images.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }
