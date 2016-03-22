@@ -61,14 +61,12 @@ public class HomePageFragment extends Fragment {
         vp = (ViewPager) header.findViewById(R.id.list_item_home_page_vp);
         imageIndexLl = (LinearLayout) header.findViewById(R.id.list_item_home_page_image_index_ll);
 
-        adapter = new MyListAdapter();
-        homePageLv.setAdapter(adapter);
 
         MyPagerAdapter pagerAdapter = new MyPagerAdapter();
         for (int i = 0; i < 5; i++) {
             ImageView iv = new ImageView(getActivity());
-            iv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 100));
-            iv.setScaleType(ImageView.ScaleType.FIT_XY);
+//            iv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
+//            iv.setScaleType(ImageView.ScaleType.FIT_XY);
             iv.setImageResource(R.drawable.f1);
             images.add(iv);
             ImageView iv1 = new ImageView(getActivity());
@@ -96,8 +94,10 @@ public class HomePageFragment extends Fragment {
             }
         });
 
-
+        adapter = new MyListAdapter();
         homePageLv.addHeaderView(header);
+        homePageLv.setAdapter(adapter);
+
         return view;
     }
 
@@ -108,6 +108,16 @@ public class HomePageFragment extends Fragment {
     }
 
     private class MyListAdapter extends BaseAdapter {
+
+        @Override
+        public int getViewTypeCount() {
+            return 2;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position == 0 ? 0 : 1;
+        }
 
         @Override
         public int getCount() {
@@ -133,6 +143,11 @@ public class HomePageFragment extends Fragment {
     }
 
     private class MyPagerAdapter extends PagerAdapter {
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView(images.get(position));
+        }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {

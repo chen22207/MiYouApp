@@ -5,8 +5,8 @@
 	android:layout_height="match_parent"
                 tools:context="com.firstblood.miyo.activity.MainActivity">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/main_vp"
+    <FrameLayout
+        android:id="@+id/main_fl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/main_rg"/>
