@@ -3,9 +3,7 @@ package com.firstblood.miyo.netservices;
 import com.cs.networklibrary.entity.HttpResult;
 import com.firstblood.miyo.module.NoData;
 
-import java.util.Map;
-
-import retrofit2.http.FieldMap;
+import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import rx.Observable;
@@ -17,5 +15,5 @@ public interface UserServices {
 
     @FormUrlEncoded
     @POST("loginAPI.aspx")
-    Observable<HttpResult<NoData>> userLogin(@FieldMap Map<String, String> queryMap);
+    Observable<HttpResult<NoData>> userLogin(@Field("account") String account, @Field("password") String password);
 }

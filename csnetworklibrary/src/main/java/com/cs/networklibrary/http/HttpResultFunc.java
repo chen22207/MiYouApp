@@ -14,7 +14,7 @@ public class HttpResultFunc<T> implements Func1<HttpResult<T>, T> {
     @Override
     public T call(HttpResult<T> httpResult) {
         if (!httpResult.getResultCode().equals("0000")) {
-            throw new ApiException(100);
+            throw new ApiException(httpResult.getResultMsg());
         }
         return httpResult.getData();
     }

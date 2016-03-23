@@ -32,9 +32,6 @@ public class HomePageFragment extends Fragment {
 
     private MyListAdapter adapter;
 
-    private ViewPager vp;
-    private LinearLayout imageIndexLl;
-
     private List<ImageView> images = new ArrayList<>();
     private List<ImageView> imageIndexs = new ArrayList<>();
 
@@ -42,8 +39,7 @@ public class HomePageFragment extends Fragment {
     }
 
     public static HomePageFragment newInstance() {
-        HomePageFragment fragment = new HomePageFragment();
-        return fragment;
+        return new HomePageFragment();
     }
 
     @Override
@@ -58,8 +54,8 @@ public class HomePageFragment extends Fragment {
         ButterKnife.inject(this, view);
 
         View header = inflater.inflate(R.layout.listitem_home_page_header, null);
-        vp = (ViewPager) header.findViewById(R.id.list_item_home_page_vp);
-        imageIndexLl = (LinearLayout) header.findViewById(R.id.list_item_home_page_image_index_ll);
+        ViewPager vp = (ViewPager) header.findViewById(R.id.list_item_home_page_vp);
+        LinearLayout imageIndexLl = (LinearLayout) header.findViewById(R.id.list_item_home_page_image_index_ll);
 
 
         MyPagerAdapter pagerAdapter = new MyPagerAdapter();
