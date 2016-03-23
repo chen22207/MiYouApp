@@ -1,12 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:background="@drawable/background">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/login_vp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+	<include layout="@layout/activity_base" />
 
-</RelativeLayout>
+	<EditText
+		android:id="@+id/login_username_et"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="@dimen/large_space"
+		android:background="@color/white"
+		android:hint="@string/login_username_hint"
+		android:layout_marginTop="@dimen/large_space" />
+
+	<include layout="@layout/line_break" />
+
+	<EditText
+		android:id="@+id/login_password_et"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="@dimen/large_space"
+		android:background="@color/white"
+		android:hint="@string/login_password_hint" />
+
+	<Button
+		android:id="@+id/login_submit_bt"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/shape_blue_rectangle_bg"
+		android:text="@string/login_login"
+		android:textColor="@color/white"
+		android:layout_margin="@dimen/large_space" />
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="right"
+		android:text="@string/login_forget_pwd"
+		android:textColor="@color/colorPrimary"
+		android:padding="@dimen/large_space" />
+
+</LinearLayout>
