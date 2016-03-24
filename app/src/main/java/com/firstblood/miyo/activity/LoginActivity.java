@@ -38,9 +38,9 @@ public class LoginActivity extends AppCompatActivity {
         Navigation.getInstance(this).setBack().setTitle(getString(R.string.title_login)).setRight(getString(R.string.title_register), v -> navigateToRegist());
 
         loginSubmitBt.setOnClickListener(v -> {
-            if (checkDataComplete()) {
-                requestLogin();
-            }
+	        if (checkDataComplete()) {
+		        requestLogin();
+	        }
         });
         loginForgetPwdTv.setOnClickListener(v -> navigateToForgetPwd());
     }

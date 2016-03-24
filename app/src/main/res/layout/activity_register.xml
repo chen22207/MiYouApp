@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@drawable/background"
+	android:orientation="vertical">
+
+	<include layout="@layout/activity_base" />
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/large_space"
+		android:background="@color/white">
+
+		<EditText
+			android:id="@+id/register_username_et"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/white"
+			android:hint="@string/register_phone_number_hint"
+			android:padding="@dimen/large_space"
+			android:maxLength="11"
+			android:inputType="phone" />
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:background="@color/white"
+			android:text="@string/register_get_sms"
+			android:textColor="@color/colorPrimary" />
+
+	</RelativeLayout>
+
+	<include layout="@layout/line_break" />
+
+	<EditText
+		android:id="@+id/register_sms_et"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/white"
+		android:hint="@string/register_sms_hint"
+		android:padding="@dimen/large_space"
+		android:maxLength="5"
+		android:inputType="numberSigned" />
+
+	<include layout="@layout/line_break" />
+
+	<EditText
+		android:id="@+id/register_nickname_et"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/white"
+		android:hint="@string/register_nickname_hint"
+		android:padding="@dimen/large_space"
+		android:inputType="text" />
+
+	<include layout="@layout/line_break" />
+
+	<EditText
+		android:id="@+id/register_password_et"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/white"
+		android:hint="@string/register_password_hint"
+		android:padding="@dimen/large_space"
+		android:inputType="textPassword" />
+
+	<Button
+		android:id="@+id/register_submit_bt"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/shape_blue_rectangle_bg"
+		android:text="@string/register_register"
+		android:textColor="@color/white"
+		android:layout_margin="@dimen/large_space" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:paddingLeft="@dimen/middle_space">
+
+		<CheckBox
+			android:id="@+id/register_user_rule_cb"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:clickable="false"
+			android:focusable="false" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="我已阅读同意觅友《用户使用协议》" />
+	</LinearLayout>
+</LinearLayout>
