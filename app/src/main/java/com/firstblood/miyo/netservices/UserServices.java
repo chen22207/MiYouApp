@@ -16,4 +16,11 @@ public interface UserServices {
     @FormUrlEncoded
     @POST("loginAPI.aspx")
     Observable<HttpResult<NoData>> userLogin(@Field("account") String account, @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("registerAPI.aspx")
+    Observable<HttpResult<NoData>> register(@Field("account") String account, @Field("nickname") String nickname, @Field("password") String password);
+
+
+
 }
