@@ -17,9 +17,12 @@ import com.firstblood.miyo.subscribers.ProgressSubscriber;
 import com.firstblood.miyo.util.AlertMessageUtil;
 import com.firstblood.miyou.R;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
+import rx.Observable;
+import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -42,32 +45,75 @@ public class RegisterActivity extends AppCompatActivity {
     @InjectView(R.id.register_user_rule_cb)
     CheckBox registerUserRuleCb;
 
-    private String vCode;
+	private String vCode = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        ButterKnife.inject(this);
+	    super.onCreate(savedInstanceState);
+	    setContentView(R.layout.activity_register);
+	    ButterKnife.inject(this);
 
-        registerSendSmsBt.setOnClickListener(v -> {
-            requestSendSms();
-        });
+	    registerSendSmsBt.setOnClickListener(v -> {
+		    startTimer();
+		    requestSendSms();
+	    });
 
-        registerSubmitBt.setOnClickListener(v -> requestRegister());
+	    registerSubmitBt.setOnClickListener(v -> {
+		    if (checkDataComplete()) {
+			    requestRegister();
+		    }
+	    });
 
     }
 
-    @OnClick(R.id.register_submit_bt)
-    public void onClick() {
-        checkDataComplete();
-    }
+	private boolean checkDataComplete() {
+		boolean b = true;
+		if (TextUtils.isEmpty(registerUsernameEt.getText().toString())) {
+	        AlertMessageUtil.showAlert(this, "用户名不能为空");
+	        b = false;
+		}
+		if (TextUtils.isEmpty(registerSmsEt.getText().toString())) {
+			AlertMessageUtil.showAlert(this, "验证码不能为空");
+			b = false;
+		}
+		if (!vCode.isEmpty() && !registerSmsEt.getText().toString().equals(vCode)) {
+			AlertMessageUtil.showAlert(this, "验证码不正确");
+			b = false;
+		}
+		if (TextUtils.isEmpty(registerNicknameEt.getText().toString())) {
+			AlertMessageUtil.showAlert(this, "昵称不能为空");
+			b = false;
+		}
+		if (TextUtils.isEmpty(registerPasswordEt.getText().toString()) || registerPasswordEt.getText().toString().length() < 6) {
+			AlertMessageUtil.showAlert(this, "密码不能少于6位");
+			b = false;
+		}
+		return b;
+	}
 
-    private void checkDataComplete() {
-        if (TextUtils.isEmpty(registerUsernameEt.getText().toString())) {
-            AlertMessageUtil.showAlert(this, "");
-        }
-    }
+	private void startTimer() {
+		registerSendSmsBt.setTextColor(getResources().getColor(R.color.gray));
+		registerSendSmsBt.setText(String.format("获取验证码（%s）", "60"));
+		registerSendSmsBt.setEnabled(false);
+		Observable.interval(1, TimeUnit.SECONDS).take(59)
+				.subscribe(new Observer<Long>() {
+					@Override
+					public void onCompleted() {
+						registerSendSmsBt.setTextColor(getResources().getColor(R.color.colorPrimary));
+						registerSendSmsBt.setEnabled(true);
+					}
+
+					@Override
+					public void onError(Throwable e) {
+
+					}
+
+					@Override
+					public void onNext(Long aLong) {
+						registerSendSmsBt.setText(String.format("获取验证码（%s）", (59l - aLong) + ""));
+					}
+				});
+	}
 
     private void requestSendSms() {
         if (Patterns.PHONE.matcher(registerUsernameEt.getText().toString()).matches()) {

@@ -1,5 +1,6 @@
 package com.firstblood.miyo.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
-        Navigation.getInstance(this).setBack().setTitle(getString(R.string.title_login)).setRight(getString(R.string.title_register), v -> navigateToRegist());
+	    Navigation.getInstance(this).setBack().setTitle(getString(R.string.title_login)).setRight(getString(R.string.title_register), v -> navigateToRegister());
 
         loginSubmitBt.setOnClickListener(v -> {
 	        if (checkDataComplete()) {
@@ -60,9 +61,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void navigateToRegist() {
-
-    }
+	private void navigateToRegister() {
+		startActivity(new Intent(this, RegisterActivity.class));
+	}
 
     private boolean checkDataComplete() {
         boolean b = true;
