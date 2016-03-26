@@ -4,13 +4,13 @@ package com.firstblood.miyo.module;
  * Created by Administrator on 2016/3/24.
  */
 public class Vcode {
-    private String vCode;
+    private String vcode;
 
     public String getvCode() {
-        return vCode;
+        return vcode;
     }
 
     public void setvCode(String vCode) {
-        this.vCode = vCode;
+        this.vcode = vCode;
     }
 }

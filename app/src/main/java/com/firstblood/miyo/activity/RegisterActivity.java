@@ -3,7 +3,7 @@ package com.firstblood.miyo.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Patterns;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -30,6 +30,7 @@ import rx.schedulers.Schedulers;
  * Created by chenshuai12619 on 2016/3/24 11:53.
  */
 public class RegisterActivity extends AppCompatActivity {
+    private static final String TAG = "RegisterActivity";
     @InjectView(R.id.register_username_et)
     EditText registerUsernameEt;
     @InjectView(R.id.register_sms_et)
@@ -54,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
 	    ButterKnife.inject(this);
 
 	    registerSendSmsBt.setOnClickListener(v -> {
-		    startTimer();
+
 		    requestSendSms();
 	    });
 
@@ -96,33 +97,42 @@ public class RegisterActivity extends AppCompatActivity {
 		registerSendSmsBt.setText(String.format("获取验证码（%s）", "60"));
 		registerSendSmsBt.setEnabled(false);
 		Observable.interval(1, TimeUnit.SECONDS).take(59)
-				.subscribe(new Observer<Long>() {
-					@Override
-					public void onCompleted() {
-						registerSendSmsBt.setTextColor(getResources().getColor(R.color.colorPrimary));
-						registerSendSmsBt.setEnabled(true);
-					}
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onCompleted() {
+                        registerSendSmsBt.setText("获取验证码");
+                        registerSendSmsBt.setTextColor(getResources().getColor(R.color.colorPrimary));
+                        registerSendSmsBt.setEnabled(true);
+                    }
 
-					@Override
-					public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                    }
 
-					}
-
-					@Override
-					public void onNext(Long aLong) {
-						registerSendSmsBt.setText(String.format("获取验证码（%s）", (59l - aLong) + ""));
-					}
-				});
-	}
+                    @Override
+                    public void onNext(Long aLong) {
+                        registerSendSmsBt.setText(String.format("获取验证码（%s）", (59l - aLong) + ""));
+                    }
+                });
+    }
 
     private void requestSendSms() {
-        if (Patterns.PHONE.matcher(registerUsernameEt.getText().toString()).matches()) {
+        if (!registerUsernameEt.getText().toString().isEmpty() && registerUsernameEt.getText().toString().length() == 11) {
+            startTimer();
             CommonServices commonServices = HttpMethods.getInstance().getClassInstance(CommonServices.class);
             commonServices.sendVcode(registerUsernameEt.getText().toString())
                     .map(new HttpResultFunc<>())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new ProgressSubscriber<>(o -> vCode = ((Vcode) o).getvCode(), this));
+                    .subscribe(new ProgressSubscriber<>(o -> {
+                        vCode = ((Vcode) o).getvCode();
+                        System.out.println(vCode);
+                    }, this));
+        } else {
+            registerUsernameEt.setError("手机号位数不正确");
         }
     }
 

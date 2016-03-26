@@ -8,8 +8,8 @@ public class HttpResult<T> {
 	private String resultMsg;
 	private T data;
 
-	public String getResultCode() {
-		return resultCode;
+    public String getResultCode() {
+        return resultCode;
 	}
 
 	public void setResultCode(String resultCode) {
