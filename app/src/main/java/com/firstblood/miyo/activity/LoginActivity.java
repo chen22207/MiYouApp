@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
+import com.firstblood.miyo.database.SpDictionary;
+import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.netservices.UserServices;
 import com.firstblood.miyo.subscribers.ProgressSubscriber;
 import com.firstblood.miyo.util.AlertMessageUtil;
@@ -53,7 +55,8 @@ public class LoginActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ProgressSubscriber<>(o -> {
-                    AlertMessageUtil.showAlert(this, "dengluchenggong");
+	                SpUtils.getInstance().putModule(SpDictionary.SP_USER, o);
+	                AlertMessageUtil.showAlert(LoginActivity.this, "登录成功");
                 }, this));
     }
 

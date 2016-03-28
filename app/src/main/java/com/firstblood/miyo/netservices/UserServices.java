@@ -1,7 +1,7 @@
 package com.firstblood.miyo.netservices;
 
 import com.cs.networklibrary.entity.HttpResult;
-import com.firstblood.miyo.module.NoData;
+import com.firstblood.miyo.module.User;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -15,11 +15,11 @@ public interface UserServices {
 
     @FormUrlEncoded
     @POST("loginAPI.aspx")
-    Observable<HttpResult<NoData>> userLogin(@Field("account") String account, @Field("password") String password);
+    Observable<HttpResult<User>> userLogin(@Field("account") String account, @Field("password") String password);
 
     @FormUrlEncoded
     @POST("registerAPI.aspx")
-    Observable<HttpResult<NoData>> register(@Field("account") String account, @Field("nickname") String nickname, @Field("password") String password);
+    Observable<HttpResult<User>> register(@Field("account") String account, @Field("nickname") String nickname, @Field("password") String password);
 
 
 
