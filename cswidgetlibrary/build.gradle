@@ -21,4 +21,5 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
 }
