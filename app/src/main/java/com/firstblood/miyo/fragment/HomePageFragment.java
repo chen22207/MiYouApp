@@ -11,7 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.cs.widget.imageview.MaterialImageView;
 import com.firstblood.miyou.R;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  *
@@ -132,10 +135,39 @@ public class HomePageFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ImageView iv = new ImageView(getActivity());
-            iv.setImageResource(R.drawable.f1);
-            return iv;
+	        if (getItemViewType(position) == 0) {
+		        TextView tv = new TextView(getActivity());
+		        tv.setText("推荐房源");
+		        tv.setPadding(20, 10, 10, 10);
+		        tv.setTextColor(getActivity().getResources().getColor(R.color.gray));
+		        return tv;
+	        } else {
+		        Holder holder = null;
+		        if (convertView == null) {
+			        convertView = LayoutInflater.from(getActivity()).inflate(R.layout.listitem_home_page, null);
+			        holder = new Holder();
+			        holder.bgIv = (MaterialImageView) convertView.findViewById(R.id.list_item_home_page_bg_civ);
+			        holder.headPortraitIv = (CircleImageView) convertView.findViewById(R.id.list_item_home_page_head_portrait_iv);
+			        holder.priceTv = (TextView) convertView.findViewById(R.id.list_item_home_page_price_tv);
+			        holder.titleTv = (TextView) convertView.findViewById(R.id.list_item_home_page_house_title_tv);
+			        convertView.setTag(holder);
+		        } else {
+			        holder = (Holder) convertView.getTag();
+		        }
+		        holder.bgIv.setImageResource(R.drawable.f1);
+		        holder.titleTv.setText("西湖文化及阿斯兰肯定句疯啦");
+		        holder.priceTv.setText("￥" + "4500");
+		        holder.headPortraitIv.setImageResource(R.drawable.ic_head_image);
+		        return convertView;
+	        }
         }
+
+	    class Holder {
+		    MaterialImageView bgIv;
+		    TextView titleTv;
+		    TextView priceTv;
+		    CircleImageView headPortraitIv;
+	    }
     }
 
     private class MyPagerAdapter extends PagerAdapter {
