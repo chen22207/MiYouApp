@@ -10,6 +10,8 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        resValue "string", "tray__authority", "${applicationId}.tray"
     }
     buildTypes {
         release {
@@ -37,5 +39,5 @@ dependencies {
     compile 'com.android.support:support-v4:23.2.1'
     compile project(':multi-image-selector')
     compile 'com.orhanobut:logger:1.11'
-    compile 'net.grandcentrix.tray:tray:0.9.2'
+    compile 'net.grandcentrix.tray:tray:1.0.0-rc3'
 }

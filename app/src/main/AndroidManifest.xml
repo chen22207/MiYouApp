@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    package="com.firstblood.miyou"
+	package="com.firstblood.miyo"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -9,15 +9,14 @@
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
-        android:name="com.firstblood.miyo.application.MainApplication"
+	    android:name=".application.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.firstblood.miyo.activity.MainActivity"
-            android:label="@string/title_activity_main"
+	        android:name=".activity.MainActivity"
 	        android:theme="@style/AppTheme.NoActionBar"
 	        android:screenOrientation="portrait">
             <intent-filter>
@@ -31,10 +30,10 @@
 	        android:configChanges="orientation|screenSize"
 	        android:screenOrientation="portrait" />
         <activity
-            android:name="com.firstblood.miyo.activity.LoginActivity"
+	        android:name=".activity.LoginActivity"
 	        android:screenOrientation="portrait" />
 	    <activity
-		    android:name="com.firstblood.miyo.activity.RegisterActivity"
+		    android:name=".activity.RegisterActivity"
 		    android:screenOrientation="portrait" />
     </application>
 

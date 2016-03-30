@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cs.widget.imageview.MaterialImageView;
-import com.firstblood.miyou.R;
+import com.firstblood.miyo.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +97,8 @@ public class HomePageFragment extends Fragment {
         homePageLv.addHeaderView(header);
         homePageLv.setAdapter(adapter);
 
-        return view;
+
+	    return view;
     }
 
     private void resetAllImageIndex() {

@@ -9,13 +9,13 @@ import android.widget.TextView;
 
 import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
+import com.firstblood.miyo.R;
 import com.firstblood.miyo.database.SpDictionary;
 import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.netservices.UserServices;
 import com.firstblood.miyo.subscribers.ProgressSubscriber;
 import com.firstblood.miyo.util.AlertMessageUtil;
 import com.firstblood.miyo.util.Navigation;
-import com.firstblood.miyou.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

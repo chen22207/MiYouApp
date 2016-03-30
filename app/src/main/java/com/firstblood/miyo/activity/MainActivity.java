@@ -8,8 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
+import com.firstblood.miyo.R;
 import com.firstblood.miyo.fragment.HomePageFragment;
-import com.firstblood.miyou.R;
 import com.jakewharton.rxbinding.widget.RxRadioGroup;
 
 import java.util.ArrayList;

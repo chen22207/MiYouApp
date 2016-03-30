@@ -3,8 +3,7 @@ package com.firstblood.miyo.database;
 import android.content.Context;
 import android.util.Base64;
 
-import net.grandcentrix.tray.TrayAppPreferences;
-import net.grandcentrix.tray.accessor.ItemNotFoundException;
+import net.grandcentrix.tray.core.ItemNotFoundException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -17,7 +16,7 @@ import java.io.ObjectOutputStream;
  */
 public class SpUtils {
 	private static SpUtils instance;
-	private TrayAppPreferences mAppPreferences;
+	private MyModulePreference mAppPreferences;
 
 	private SpUtils() {
 	}
@@ -33,7 +32,7 @@ public class SpUtils {
 
 	public void init(Context context) {
 		if (mAppPreferences == null) {
-			mAppPreferences = new TrayAppPreferences(context);
+			mAppPreferences = new MyModulePreference(context);
 		}
 	}
 

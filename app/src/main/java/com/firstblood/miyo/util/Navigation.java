@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.firstblood.miyou.R;
+import com.firstblood.miyo.R;
 
 /**
  * Created by Administrator on 2016/3/23.

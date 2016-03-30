@@ -10,12 +10,12 @@ import android.widget.EditText;
 
 import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
+import com.firstblood.miyo.R;
 import com.firstblood.miyo.module.Vcode;
 import com.firstblood.miyo.netservices.CommonServices;
 import com.firstblood.miyo.netservices.UserServices;
 import com.firstblood.miyo.subscribers.ProgressSubscriber;
 import com.firstblood.miyo.util.AlertMessageUtil;
-import com.firstblood.miyou.R;
 
 import java.util.concurrent.TimeUnit;
 
