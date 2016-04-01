@@ -97,7 +97,6 @@ public class HomePageFragment extends Fragment {
         homePageLv.addHeaderView(header);
         homePageLv.setAdapter(adapter);
 
-
 	    return view;
     }
 
@@ -109,59 +108,59 @@ public class HomePageFragment extends Fragment {
 
     private class MyListAdapter extends BaseAdapter {
 
-        @Override
-        public int getViewTypeCount() {
-            return 2;
-        }
+	    @Override
+	    public int getViewTypeCount() {
+		    return 2;
+	    }
 
-        @Override
-        public int getItemViewType(int position) {
-            return position == 0 ? 0 : 1;
-        }
+	    @Override
+	    public int getItemViewType(int position) {
+		    return position == 0 ? 0 : 1;
+	    }
 
-        @Override
-        public int getCount() {
-            return 10;
-        }
+	    @Override
+	    public int getCount() {
+		    return 10;
+	    }
 
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
+	    @Override
+	    public Object getItem(int position) {
+		    return null;
+	    }
 
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
+	    @Override
+	    public long getItemId(int position) {
+		    return 0;
+	    }
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-	        if (getItemViewType(position) == 0) {
-		        TextView tv = new TextView(getActivity());
-		        tv.setText("推荐房源");
-		        tv.setPadding(20, 10, 10, 10);
-		        tv.setTextColor(getActivity().getResources().getColor(R.color.gray));
-		        return tv;
-	        } else {
-		        Holder holder = null;
-		        if (convertView == null) {
-			        convertView = LayoutInflater.from(getActivity()).inflate(R.layout.listitem_home_page, null);
-			        holder = new Holder();
-			        holder.bgIv = (MaterialImageView) convertView.findViewById(R.id.list_item_home_page_bg_civ);
-			        holder.headPortraitIv = (CircleImageView) convertView.findViewById(R.id.list_item_home_page_head_portrait_iv);
-			        holder.priceTv = (TextView) convertView.findViewById(R.id.list_item_home_page_price_tv);
-			        holder.titleTv = (TextView) convertView.findViewById(R.id.list_item_home_page_house_title_tv);
-			        convertView.setTag(holder);
-		        } else {
-			        holder = (Holder) convertView.getTag();
-		        }
-		        holder.bgIv.setImageResource(R.drawable.f1);
-		        holder.titleTv.setText("西湖文化及阿斯兰肯定句疯啦");
-		        holder.priceTv.setText("￥" + "4500");
-		        holder.headPortraitIv.setImageResource(R.drawable.ic_head_image);
-		        return convertView;
-	        }
-        }
+	    @Override
+	    public View getView(int position, View convertView, ViewGroup parent) {
+		    if (getItemViewType(position) == 0) {
+			    TextView tv = new TextView(getActivity());
+			    tv.setText("推荐房源");
+			    tv.setPadding(20, 10, 10, 10);
+			    tv.setTextColor(getActivity().getResources().getColor(R.color.gray));
+			    return tv;
+		    } else {
+			    Holder holder = null;
+			    if (convertView == null) {
+				    convertView = LayoutInflater.from(getActivity()).inflate(R.layout.listitem_home_page, null);
+				    holder = new Holder();
+				    holder.bgIv = (MaterialImageView) convertView.findViewById(R.id.list_item_home_page_bg_civ);
+				    holder.headPortraitIv = (CircleImageView) convertView.findViewById(R.id.list_item_home_page_head_portrait_iv);
+				    holder.priceTv = (TextView) convertView.findViewById(R.id.list_item_home_page_price_tv);
+				    holder.titleTv = (TextView) convertView.findViewById(R.id.list_item_home_page_house_title_tv);
+				    convertView.setTag(holder);
+			    } else {
+				    holder = (Holder) convertView.getTag();
+			    }
+			    holder.bgIv.setImageResource(R.drawable.f1);
+			    holder.titleTv.setText("西湖文化及阿斯兰肯定句疯啦");
+			    holder.priceTv.setText("￥" + "4500");
+			    holder.headPortraitIv.setImageResource(R.drawable.ic_head_image);
+			    return convertView;
+		    }
+	    }
 
 	    class Holder {
 		    MaterialImageView bgIv;

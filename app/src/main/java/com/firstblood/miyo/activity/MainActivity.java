@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
-import android.widget.RadioGroup;
 
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.fragment.HomePageFragment;
@@ -21,8 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     @InjectView(R.id.main_fl)
     FrameLayout mainFl;
-    @InjectView(R.id.main_rg)
-    RadioGroup mainRg;
 
     private FragmentManager fragmentManager;
 
@@ -37,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
         initEvent();
-        mainRg.check(R.id.main_tab_home_rb);
 
 
     }

@@ -6,7 +6,7 @@
 	android:orientation="vertical"
 	android:background="@drawable/background">
 
-	<include layout="@layout/activity_base" />
+	<include layout="@layout/activity_base_title_bar" />
 
 	<EditText
 		android:id="@+id/login_username_et"
