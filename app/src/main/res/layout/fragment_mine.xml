@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:cs="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/background">
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="200dp"
+		android:background="@drawable/f1">
+
+		<de.hdodenhof.circleimageview.CircleImageView
+			android:id="@+id/mine_header_iv"
+			android:layout_width="80dp"
+			android:layout_height="80dp"
+			android:src="@drawable/ic_head_image"
+			cs:civ_border_width="2dp"
+			cs:civ_border_color="@color/white"
+			android:layout_centerInParent="true" />
+
+		<TextView
+			android:id="@+id/mine_username_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/mine_header_iv"
+			tools:text="哈哈哈"
+			android:textColor="@color/white"
+			android:layout_centerHorizontal="true"
+			android:textSize="@dimen/large_text_size"
+			android:layout_marginTop="@dimen/middle_space" />
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="@dimen/middle_space"
+		android:layout_marginTop="@dimen/middle_space">
+
+		<TextView
+			android:id="@+id/mine_edit_info_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="完善信息"
+			android:textSize="@dimen/middle_text_size" />
+	</RelativeLayout>
+</LinearLayout>
