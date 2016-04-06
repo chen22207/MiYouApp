@@ -1,4 +1,4 @@
-package com.firstblood.miyo.activity;
+package com.firstblood.miyo.activity.user;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

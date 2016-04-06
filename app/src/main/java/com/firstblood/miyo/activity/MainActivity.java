@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.fragment.HomePageFragment;
+import com.firstblood.miyo.fragment.MineFragment;
 
 import java.util.ArrayList;
 
@@ -45,8 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 		fragmentManager = getSupportFragmentManager();
 		initEvent();
-
-
+		mMainTabHomeIb.performClick();
 	}
 
 	private void initEvent() {
@@ -66,11 +66,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	@Override
 	public void onClick(View v) {
 		hideAllFragment();
+		resetTabImage();
 		if (v == mMainTabHomeIb) {
 			if (currentTag.equals(FRAGMENT_TAG[0])) {
 				return;
 			} else {
 				currentTag = FRAGMENT_TAG[0];
+				mMainTabHomeIb.setImageResource(R.drawable.iconfont_shouye_checked);
 			}
 			Fragment f = fragmentManager.findFragmentByTag(FRAGMENT_TAG[0]);
 			if (f != null) {
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 				return;
 			} else {
 				currentTag = FRAGMENT_TAG[1];
+				mMainTabCollectionIb.setImageResource(R.drawable.iconfont_shoucang_checked);
 			}
 			Fragment f1 = fragmentManager.findFragmentByTag(FRAGMENT_TAG[1]);
 			if (f1 != null) {
@@ -95,7 +98,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 				fragmentManager.beginTransaction().add(R.id.main_fl, homePageFragment, FRAGMENT_TAG[1]).commit();
 			}
 		} else if (v == mMainTabSearchIb) {
+			if (currentTag.equals(FRAGMENT_TAG[2])) {
+				return;
+			} else {
+				currentTag = FRAGMENT_TAG[2];
+			}
 
+		} else if (v == mMainTabMessageIb) {
+			if (currentTag.equals(FRAGMENT_TAG[3])) {
+				return;
+			} else {
+				currentTag = FRAGMENT_TAG[3];
+				mMainTabMessageIb.setImageResource(R.drawable.iconfont_xiaoxi_checked);
+			}
+		} else if (v == mMainTabMineIb) {
+			if (currentTag.equals(FRAGMENT_TAG[4])) {
+				return;
+			} else {
+				currentTag = FRAGMENT_TAG[4];
+				mMainTabMineIb.setImageResource(R.drawable.iconfont_wo_checked);
+			}
+			Fragment f4 = fragmentManager.findFragmentByTag(FRAGMENT_TAG[4]);
+			if (f4 != null) {
+				fragmentManager.beginTransaction().show(f4).commit();
+			} else {
+				MineFragment mineFragment = MineFragment.newInstance();
+				fragmentList.add(mineFragment);
+				fragmentManager.beginTransaction().add(R.id.main_fl, mineFragment, FRAGMENT_TAG[4]).commit();
+			}
 		}
+	}
+
+	private void resetTabImage() {
+		mMainTabHomeIb.setImageResource(R.drawable.iconfont_shouye_normal);
+		mMainTabCollectionIb.setImageResource(R.drawable.iconfont_shoucang_normal);
+		mMainTabMessageIb.setImageResource(R.drawable.iconfont_xiaoxi_normal);
+		mMainTabMineIb.setImageResource(R.drawable.iconfont_wo_normal);
 	}
 }

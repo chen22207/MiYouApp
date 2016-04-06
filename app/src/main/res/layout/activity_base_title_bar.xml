@@ -22,7 +22,7 @@
 		android:layout_centerInParent="true"
 		android:textColor="@color/white"
 		android:textSize="23sp"
-		tools:text="登录" />
+		tools:text="标题" />
 
 	<Button
 		android:id="@+id/base_header_right_bt"
@@ -33,5 +33,5 @@
 		android:background="@android:color/transparent"
 		android:textColor="@color/white"
 		android:textSize="@dimen/large_text_size"
-		tools:text="注册" />
+		tools:text="其他" />
 </RelativeLayout>

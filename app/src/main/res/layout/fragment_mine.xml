@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:cs="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@color/background">
+	android:background="@color/background"
+	android:orientation="vertical">
 
 	<RelativeLayout
 		android:layout_width="match_parent"
@@ -16,34 +16,73 @@
 			android:id="@+id/mine_header_iv"
 			android:layout_width="80dp"
 			android:layout_height="80dp"
+			android:layout_centerInParent="true"
 			android:src="@drawable/ic_head_image"
-			cs:civ_border_width="2dp"
 			cs:civ_border_color="@color/white"
-			android:layout_centerInParent="true" />
+			cs:civ_border_width="2dp" />
 
 		<TextView
 			android:id="@+id/mine_username_tv"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_below="@+id/mine_header_iv"
-			tools:text="哈哈哈"
-			android:textColor="@color/white"
 			android:layout_centerHorizontal="true"
+			android:layout_marginTop="@dimen/middle_space"
+			android:textColor="@color/white"
 			android:textSize="@dimen/large_text_size"
-			android:layout_marginTop="@dimen/middle_space" />
+			tools:text="哈哈哈" />
 	</RelativeLayout>
 
-	<RelativeLayout
+	<TextView
+		android:id="@+id/mine_edit_info_tv"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/middle_space"
+		android:background="@color/white"
+		android:drawableLeft="@drawable/icon_mine_edit_info"
+		android:drawablePadding="@dimen/middle_space"
+		android:drawableRight="@drawable/icon_next"
 		android:padding="@dimen/middle_space"
-		android:layout_marginTop="@dimen/middle_space">
+		android:text="@string/mine_edit_info"
+		android:textSize="@dimen/middle_text_size" />
 
-		<TextView
-			android:id="@+id/mine_edit_info_tv"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="完善信息"
-			android:textSize="@dimen/middle_text_size" />
-	</RelativeLayout>
+	<TextView
+		android:id="@+id/mine_publish_tv"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/one_line_space"
+		android:background="@color/white"
+		android:drawableLeft="@drawable/icon_mine_publish"
+		android:drawablePadding="@dimen/middle_space"
+		android:drawableRight="@drawable/icon_next"
+		android:padding="@dimen/middle_space"
+		android:text="@string/mine_publish"
+		android:textSize="@dimen/middle_text_size" />
+
+	<TextView
+		android:id="@+id/mine_setting_tv"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/one_line_space"
+		android:background="@color/white"
+		android:drawableLeft="@drawable/icon_mine_setting"
+		android:drawablePadding="@dimen/middle_space"
+		android:drawableRight="@drawable/icon_next"
+		android:padding="@dimen/middle_space"
+		android:text="@string/mine_setting"
+		android:textSize="@dimen/middle_text_size" />
+
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="我想成为房东"
+		android:textColor="@color/white"
+		android:textSize="@dimen/large_text_size"
+		android:paddingTop="@dimen/middle_space"
+		android:paddingBottom="@dimen/middle_space"
+		android:paddingLeft="@dimen/huge_space"
+		android:paddingRight="@dimen/huge_space"
+		android:background="@drawable/shape_blue_rectangle_bg"
+		android:layout_gravity="center_horizontal"
+		android:layout_marginTop="@dimen/large_space" />
 </LinearLayout>
