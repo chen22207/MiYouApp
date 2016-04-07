@@ -16,11 +16,13 @@ import com.firstblood.miyo.netservices.UserServices;
 import com.firstblood.miyo.subscribers.ProgressSubscriber;
 import com.firstblood.miyo.util.AlertMessageUtil;
 import com.firstblood.miyo.util.Navigation;
+import com.firstblood.miyo.util.RxBus;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,6 +35,9 @@ public class LoginActivity extends AppCompatActivity {
     @InjectView(R.id.login_forget_pwd_tv)
     TextView loginForgetPwdTv;
 
+    private RxBus bus;
+    private CompositeSubscription compositeSubscription;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +45,31 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.inject(this);
 	    Navigation.getInstance(this).setBack().setTitle(getString(R.string.title_login)).setRight(getString(R.string.title_register), v -> navigateToRegister());
 
+        bus = RxBus.getInstance();
+
         loginSubmitBt.setOnClickListener(v -> {
 	        if (checkDataComplete()) {
 		        requestLogin();
 	        }
         });
         loginForgetPwdTv.setOnClickListener(v -> navigateToForgetPwd());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        compositeSubscription = new CompositeSubscription();
+        compositeSubscription.add(bus.toObserverable().subscribe(o -> {
+            if (o instanceof LoginActivity.LoginSuccess) {
+                finish();
+            }
+        }));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        compositeSubscription.unsubscribe();
     }
 
     private void requestLogin() {
@@ -57,7 +81,9 @@ public class LoginActivity extends AppCompatActivity {
                 .subscribe(new ProgressSubscriber<>(o -> {
 	                SpUtils.getInstance().putModule(SpDictionary.SP_USER, o);
 	                AlertMessageUtil.showAlert(LoginActivity.this, "登录成功");
-	                finish();
+                    if (bus.hasObservers()) {
+                        bus.send(new LoginSuccess());
+                    }
                 }, this));
     }
 
@@ -79,5 +105,8 @@ public class LoginActivity extends AppCompatActivity {
             b = false;
         }
         return b;
+    }
+
+    public static class LoginSuccess {
     }
 }

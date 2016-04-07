@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.activity.user.UserInfoCompleteActivity;
+import com.firstblood.miyo.util.RxBus;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -36,7 +37,9 @@ public class MineFragment extends Fragment {
 	@InjectView(R.id.mine_setting_tv)
 	TextView mMineSettingTv;
 
-	@Override
+    private RxBus bus;
+
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_mine, container, false);
 		ButterKnife.inject(this, v);

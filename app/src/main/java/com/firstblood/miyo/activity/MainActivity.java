@@ -15,11 +15,13 @@ import com.firstblood.miyo.database.SpDictionary;
 import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.fragment.HomePageFragment;
 import com.firstblood.miyo.fragment.MineFragment;
+import com.firstblood.miyo.util.RxBus;
 
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.subscriptions.CompositeSubscription;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private String[] FRAGMENT_TAG = {"首页", "收藏", "搜索", "消息", "我"};
 	private String currentTag = "";
 
+    private RxBus bus;
+    private CompositeSubscription compositeSubscription;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,7 +64,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		mMainTabSearchIb.setOnClickListener(this);
 		mMainTabMessageIb.setOnClickListener(this);
 		mMainTabMineIb.setOnClickListener(this);
-	}
+
+        bus = RxBus.getInstance();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        compositeSubscription = new CompositeSubscription();
+        compositeSubscription.add(bus.toObserverable().subscribe(o -> {
+            if (o instanceof LoginActivity.LoginSuccess) {
+                mMainTabMineIb.performClick();
+            }
+        }));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        compositeSubscription.unsubscribe();
+    }
 
 	private void hideAllFragment() {
 		for (Fragment fragment : fragmentList) {

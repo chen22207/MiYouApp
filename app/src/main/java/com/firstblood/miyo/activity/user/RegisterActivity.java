@@ -11,11 +11,15 @@ import android.widget.EditText;
 import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
 import com.firstblood.miyo.R;
+import com.firstblood.miyo.database.SpDictionary;
+import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.module.Vcode;
 import com.firstblood.miyo.netservices.CommonServices;
 import com.firstblood.miyo.netservices.UserServices;
 import com.firstblood.miyo.subscribers.ProgressSubscriber;
 import com.firstblood.miyo.util.AlertMessageUtil;
+import com.firstblood.miyo.util.Navigation;
+import com.firstblood.miyo.util.RxBus;
 
 import java.util.concurrent.TimeUnit;
 
@@ -48,11 +52,14 @@ public class RegisterActivity extends AppCompatActivity {
 
 	private String vCode = "";
 
+    private RxBus bus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_register);
 	    ButterKnife.inject(this);
+        Navigation.getInstance(this).setBack().setTitle(getString(R.string.title_register));
 
 	    registerSendSmsBt.setOnClickListener(v -> {
 
@@ -129,7 +136,8 @@ public class RegisterActivity extends AppCompatActivity {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new ProgressSubscriber<>(o -> {
                         vCode = ((Vcode) o).getvCode();
-                        System.out.println(vCode);
+                        //TODO 仅测试使用
+                        registerSmsEt.setText(vCode);
                     }, this));
         } else {
             registerUsernameEt.setError("手机号位数不正确");
@@ -143,7 +151,12 @@ public class RegisterActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ProgressSubscriber<>(o -> {
+                    SpUtils.getInstance().putModule(SpDictionary.SP_USER, o);
                     AlertMessageUtil.showAlert(this, "注册成功");
+                    if (bus.hasObservers()) {
+                        bus.send(new LoginActivity.LoginSuccess());
+                    }
+                    finish();
                 }, this));
     }
 }
