@@ -9,6 +9,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -35,7 +36,7 @@ public class EditInfoDialog extends DialogFragment {
 	private String etHint;
 	private String etText;
 	private int maxTextLength;
-	private int mInputType = InputType.TYPE_NULL;
+	private int mInputType = InputType.TYPE_CLASS_TEXT;
 	private OnCancelClickListener mOnCancelClickListener;
 	private OnConfirmClickListener mOnConfirmClickListener;
 
@@ -46,7 +47,7 @@ public class EditInfoDialog extends DialogFragment {
 		String etHint;
 		String etText;
 		int maxTextLength;
-		int mInputType = InputType.TYPE_NULL;
+		int mInputType = InputType.TYPE_CLASS_TEXT;
 		OnCancelClickListener mCancelClickListener;
 		OnConfirmClickListener mConfirmClickListener;
 
@@ -117,13 +118,15 @@ public class EditInfoDialog extends DialogFragment {
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.dialog_user_info_edit, null);
+		View v = inflater.inflate(R.layout.dialog_user_info_edit, container);
 		ButterKnife.inject(this, v);
+		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 		mDialogUserInfoEditTv.setText(text);
 		mDialogUserInfoEditEt.setHint(etHint);
 		mDialogUserInfoEditEt.setText(etText);
 		InputFilter[] filters = {new InputFilter.LengthFilter(maxTextLength)};
 		mDialogUserInfoEditEt.setFilters(filters);
+//		mDialogUserInfoEditEt.setInputType(mInputType);
 		return v;
 	}
 
@@ -173,7 +176,6 @@ public class EditInfoDialog extends DialogFragment {
 
 	public void setMaxTextLength(int length) {
 		this.maxTextLength = length;
-
 	}
 
 	public void setInputType(int inputType) {

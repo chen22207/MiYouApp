@@ -17,12 +17,18 @@
 			android:id="@+id/dialog_user_info_edit_tv"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			tools:text="用户名：" />
+			tools:text="用户名："
+			android:textSize="@dimen/middle_text_size" />
 
 		<EditText
 			android:id="@+id/dialog_user_info_edit_et"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content" />
+			android:layout_height="wrap_content"
+			android:background="@color/white"
+			android:focusable="true"
+			android:focusableInTouchMode="true"
+			android:layout_marginLeft="@dimen/middle_space"
+			android:textSize="@dimen/middle_text_size" />
 	</LinearLayout>
 
 	<RelativeLayout
@@ -31,9 +37,10 @@
 		android:background="@color/gray" />
 
 	<LinearLayout
-		android:layout_width="match_parent"
+		android:layout_width="320dp"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
+		android:layout_gravity="center_horizontal"
 		android:layout_marginTop="@dimen/middle_space">
 
 		<TextView
@@ -44,7 +51,7 @@
 			android:background="@drawable/selector_color_dialog_cancel"
 			android:text="@string/cancel"
 			android:gravity="center"
-			android:textSize="@dimen/large_text_size"
+			android:textSize="@dimen/middle_text_size"
 			android:padding="@dimen/middle_space" />
 
 		<RelativeLayout
@@ -59,10 +66,10 @@
 			android:layout_width="0dp"
 			android:layout_weight="1"
 			android:layout_height="wrap_content"
-			android:background="@drawable/selector_color_dialog_cancel"
+			android:background="@drawable/selector_color_dialog_confirm"
 			android:text="@string/confirm"
 			android:gravity="center"
-			android:textSize="@dimen/large_text_size"
+			android:textSize="@dimen/middle_text_size"
 			android:padding="@dimen/middle_space" />
 	</LinearLayout>
 

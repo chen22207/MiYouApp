@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                 .subscribe(new ProgressSubscriber<>(o -> {
 	                SpUtils.getInstance().putModule(SpDictionary.SP_USER, o);
 	                AlertMessageUtil.showAlert(LoginActivity.this, "登录成功");
+	                finish();
                 }, this));
     }
 

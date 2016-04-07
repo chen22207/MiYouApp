@@ -1,5 +1,6 @@
 package com.firstblood.miyo.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.firstblood.miyo.R;
+import com.firstblood.miyo.activity.user.LoginActivity;
+import com.firstblood.miyo.database.SpDictionary;
+import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.fragment.HomePageFragment;
 import com.firstblood.miyo.fragment.MineFragment;
 
@@ -112,6 +116,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 				mMainTabMessageIb.setImageResource(R.drawable.iconfont_xiaoxi_checked);
 			}
 		} else if (v == mMainTabMineIb) {
+			if (SpUtils.getInstance().getModule(SpDictionary.SP_USER) == null) {
+				intentToLogin();
+				return;
+			}
 			if (currentTag.equals(FRAGMENT_TAG[4])) {
 				return;
 			} else {
@@ -134,5 +142,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		mMainTabCollectionIb.setImageResource(R.drawable.iconfont_shoucang_normal);
 		mMainTabMessageIb.setImageResource(R.drawable.iconfont_xiaoxi_normal);
 		mMainTabMineIb.setImageResource(R.drawable.iconfont_wo_normal);
+	}
+
+	private void intentToLogin() {
+		startActivity(new Intent(this, LoginActivity.class));
 	}
 }

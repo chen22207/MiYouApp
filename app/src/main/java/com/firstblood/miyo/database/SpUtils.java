@@ -113,4 +113,8 @@ public class SpUtils {
 		return object;
 	}
 
+	public void remove(String key) {
+		mAppPreferences.remove(key);
+	}
+
 }

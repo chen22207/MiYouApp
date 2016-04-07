@@ -1,5 +1,7 @@
 package com.cs.networklibrary.http;
 
+import com.cs.networklibrary.util.PropretiesUtil;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -11,9 +13,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by chenshuai12619 on 2016/3/17 16:39.
  */
 public class HttpMethods {
-    public static final String BASE_URL = "http://120.26.233.80/API/";
+	public static final String BASE_URL = PropretiesUtil.getServerFullPath();
 
-	private static final int DEFAULT_TIMEOUT = 10;
+	private static final int DEFAULT_TIMEOUT = PropretiesUtil.getProperty("HTTP_TIMEOUT_SECOND", PropretiesUtil.PropertyType.INT);
 
 	private Retrofit retrofit;
 
