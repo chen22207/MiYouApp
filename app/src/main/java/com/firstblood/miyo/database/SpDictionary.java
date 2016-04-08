@@ -5,4 +5,5 @@ package com.firstblood.miyo.database;
  */
 public class SpDictionary {
 	public static final String SP_USER = "user";
+	public static final String TEXT = "text_string";
 }

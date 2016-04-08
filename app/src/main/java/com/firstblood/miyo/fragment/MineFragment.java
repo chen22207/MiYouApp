@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.activity.user.UserInfoCompleteActivity;
+import com.firstblood.miyo.database.SpDictionary;
+import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.util.RxBus;
 
 import butterknife.ButterKnife;
@@ -65,6 +67,7 @@ public class MineFragment extends Fragment {
 			case R.id.mine_publish_tv:
 				break;
 			case R.id.mine_setting_tv:
+				SpUtils.getInstance().remove(SpDictionary.SP_USER);
 				break;
 		}
 	}

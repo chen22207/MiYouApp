@@ -10,26 +10,34 @@ import rx.subjects.Subject;
  */
 public class RxBus {
 
-    private RxBus() {
-    }
 
-    private static RxBus instance;
+	private static volatile RxBus instance;
+	private final Subject bus;
 
     public static RxBus getInstance() {
-        if (instance == null) {
-            instance = new RxBus();
-        }
-        return instance;
+	    RxBus rxBus = instance;
+	    if (instance == null) {
+		    synchronized (RxBus.class) {
+			    rxBus = instance;
+			    if (instance == null) {
+				    rxBus = new RxBus();
+				    instance = rxBus;
+			    }
+		    }
+	    }
+	    return instance;
     }
 
-	private final Subject<Object, Object> bus = new SerializedSubject<>(PublishSubject.create());
+	private RxBus() {
+		bus = new SerializedSubject<>(PublishSubject.create());
+	}
 
 	public void send(Object o) {
 		bus.onNext(o);
 	}
 
-	public Observable<Object> toObserverable() {
-		return bus;
+	public <T> Observable<T> toObserverable(Class<T> type) {
+		return bus.ofType(type);
 	}
 
 	public boolean hasObservers() {

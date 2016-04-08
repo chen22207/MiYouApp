@@ -43,9 +43,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private ArrayList<Fragment> fragmentList = new ArrayList<>();
 	private String[] FRAGMENT_TAG = {"首页", "收藏", "搜索", "消息", "我"};
 	private String currentTag = "";
+	private String intentTag = "";//未登录时，点击底部栏，“收藏”，“消息”，“我”会跳到登录界面，登录成功或注册成功后，返回此界面需定位界面。
 
-    private RxBus bus;
-    private CompositeSubscription compositeSubscription;
+	private RxBus bus;
+	private CompositeSubscription compositeSubscription;
+	private boolean isLogin = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,25 +67,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		mMainTabMessageIb.setOnClickListener(this);
 		mMainTabMineIb.setOnClickListener(this);
 
-        bus = RxBus.getInstance();
-    }
+		bus = RxBus.getInstance();
+		compositeSubscription = new CompositeSubscription();
+		compositeSubscription.add(bus.toObserverable(LoginActivity.LoginSuccess.class).subscribe(loginSuccess -> isLogin = true));
+	}
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        compositeSubscription = new CompositeSubscription();
-        compositeSubscription.add(bus.toObserverable().subscribe(o -> {
-            if (o instanceof LoginActivity.LoginSuccess) {
-                mMainTabMineIb.performClick();
-            }
-        }));
-    }
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (isLogin) {//只有登录成功或注册成功，才会执行。
+			if (intentTag.equals(FRAGMENT_TAG[4])) {//点击“我”
+				mMainTabMineIb.performClick();
+			}
+		}
+	}
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        compositeSubscription.unsubscribe();
-    }
+	@Override
+	protected void onStop() {
+		super.onStop();
+		isLogin = false;
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (!compositeSubscription.isUnsubscribed()) compositeSubscription.unsubscribe();
+	}
 
 	private void hideAllFragment() {
 		for (Fragment fragment : fragmentList) {
@@ -93,15 +102,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 	@Override
 	public void onClick(View v) {
-		hideAllFragment();
-		resetTabImage();
 		if (v == mMainTabHomeIb) {
 			if (currentTag.equals(FRAGMENT_TAG[0])) {
 				return;
 			} else {
+				resetTabImage();
 				currentTag = FRAGMENT_TAG[0];
 				mMainTabHomeIb.setImageResource(R.drawable.iconfont_shouye_checked);
 			}
+			hideAllFragment();
 			Fragment f = fragmentManager.findFragmentByTag(FRAGMENT_TAG[0]);
 			if (f != null) {
 				fragmentManager.beginTransaction().show(f).commit();
@@ -114,9 +123,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			if (currentTag.equals(FRAGMENT_TAG[1])) {
 				return;
 			} else {
+				resetTabImage();
 				currentTag = FRAGMENT_TAG[1];
 				mMainTabCollectionIb.setImageResource(R.drawable.iconfont_shoucang_checked);
 			}
+			hideAllFragment();
 			Fragment f1 = fragmentManager.findFragmentByTag(FRAGMENT_TAG[1]);
 			if (f1 != null) {
 				fragmentManager.beginTransaction().show(f1).commit();
@@ -136,20 +147,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			if (currentTag.equals(FRAGMENT_TAG[3])) {
 				return;
 			} else {
+				resetTabImage();
 				currentTag = FRAGMENT_TAG[3];
 				mMainTabMessageIb.setImageResource(R.drawable.iconfont_xiaoxi_checked);
 			}
 		} else if (v == mMainTabMineIb) {
 			if (SpUtils.getInstance().getModule(SpDictionary.SP_USER) == null) {
+				intentTag = FRAGMENT_TAG[4];
 				intentToLogin();
 				return;
 			}
 			if (currentTag.equals(FRAGMENT_TAG[4])) {
 				return;
 			} else {
+				resetTabImage();
 				currentTag = FRAGMENT_TAG[4];
 				mMainTabMineIb.setImageResource(R.drawable.iconfont_wo_checked);
 			}
+			hideAllFragment();
 			Fragment f4 = fragmentManager.findFragmentByTag(FRAGMENT_TAG[4]);
 			if (f4 != null) {
 				fragmentManager.beginTransaction().show(f4).commit();

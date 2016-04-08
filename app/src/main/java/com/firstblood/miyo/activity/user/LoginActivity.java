@@ -46,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
 	    Navigation.getInstance(this).setBack().setTitle(getString(R.string.title_login)).setRight(getString(R.string.title_register), v -> navigateToRegister());
 
         bus = RxBus.getInstance();
+	    compositeSubscription = new CompositeSubscription();
+	    compositeSubscription.add(bus.toObserverable(LoginSuccess.class).subscribe(loginSuccess -> finish()));
 
         loginSubmitBt.setOnClickListener(v -> {
 	        if (checkDataComplete()) {
@@ -55,25 +57,16 @@ public class LoginActivity extends AppCompatActivity {
         loginForgetPwdTv.setOnClickListener(v -> navigateToForgetPwd());
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        compositeSubscription = new CompositeSubscription();
-        compositeSubscription.add(bus.toObserverable().subscribe(o -> {
-            if (o instanceof LoginActivity.LoginSuccess) {
-                finish();
-            }
-        }));
-    }
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (!compositeSubscription.isUnsubscribed()) {
+			compositeSubscription.unsubscribe();
+		}
+	}
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        compositeSubscription.unsubscribe();
-    }
-
-    private void requestLogin() {
-        UserServices userServices = HttpMethods.getInstance().getClassInstance(UserServices.class);
+	private void requestLogin() {
+		UserServices userServices = HttpMethods.getInstance().getClassInstance(UserServices.class);
         userServices.userLogin(loginUsernameEt.getText().toString(), loginPasswordEt.getText().toString())
                 .map(new HttpResultFunc<>())
                 .subscribeOn(Schedulers.io())
@@ -81,9 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 .subscribe(new ProgressSubscriber<>(o -> {
 	                SpUtils.getInstance().putModule(SpDictionary.SP_USER, o);
 	                AlertMessageUtil.showAlert(LoginActivity.this, "登录成功");
-                    if (bus.hasObservers()) {
-                        bus.send(new LoginSuccess());
-                    }
+	                bus.send(new LoginSuccess());
                 }, this));
     }
 

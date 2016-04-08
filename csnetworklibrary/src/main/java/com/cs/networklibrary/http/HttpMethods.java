@@ -1,5 +1,6 @@
 package com.cs.networklibrary.http;
 
+import com.cs.networklibrary.converter.MyGsonConverterFracory;
 import com.cs.networklibrary.util.PropretiesUtil;
 
 import java.util.concurrent.TimeUnit;
@@ -7,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by chenshuai12619 on 2016/3/17 16:39.
@@ -16,6 +16,8 @@ public class HttpMethods {
 	public static final String BASE_URL = PropretiesUtil.getServerFullPath();
 
 	private static final int DEFAULT_TIMEOUT = PropretiesUtil.getProperty("HTTP_TIMEOUT_SECOND", PropretiesUtil.PropertyType.INT);
+
+	private static final boolean IS_PRINT_LOG = PropretiesUtil.getProperty("IS_PRINT_LOG", PropretiesUtil.PropertyType.BOOLEAN);
 
 	private Retrofit retrofit;
 
@@ -27,7 +29,7 @@ public class HttpMethods {
 
 		retrofit = new Retrofit.Builder()
 				.client(builder.build())
-				.addConverterFactory(GsonConverterFactory.create())
+				.addConverterFactory(MyGsonConverterFracory.create(IS_PRINT_LOG))
 				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 				.baseUrl(BASE_URL)
 				.build();

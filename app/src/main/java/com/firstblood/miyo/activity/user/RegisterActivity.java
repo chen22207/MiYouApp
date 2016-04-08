@@ -3,7 +3,6 @@ package com.firstblood.miyo.activity.user;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -27,6 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -53,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
 	private String vCode = "";
 
     private RxBus bus;
+	private Subscription mSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,17 @@ public class RegisterActivity extends AppCompatActivity {
 		    }
 	    });
 
+	    bus = RxBus.getInstance();
+	    mSubscription = bus.toObserverable(LoginActivity.LoginSuccess.class).subscribe(loginSuccess -> finish());
     }
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (!mSubscription.isUnsubscribed()) {
+			mSubscription.unsubscribe();
+		}
+	}
 
 	private boolean checkDataComplete() {
 		boolean b = true;
@@ -116,7 +127,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
                     }
 
                     @Override
@@ -153,10 +163,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .subscribe(new ProgressSubscriber<>(o -> {
                     SpUtils.getInstance().putModule(SpDictionary.SP_USER, o);
                     AlertMessageUtil.showAlert(this, "注册成功");
-                    if (bus.hasObservers()) {
-                        bus.send(new LoginActivity.LoginSuccess());
-                    }
-                    finish();
+	                bus.send(new LoginActivity.LoginSuccess());
                 }, this));
     }
 }

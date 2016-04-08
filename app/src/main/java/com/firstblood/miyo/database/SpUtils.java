@@ -7,7 +7,6 @@ import net.grandcentrix.tray.core.ItemNotFoundException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -87,7 +86,7 @@ public class SpUtils {
 			oos.writeObject(o);
 			String oAuth_Base64 = new String(Base64.encode(baos.toByteArray(), Base64.DEFAULT));
 			mAppPreferences.put(key, oAuth_Base64);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

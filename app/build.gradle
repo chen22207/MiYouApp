@@ -38,6 +38,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:5.1.1'
     compile 'com.android.support:support-v4:23.2.1'
     compile project(':multi-image-selector')
-    compile 'com.orhanobut:logger:1.11'
     compile 'net.grandcentrix.tray:tray:1.0.0-rc3'
 }
