@@ -63,7 +63,6 @@ public class RegisterActivity extends AppCompatActivity {
         Navigation.getInstance(this).setBack().setTitle(getString(R.string.title_register));
 
 	    registerSendSmsBt.setOnClickListener(v -> {
-
 		    requestSendSms();
 	    });
 
