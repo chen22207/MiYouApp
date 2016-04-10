@@ -73,16 +73,17 @@
 		android:textSize="@dimen/middle_text_size" />
 
 	<Button
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="我想成为房东"
-		android:textColor="@color/white"
-		android:textSize="@dimen/large_text_size"
-		android:paddingTop="@dimen/middle_space"
-		android:paddingBottom="@dimen/middle_space"
-		android:paddingLeft="@dimen/huge_space"
-		android:paddingRight="@dimen/huge_space"
-		android:background="@drawable/shape_blue_rectangle_bg"
-		android:layout_gravity="center_horizontal"
-		android:layout_marginTop="@dimen/large_space" />
+        android:id="@+id/mine_publish_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="我想成为房东"
+        android:textColor="@color/white"
+        android:textSize="@dimen/large_text_size"
+        android:paddingTop="@dimen/middle_space"
+        android:paddingBottom="@dimen/middle_space"
+        android:paddingLeft="@dimen/huge_space"
+        android:paddingRight="@dimen/huge_space"
+        android:background="@drawable/shape_blue_rectangle_bg"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/large_space" />
 </LinearLayout>

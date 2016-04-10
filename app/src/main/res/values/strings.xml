@@ -52,4 +52,13 @@
     <string name="publish_house_type_yangtai">阳台</string>
     <string name="publish_next">下一步</string>
     <string name="publish_match">房源的配套设施</string>
+    <string name="publish_price_hint">设置您房源的地址及价格</string>
+    <string name="publish_price_setting">设置价格</string>
+    <string name="publish_price_input">输入您房源的价格</string>
+    <string name="unit_rmb">元</string>
+    <string name="publish_price_address">设置地址</string>
+    <string name="feedback_content">意见内容</string>
+    <string name="feedback_content_hint">请留下您宝贵的意见（最多400字）</string>
+    <string name="feedback_contact_hint">请求下您的联系电话或邮箱</string>
+
 </resources>

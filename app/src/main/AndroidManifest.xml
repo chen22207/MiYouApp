@@ -37,11 +37,22 @@
         <activity
             android:name=".activity.user.UserInfoCompleteActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activity.publish.PublishActivity1">
-        </activity>
-        <activity android:name=".activity.publish.PublishActivity2">
-        </activity>
-        <activity android:name=".activity.publish.PublishActivity3">
+        <activity
+            android:name=".activity.publish.PublishActivity1"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.publish.PublishActivity2"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.publish.PublishActivity3"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.publish.PublishActivity4"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.publish.PublishActivity5"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.other.FeedbackActivity">
         </activity>
     </application>
 

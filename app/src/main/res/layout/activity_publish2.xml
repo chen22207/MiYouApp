@@ -3,8 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@drawable/background"
     android:orientation="vertical">
+
+    <include layout="@layout/activity_base_title_bar"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,12 +44,13 @@
                 android:padding="@dimen/large_space">
 
                 <ImageView
-                    android:id="@+id/publish_type_shi_jia_iv"
+                    android:id="@+id/publish_type_shi_jian_iv"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:scaleType="center"
-                    android:src="@drawable/icon_fangxing_jia"/>
+                    android:src="@drawable/icon_fangxing_jian"/>
+
 
                 <TextView
                     android:id="@+id/publish_type_shi_number_tv"
@@ -56,17 +59,18 @@
                     android:layout_weight="2"
                     android:background="@drawable/shape_gray_rectangle_border_bg"
                     android:gravity="center"
+                    android:inputType=""
                     android:paddingBottom="@dimen/middle_space"
                     android:paddingTop="@dimen/middle_space"
                     android:text="1"/>
 
                 <ImageView
-                    android:id="@+id/publish_type_shi_jian_iv"
+                    android:id="@+id/publish_type_shi_jia_iv"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:scaleType="center"
-                    android:src="@drawable/icon_fangxing_jian"/>
+                    android:src="@drawable/icon_fangxing_jia"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -91,12 +95,12 @@
                 android:padding="@dimen/large_space">
 
                 <ImageView
-                    android:id="@+id/publish_type_ting_jia_iv"
+                    android:id="@+id/publish_type_ting_jian_iv"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:scaleType="center"
-                    android:src="@drawable/icon_fangxing_jia"/>
+                    android:src="@drawable/icon_fangxing_jian"/>
 
                 <TextView
                     android:id="@+id/publish_type_ting_number_tv"
@@ -110,12 +114,12 @@
                     android:text="1"/>
 
                 <ImageView
-                    android:id="@+id/publish_type_ting_jian_iv"
+                    android:id="@+id/publish_type_ting_jia_iv"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:scaleType="center"
-                    android:src="@drawable/icon_fangxing_jian"/>
+                    android:src="@drawable/icon_fangxing_jia"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -140,12 +144,12 @@
                 android:padding="@dimen/large_space">
 
                 <ImageView
-                    android:id="@+id/publish_type_wei_jia_iv"
+                    android:id="@+id/publish_type_wei_jian_iv"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:scaleType="center"
-                    android:src="@drawable/icon_fangxing_jia"/>
+                    android:src="@drawable/icon_fangxing_jian"/>
 
                 <TextView
                     android:id="@+id/publish_type_wei_number_tv"
@@ -159,12 +163,12 @@
                     android:text="1"/>
 
                 <ImageView
-                    android:id="@+id/publish_type_wei_jian_iv"
+                    android:id="@+id/publish_type_wei_jia_iv"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:scaleType="center"
-                    android:src="@drawable/icon_fangxing_jian"/>
+                    android:src="@drawable/icon_fangxing_jia"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -189,12 +193,12 @@
                 android:padding="@dimen/large_space">
 
                 <ImageView
-                    android:id="@+id/publish_type_yangtai_jia_iv"
+                    android:id="@+id/publish_type_yangtai_jian_iv"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:scaleType="center"
-                    android:src="@drawable/icon_fangxing_jia"/>
+                    android:src="@drawable/icon_fangxing_jian"/>
 
                 <TextView
                     android:id="@+id/publish_type_yangtai_number_tv"
@@ -208,12 +212,13 @@
                     android:text="1"/>
 
                 <ImageView
-                    android:id="@+id/publish_type_yangtai_jian_iv"
+                    android:id="@+id/publish_type_yangtai_jia_iv"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:scaleType="center"
-                    android:src="@drawable/icon_fangxing_jian"/>
+                    android:src="@drawable/icon_fangxing_jia"/>
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -222,12 +227,13 @@
         android:id="@+id/publish_house_type_next_bt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/publish_next"
-        android:textSize="@dimen/large_text_size"
-        android:background="@drawable/shape_blue_rectangle_bg"
-        android:layout_marginTop="@dimen/middle_space"
         android:layout_marginBottom="@dimen/middle_space"
         android:layout_marginLeft="@dimen/super_space"
         android:layout_marginRight="@dimen/super_space"
-        android:textColor="@color/white"/>
+        android:layout_marginTop="@dimen/middle_space"
+        android:background="@drawable/shape_blue_rectangle_bg"
+        android:text="@string/publish_next"
+        android:textColor="@color/white"
+        android:textSize="@dimen/large_text_size"
+        android:visibility="invisible"/>
 </LinearLayout>

@@ -1,37 +1,247 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical">
+    android:background="@drawable/background">
+
+    <include
+        android:id="@+id/publish3_title"
+        layout="@layout/activity_base_title_bar"/>
 
     <TextView
+        android:id="@+id/publish_match_tv"
         android:layout_width="match_parent"
         android:layout_height="120dp"
+        android:gravity="center"
         android:text="@string/publish_match"
         android:textSize="@dimen/large_text_size"
-        android:gravity="center"/>
+        android:layout_below="@+id/publish3_title"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical"
-        android:background="@color/white">
+        android:paddingBottom="@dimen/large_space"
+        android:paddingLeft="@dimen/super_space"
+        android:paddingRight="@dimen/super_space"
+        android:paddingTop="@dimen/large_space"
+        android:layout_below="@+id/publish_match_tv">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/middle_space"
             android:orientation="horizontal">
 
-            <CheckedTextView
+            <CheckBox
+                android:id="@+id/publish_match_kuandai"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/icon_ellipse_selector"
+                android:layout_weight="3"
+                android:button="@drawable/icon_ellipse_selector"
+                android:paddingLeft="@dimen/middle_space"
                 android:text="宽带"
+                android:textColor="@drawable/selector_color_checked_black_gray"
+                android:checked="true"/>
+
+            <CheckBox
+                android:id="@+id/publish_match_xiyiji"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:button="@drawable/icon_xiyiji_selector"
+                android:paddingLeft="@dimen/middle_space"
+                android:text="洗衣机"
+                android:textColor="@drawable/selector_color_checked_black_gray"
+                android:checked="true"/>
+        </LinearLayout>
+
+        <include layout="@layout/line_break"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/middle_space"
+            android:layout_marginTop="@dimen/middle_space"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/publish_match_dianshi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:button="@drawable/icon_dianshi_selector"
+                android:paddingLeft="@dimen/middle_space"
+                android:text="电视"
+                android:textColor="@drawable/selector_color_checked_black_gray"/>
+
+            <CheckBox
+                android:id="@+id/publish_match_bingxiang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:button="@drawable/icon_bingxiang_selector"
+                android:paddingLeft="@dimen/middle_space"
+                android:text="冰箱"
                 android:textColor="@drawable/selector_color_checked_black_gray"/>
         </LinearLayout>
+
+        <include layout="@layout/line_break"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/middle_space"
+            android:layout_marginTop="@dimen/middle_space"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/publish_match_reshuiqi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:button="@drawable/icon_reshuiqi_selector"
+                android:paddingLeft="@dimen/middle_space"
+                android:text="热水器"
+                android:textColor="@drawable/selector_color_checked_black_gray"/>
+
+            <CheckBox
+                android:id="@+id/publish_match_kongtiao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:button="@drawable/icon_kongtiao_selector"
+                android:paddingLeft="@dimen/middle_space"
+                android:text="空调"
+                android:textColor="@drawable/selector_color_checked_black_gray"/>
+        </LinearLayout>
+
+        <include layout="@layout/line_break"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/middle_space"
+            android:layout_marginTop="@dimen/middle_space"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/publish_match_menjin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:button="@drawable/icon_menjin_selector"
+                android:paddingLeft="@dimen/middle_space"
+                android:text="门禁"
+                android:textColor="@drawable/selector_color_checked_black_gray"/>
+
+            <CheckBox
+                android:id="@+id/publish_match_dianti"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:button="@drawable/icon_dianti_selector"
+                android:paddingLeft="@dimen/middle_space"
+                android:text="电梯"
+                android:textColor="@drawable/selector_color_checked_black_gray"/>
+        </LinearLayout>
+
+        <include layout="@layout/line_break"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/middle_space"
+            android:layout_marginTop="@dimen/middle_space"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/publish_match_tingche"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:button="@drawable/icon_tingche_selector"
+                android:paddingLeft="@dimen/middle_space"
+                android:text="停车位"
+                android:textColor="@drawable/selector_color_checked_black_gray"/>
+
+            <CheckBox
+                android:id="@+id/publish_match_yugang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:button="@drawable/icon_yugang_selector"
+                android:paddingLeft="@dimen/middle_space"
+                android:text="浴缸"
+                android:textColor="@drawable/selector_color_checked_black_gray"/>
+        </LinearLayout>
+
+        <include layout="@layout/line_break"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/middle_space"
+            android:layout_marginTop="@dimen/middle_space"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/publish_match_chongwu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:button="@drawable/icon_chongwu_selector"
+                android:paddingLeft="@dimen/middle_space"
+                android:text="允许养宠物"
+                android:textColor="@drawable/selector_color_checked_black_gray"/>
+
+            <CheckBox
+                android:id="@+id/publish_match_chouyan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:button="@drawable/icon_chouyan_selector"
+                android:paddingLeft="@dimen/middle_space"
+                android:text="抽烟"
+                android:textColor="@drawable/selector_color_checked_black_gray"/>
+        </LinearLayout>
+
+        <include layout="@layout/line_break"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/middle_space"
+            android:layout_marginTop="@dimen/middle_space"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/publish_match_jucan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/icon_jucan_selector"
+                android:paddingLeft="@dimen/middle_space"
+                android:text="允许聚会"
+                android:textColor="@drawable/selector_color_checked_black_gray"/>
+        </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/publish_match_next_bt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/publish_next"
+        android:textSize="@dimen/large_text_size"
+        android:background="@drawable/shape_blue_rectangle_bg"
+        android:layout_marginTop="@dimen/middle_space"
+        android:layout_marginBottom="@dimen/middle_space"
+        android:layout_marginLeft="@dimen/super_space"
+        android:layout_marginRight="@dimen/super_space"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible"/>
+
+</RelativeLayout>

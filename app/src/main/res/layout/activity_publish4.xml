@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context="com.firstblood.miyo.activity.publish.PublishActivity4">
+
+    <include
+        android:id="@+id/publish4_title"
+        layout="@layout/activity_base_title_bar"/>
+
+    <TextView
+        android:id="@+id/publish_price_tv"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:gravity="center"
+        android:text="@string/publish_price_hint"
+        android:textSize="@dimen/large_text_size"
+        android:layout_below="@+id/publish4_title"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/publish_price_tv">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/publish_price_setting"
+            android:textStyle="bold"
+            android:textSize="@dimen/middle_text_size"
+            android:layout_marginLeft="@dimen/middle_space"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/middle_space"
+            android:layout_marginTop="@dimen/middle_space">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/publish_price_input"
+                android:layout_centerVertical="true"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true">
+
+                <EditText
+                    android:id="@+id/publish_price_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_gray_rectangle_border_bg"
+                    android:padding="@dimen/small_space"
+                    android:minWidth="80dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unit_rmb"
+                    android:layout_marginLeft="@dimen/middle_space"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/publish_price_address"
+            android:textStyle="bold"
+            android:textSize="@dimen/middle_text_size"
+            android:layout_margin="@dimen/middle_space"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/middle_space"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/middle_space">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_city"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText
+                    android:id="@+id/publish_price_city_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_space"
+                    android:background="@color/white"
+                    android:hint="省、市、区"/>
+            </LinearLayout>
+
+            <include layout="@layout/line_break"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/middle_space">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_location"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText
+                    android:id="@+id/publish_price_location_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/middle_space"
+                    android:background="@color/white"
+                    android:hint="请输入详细地址"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/publish_price_next_bt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/publish_next"
+        android:textSize="@dimen/large_text_size"
+        android:background="@drawable/shape_blue_rectangle_bg"
+        android:layout_marginTop="@dimen/middle_space"
+        android:layout_marginBottom="@dimen/middle_space"
+        android:layout_marginLeft="@dimen/super_space"
+        android:layout_marginRight="@dimen/super_space"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"/>
+</RelativeLayout>
