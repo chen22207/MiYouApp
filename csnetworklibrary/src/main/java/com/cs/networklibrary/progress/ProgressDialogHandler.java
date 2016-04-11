@@ -1,10 +1,11 @@
 package com.cs.networklibrary.progress;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
+
+import com.kaopiz.kprogresshud.KProgressHUD;
 
 /**
  * Created by chenshuai12619 on 2016/3/17 16:49.
@@ -14,7 +15,7 @@ public class ProgressDialogHandler extends Handler {
     public static final int SHOW_PROGRESS_DIALOG = 1;
     public static final int DISMISS_PROGRESS_DIALOG = 2;
 
-	private ProgressDialog pd;
+    private KProgressHUD pd;
 
 	private Context mContext;
 	private boolean cancelable;
@@ -29,8 +30,11 @@ public class ProgressDialogHandler extends Handler {
 
 	private void initProgressDialog() {
 		if (pd == null) {
-			pd = new ProgressDialog(mContext);
-			pd.setCancelable(cancelable);
+            pd = KProgressHUD.create(mContext)
+                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                    .setDimAmount(0.5f)
+                    .setAnimationSpeed(2)
+                    .setCancellable(cancelable);
 
 			if (cancelable) {
 				pd.setOnCancelListener(new DialogInterface.OnCancelListener() {

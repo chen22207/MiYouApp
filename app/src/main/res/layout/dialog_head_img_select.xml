@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/head_img_take_pic_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/large_space"
+        android:text="拍照"
+        android:gravity="center"
+        android:textSize="@dimen/large_text_size"/>
+
+    <TextView
+        android:id="@+id/head_img_select_from_album_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/large_space"
+        android:text="从相册选"
+        android:gravity="center"
+        android:textSize="@dimen/large_text_size"/>
+
+</LinearLayout>

@@ -79,31 +79,6 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_margin="@dimen/middle_space"
-					android:text="@string/user_pwd"
-					android:textSize="@dimen/middle_text_size" />
-
-				<TextView
-					android:id="@+id/user_info_pwd_tv"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_alignParentRight="true"
-					android:layout_centerVertical="true"
-					android:drawablePadding="@dimen/middle_space"
-					android:drawableRight="@drawable/icon_next"
-					android:padding="@dimen/middle_space"
-					android:text="@string/user_nickname_edit" />
-			</RelativeLayout>
-
-			<RelativeLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="@dimen/one_line_space"
-				android:background="@color/white">
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_margin="@dimen/middle_space"
 					android:text="@string/user_phone"
 					android:textSize="@dimen/middle_text_size" />
 
@@ -296,20 +271,21 @@
 			</RelativeLayout>
 
 			<Button
-				android:id="@+id/user_info_submit_bt"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="@string/submit"
-				android:textColor="@color/white"
-				android:textSize="@dimen/large_text_size"
-				android:paddingTop="@dimen/middle_space"
-				android:paddingBottom="@dimen/middle_space"
-				android:background="@drawable/shape_blue_rectangle_bg"
-				android:layout_gravity="center_horizontal"
-				android:layout_marginTop="@dimen/large_space"
-				android:layout_marginLeft="@dimen/huge_space"
-				android:layout_marginRight="@dimen/huge_space"
-				android:layout_marginBottom="@dimen/large_space" />
+                android:id="@+id/user_info_submit_bt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/submit"
+                android:textColor="@color/white"
+                android:textSize="@dimen/large_text_size"
+                android:paddingTop="@dimen/middle_space"
+                android:paddingBottom="@dimen/middle_space"
+                android:background="@drawable/shape_blue_rectangle_bg"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/large_space"
+                android:layout_marginLeft="@dimen/huge_space"
+                android:layout_marginRight="@dimen/huge_space"
+                android:layout_marginBottom="@dimen/large_space"
+                android:visibility="gone"/>
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>

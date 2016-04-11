@@ -1,1 +1,1 @@
-include ':cswidgetlibrary', ':multi-image-selector', ':app', ':csnetworklibrary'
+include ':cswidgetlibrary', ':multi-image-selector', ':app', ':csnetworklibrary', ':kprogresshud'
