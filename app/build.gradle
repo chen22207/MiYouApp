@@ -39,4 +39,6 @@ dependencies {
     compile 'com.android.support:support-v4:23.2.1'
     compile project(':multi-image-selector')
     compile 'net.grandcentrix.tray:tray:1.0.0-rc3'
+    compile 'com.qiniu:qiniu-android-sdk:7.1.2'
+    compile 'com.kaopiz:kprogresshud:1.0.5'
 }

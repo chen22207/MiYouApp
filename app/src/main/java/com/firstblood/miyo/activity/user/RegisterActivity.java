@@ -143,11 +143,11 @@ public class RegisterActivity extends AppCompatActivity {
                     .map(new HttpResultFunc<>())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new ProgressSubscriber<>(o -> {
-                        vCode = ((Vcode) o).getvCode();
+		            .subscribe(new ProgressSubscriber<>(this, o -> {
+			            vCode = ((Vcode) o).getvCode();
                         //TODO 仅测试使用
                         registerSmsEt.setText(vCode);
-                    }, this));
+		            }));
         } else {
             registerUsernameEt.setError("手机号位数不正确");
         }
@@ -159,10 +159,10 @@ public class RegisterActivity extends AppCompatActivity {
                 .map(new HttpResultFunc<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ProgressSubscriber<>(o -> {
-                    SpUtils.getInstance().putModule(SpDictionary.SP_USER, o);
+		        .subscribe(new ProgressSubscriber<>(this, o -> {
+			        SpUtils.getInstance().putModule(SpDictionary.SP_USER, o);
                     AlertMessageUtil.showAlert(this, "注册成功");
 	                bus.send(new LoginActivity.LoginSuccess());
-                }, this));
+		        }));
     }
 }

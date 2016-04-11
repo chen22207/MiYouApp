@@ -24,8 +24,8 @@ public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCanc
 
     private Context context;
 
-    public ProgressSubscriber(SubscriberOnNextListener mSubscriberOnNextListener, Context context) {
-        this.mSubscriberOnNextListener = mSubscriberOnNextListener;
+	public ProgressSubscriber(Context context, SubscriberOnNextListener mSubscriberOnNextListener) {
+		this.mSubscriberOnNextListener = mSubscriberOnNextListener;
         this.context = context;
         mProgressDialogHandler = new ProgressDialogHandler(context, this, true);
     }

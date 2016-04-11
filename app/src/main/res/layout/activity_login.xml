@@ -25,7 +25,8 @@
 		android:layout_height="wrap_content"
 		android:padding="@dimen/large_space"
 		android:background="@color/white"
-		android:hint="@string/login_password_hint" />
+		android:hint="@string/login_password_hint"
+		android:inputType="textPassword" />
 
 	<Button
 		android:id="@+id/login_submit_bt"

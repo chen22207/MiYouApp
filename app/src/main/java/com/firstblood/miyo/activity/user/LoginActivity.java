@@ -71,12 +71,12 @@ public class LoginActivity extends AppCompatActivity {
                 .map(new HttpResultFunc<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ProgressSubscriber<>(o -> {
-	                SpUtils.getInstance().putModule(SpDictionary.SP_USER, o);
+		        .subscribe(new ProgressSubscriber<>(this, o -> {
+			        SpUtils.getInstance().putModule(SpDictionary.SP_USER, o);
 	                AlertMessageUtil.showAlert(LoginActivity.this, "登录成功");
 	                bus.send(new LoginSuccess());
-                }, this));
-    }
+		        }));
+	}
 
     private void navigateToForgetPwd() {
 
@@ -99,5 +99,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public static class LoginSuccess {
+
     }
 }
