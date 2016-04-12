@@ -54,6 +54,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.other.FeedbackActivity">
         </activity>
+        <activity android:name=".activity.user.CropImageActivity">
+        </activity>
     </application>
 
 </manifest>
