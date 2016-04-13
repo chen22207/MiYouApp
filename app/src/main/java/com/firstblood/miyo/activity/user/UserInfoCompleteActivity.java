@@ -23,7 +23,8 @@ import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 public class UserInfoCompleteActivity extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE = 1001;
-    @InjectView(R.id.user_info_header_iv)
+	private static final int REQUEST_CROP_IMAGE = 1002;
+	@InjectView(R.id.user_info_header_iv)
     CircleImageView mUserInfoHeaderIv;
     @InjectView(R.id.user_info_header_tv)
     TextView mUserInfoHeaderTv;
@@ -101,10 +102,10 @@ public class UserInfoCompleteActivity extends AppCompatActivity {
         // whether show camera
         intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
         // max select image amount
-        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 1);
+//        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 1);
         // select mode (MultiImageSelectorActivity.MODE_SINGLE OR MultiImageSelectorActivity.MODE_MULTI)
-        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
-        // default select images (support array list)
+	    intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_SINGLE);
+	    // default select images (support array list)
         intent.putStringArrayListExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST, defaultDataArray);
         startActivityForResult(intent, REQUEST_IMAGE);
     }
@@ -117,6 +118,9 @@ public class UserInfoCompleteActivity extends AppCompatActivity {
                 // Get the result list of select image paths
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                 // do your logic ....
+	            Intent intent = new Intent(this, CropImageActivity.class);
+	            intent.putExtra("path", path.get(0));
+	            startActivityForResult(intent, REQUEST_CROP_IMAGE);
             }
         }
     }

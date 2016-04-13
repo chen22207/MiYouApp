@@ -5,6 +5,9 @@
     <color name="colorAccent">#1e90ff</color>
 	<color name="background">#f0f0f0</color>
 
+	<color name="windowBackground">#1C1C1C</color>
+	<color name="overlay">#AA1C1C1C</color>
+
 	<color name="transparent_50_black">#7f000000</color>
 
     <color name="pink">#ffc0cb</color>
