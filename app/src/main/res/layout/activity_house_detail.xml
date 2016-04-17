@@ -107,7 +107,7 @@
 				android:paddingRight="@dimen/large_space"
 				tools:text="卡机的离开房间爱拉斯克奖富利卡就上课浪费骄傲； 世纪东方；了家里；是房价；拉开始就地方；拉进是的；六块腹肌啊；拉斯克奖的费卢卡斯剪短发了空间傻了点开放就拉开圣诞节分类"/>
 
-			<Button
+			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal"
@@ -115,7 +115,8 @@
 				android:layout_marginTop="@dimen/middle_space"
 				android:background="@drawable/shape_blue_rectangle_border_bg"
 				android:text="@string/house_detail_read_more"
-				android:textColor="@color/colorPrimary"/>
+				android:textColor="@color/colorPrimary"
+				android:padding="@dimen/middle_space"/>
 
 			<include layout="@layout/line_break"/>
 
@@ -124,7 +125,7 @@
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal"
 				android:layout_marginTop="@dimen/middle_space"
-				android:text="@string/house_detail_peitao"
+				android:text="@string/house_detail_fangyuanqingkuang"
 				android:textSize="@dimen/middle_text_size"
 				android:textStyle="bold"/>
 
@@ -254,7 +255,47 @@
 
 			<include layout="@layout/line_break"/>
 
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/house_detail_sheshi"
+				android:textSize="@dimen/middle_text_size"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginTop="@dimen/middle_space"
+				android:textStyle="bold"/>
 
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<CheckBox
+					android:id="@+id/house_detail_kuandai_cb"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="wrap_content"
+					android:text="宽带"
+					android:paddingLeft="@dimen/middle_space"
+					android:button="@drawable/icon_ellipse_selector"/>
+
+				<CheckBox
+					android:id="@+id/house_detail_bingxiang_cb"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="wrap_content"
+					android:text="冰箱"
+					android:paddingLeft="@dimen/middle_space"
+					android:button="@drawable/icon_bingxiang_selector"/>
+
+				<CheckBox
+					android:id="@+id/house_detail_xiyiji_cb"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="wrap_content"
+					android:text="洗衣机"
+					android:paddingLeft="@dimen/middle_space"
+					android:button="@drawable/icon_ellipse_selector"/>
+			</LinearLayout>
 		</LinearLayout>
 
 

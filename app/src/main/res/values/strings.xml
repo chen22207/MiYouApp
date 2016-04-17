@@ -65,12 +65,13 @@
 	<string name="setting_change_pwd">修改密码</string>
 	<string name="setting_logout">退出登录</string>
 	<string name="house_detail_read_more">查看更多</string>
-	<string name="house_detail_peitao">房源情况</string>
+	<string name="house_detail_fangyuanqingkuang">房源情况</string>
 	<string name="house_detail_fangxing">房型：</string>
 	<string name="house_detail_mianji">面积：</string>
 	<string name="house_detail_louceng">楼层：</string>
 	<string name="house_detail_chaoxiang">朝向：</string>
 	<string name="house_detail_zhuangxiu">装修：</string>
 	<string name="house_detail_fabushijian">发布时间：</string>
+	<string name="house_detail_sheshi">配套设施</string>
 
 </resources>

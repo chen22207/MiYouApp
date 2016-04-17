@@ -1,5 +1,6 @@
 package com.firstblood.miyo.activity.other;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.database.SpDictionary;
 import com.firstblood.miyo.database.SpUtils;
+import com.firstblood.miyo.util.Navigation;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -28,12 +30,14 @@ public class SettingActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
 		ButterKnife.inject(this);
+		Navigation.getInstance(this).setBack().setTitle(getString(R.string.title_setting));
 	}
 
 	@OnClick({R.id.setting_feedback_tv, R.id.setting_change_pwd_tv, R.id.setting_logout_bt})
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.setting_feedback_tv:
+				startActivity(new Intent(this, FeedbackActivity.class));
 				break;
 			case R.id.setting_change_pwd_tv:
 				break;

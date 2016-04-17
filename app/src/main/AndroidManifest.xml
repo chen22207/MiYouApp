@@ -52,15 +52,22 @@
 		<activity
 			android:name=".activity.publish.PublishActivity5"
 			android:screenOrientation="portrait"/>
-		<activity android:name=".activity.other.FeedbackActivity">
-		</activity>
-		<activity android:name=".activity.user.CropImageActivity">
-		</activity>
-		<activity android:name=".activity.other.SettingActivity">
-		</activity>
-		<activity android:name=".activity.collection.CollectionDetailActivity">
-		</activity>
-		<activity android:name=".activity.house.HouseDetailActivity">
+		<activity
+			android:name=".activity.other.FeedbackActivity"
+			android:screenOrientation="portrait"/>
+		<activity
+			android:name=".activity.user.CropImageActivity"
+			android:screenOrientation="portrait"/>
+		<activity
+			android:name=".activity.other.SettingActivity"
+			android:screenOrientation="portrait"/>
+		<activity
+			android:name=".activity.collection.CollectionDetailActivity"
+			android:screenOrientation="portrait"/>
+		<activity
+			android:name=".activity.house.HouseDetailActivity"
+			android:screenOrientation="portrait"/>
+		<activity android:name=".activity.user.PasswordModifyActivity">
 		</activity>
 	</application>
 

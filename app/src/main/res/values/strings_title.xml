@@ -6,4 +6,6 @@
     <string name="title_publish2">房型</string>
     <string name="title_publish3">设施</string>
     <string name="title_publish4">地址</string>
+	<string name="title_setting">设置</string>
+	<string name="title_feedback">意见反馈</string>
 </resources>

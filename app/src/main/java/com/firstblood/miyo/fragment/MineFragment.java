@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.firstblood.miyo.R;
+import com.firstblood.miyo.activity.other.SettingActivity;
 import com.firstblood.miyo.activity.publish.PublishActivity1;
 import com.firstblood.miyo.activity.user.UserInfoCompleteActivity;
 import com.firstblood.miyo.database.SpDictionary;
@@ -53,6 +54,7 @@ public class MineFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_mine, container, false);
         ButterKnife.inject(this, v);
+
 	    user = (User) SpUtils.getInstance().getModule(SpDictionary.SP_USER);
 	    if (user != null) {
 		    CommonUtils.loadHeadImage(getActivity(), user, mMineHeaderIv);
@@ -80,7 +82,7 @@ public class MineFragment extends Fragment {
             case R.id.mine_publish_tv:
                 break;
             case R.id.mine_setting_tv:
-
+	            startActivity(new Intent(getActivity(), SettingActivity.class));
 	            break;
             case R.id.mine_publish_bt:
                 startActivity(new Intent(getActivity(), PublishActivity1.class));
