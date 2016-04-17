@@ -1,7 +1,7 @@
 package com.cs.networklibrary.http;
 
 import com.cs.networklibrary.converter.MyGsonConverterFracory;
-import com.cs.networklibrary.util.PropretiesUtil;
+import com.cs.networklibrary.util.PropertiesUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,11 +13,11 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
  * Created by chenshuai12619 on 2016/3/17 16:39.
  */
 public class HttpMethods {
-	public static final String BASE_URL = PropretiesUtil.getServerFullPath();
+	public static final String BASE_URL = PropertiesUtil.getServerFullPath();
 
-	private static final int DEFAULT_TIMEOUT = PropretiesUtil.getProperty("HTTP_TIMEOUT_SECOND", PropretiesUtil.PropertyType.INT);
+	private static final int DEFAULT_TIMEOUT = PropertiesUtil.getProperty("HTTP_TIMEOUT_SECOND", PropertiesUtil.PropertyType.INT);
 
-	private static final boolean IS_PRINT_LOG = PropretiesUtil.getProperty("IS_PRINT_LOG", PropretiesUtil.PropertyType.BOOLEAN);
+	private static final boolean IS_PRINT_LOG = PropertiesUtil.getProperty("IS_PRINT_LOG", PropertiesUtil.PropertyType.BOOLEAN);
 
 	private Retrofit retrofit;
 

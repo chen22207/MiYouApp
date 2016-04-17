@@ -2,7 +2,7 @@ package com.firstblood.miyo.application;
 
 import android.app.Application;
 
-import com.cs.networklibrary.util.PropretiesUtil;
+import com.cs.networklibrary.util.PropertiesUtil;
 import com.firstblood.miyo.database.SpUtils;
 
 /**
@@ -13,6 +13,6 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
 	    SpUtils.getInstance().init(this);
-	    PropretiesUtil.init(this);
+	    PropertiesUtil.init(this);
     }
 }

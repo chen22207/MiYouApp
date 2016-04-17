@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context="com.firstblood.miyo.activity.house.HouseDetailActivity">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="250dp">
+
+			<ImageView
+				android:id="@+id/house_detail_house_pic_iv"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:scaleType="fitXY"
+				tools:src="@drawable/f1"/>
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentBottom="true"
+				android:layout_marginBottom="@dimen/large_space"
+				android:background="@color/transparent_50_black"
+				android:orientation="horizontal"
+				android:padding="@dimen/middle_space">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentBottom="true"
+					android:textColor="@color/white"
+					android:textSize="@dimen/middle_text_size"
+					tools:text="3800"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="/月"
+					android:textColor="@color/white"/>
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentBottom="true"
+				android:layout_alignParentRight="true"
+				android:layout_marginBottom="@dimen/large_space"
+				android:background="@color/transparent_50_black"
+				android:orientation="horizontal"
+				android:paddingBottom="@dimen/middle_space"
+				android:paddingLeft="@dimen/large_space"
+				android:paddingRight="@dimen/large_space"
+				android:paddingTop="@dimen/middle_space">
+
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:src="@drawable/icon_next"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="@dimen/small_space"
+					android:textColor="@color/white"
+					tools:text="80"/>
+			</LinearLayout>
+		</RelativeLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:paddingBottom="@dimen/middle_space"
+			android:paddingLeft="@dimen/super_plus_space"
+			android:paddingRight="@dimen/super_plus_space"
+			android:paddingTop="@dimen/middle_space">
+
+			<TextView
+				android:id="@+id/house_detail_info_title_tv"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:ellipsize="end"
+				android:gravity="center_horizontal"
+				android:maxLines="2"
+				android:textSize="@dimen/super_text_size"
+				android:textStyle="bold"
+				tools:text="西湖文化广场地"/>
+
+			<TextView
+				android:id="@+id/house_detail_info_detail_tv"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/middle_space"
+				android:ellipsize="end"
+				android:maxLines="3"
+				android:minHeight="50dp"
+				android:paddingLeft="@dimen/large_space"
+				android:paddingRight="@dimen/large_space"
+				tools:text="卡机的离开房间爱拉斯克奖富利卡就上课浪费骄傲； 世纪东方；了家里；是房价；拉开始就地方；拉进是的；六块腹肌啊；拉斯克奖的费卢卡斯剪短发了空间傻了点开放就拉开圣诞节分类"/>
+
+			<Button
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginBottom="@dimen/middle_space"
+				android:layout_marginTop="@dimen/middle_space"
+				android:background="@drawable/shape_blue_rectangle_border_bg"
+				android:text="@string/house_detail_read_more"
+				android:textColor="@color/colorPrimary"/>
+
+			<include layout="@layout/line_break"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:layout_marginTop="@dimen/middle_space"
+				android:text="@string/house_detail_peitao"
+				android:textSize="@dimen/middle_text_size"
+				android:textStyle="bold"/>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/middle_space"
+				android:orientation="horizontal">
+
+				<LinearLayout
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="3"
+					android:orientation="horizontal">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/house_detail_fangxing"/>
+
+					<TextView
+						android:id="@+id/house_detail_fangxing_tv"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						tools:text="3室1厅"/>
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:orientation="horizontal">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/house_detail_mianji"/>
+
+					<TextView
+						android:id="@+id/house_detail_mianji_tv"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						tools:text="120平方"/>
+				</LinearLayout>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/middle_space"
+				android:orientation="horizontal">
+
+				<LinearLayout
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="3"
+					android:orientation="horizontal">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/house_detail_louceng"/>
+
+					<TextView
+						android:id="@+id/house_detail_louceng_tv"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						tools:text="12/28层"/>
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:orientation="horizontal">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/house_detail_chaoxiang"/>
+
+					<TextView
+						android:id="@+id/house_detail_chaoxiang_tv"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						tools:text="南"/>
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/middle_space"
+				android:orientation="horizontal">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/house_detail_zhuangxiu"/>
+
+				<TextView
+					android:id="@+id/house_detail_zhuangxiu_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					tools:text="精装"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/middle_space"
+				android:layout_marginBottom="@dimen/middle_space"
+				android:orientation="horizontal">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/house_detail_fabushijian"/>
+
+				<TextView
+					android:id="@+id/house_detail_fabushijian_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					tools:text="2016-4-1"/>
+			</LinearLayout>
+
+			<include layout="@layout/line_break"/>
+
+
+		</LinearLayout>
+
+
+	</LinearLayout>
+</ScrollView>

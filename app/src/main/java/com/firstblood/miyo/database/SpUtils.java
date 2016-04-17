@@ -3,6 +3,8 @@ package com.firstblood.miyo.database;
 import android.content.Context;
 import android.util.Base64;
 
+import com.firstblood.miyo.module.User;
+
 import net.grandcentrix.tray.core.ItemNotFoundException;
 
 import java.io.ByteArrayInputStream;
@@ -116,4 +118,19 @@ public class SpUtils {
 		mAppPreferences.remove(key);
 	}
 
+
+	/**------------以上是基本方法-------------**/
+
+	/**
+	 * ------------以下是针对某些常用参数的便捷获取方式-------------
+	 **/
+
+	public String getUserId() {
+		String userId = "";
+		Object module = getInstance().getModule(SpDictionary.SP_USER);
+		if (module != null) {
+			userId = ((User) module).getUserId();
+		}
+		return userId;
+	}
 }

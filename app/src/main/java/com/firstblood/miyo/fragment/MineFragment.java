@@ -14,6 +14,8 @@ import com.firstblood.miyo.activity.publish.PublishActivity1;
 import com.firstblood.miyo.activity.user.UserInfoCompleteActivity;
 import com.firstblood.miyo.database.SpDictionary;
 import com.firstblood.miyo.database.SpUtils;
+import com.firstblood.miyo.module.User;
+import com.firstblood.miyo.util.CommonUtils;
 import com.firstblood.miyo.util.RxBus;
 
 import butterknife.ButterKnife;
@@ -45,11 +47,17 @@ public class MineFragment extends Fragment {
     TextView mMineSettingTv;
 
     private RxBus bus;
+	private User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_mine, container, false);
         ButterKnife.inject(this, v);
+	    user = (User) SpUtils.getInstance().getModule(SpDictionary.SP_USER);
+	    if (user != null) {
+		    CommonUtils.loadHeadImage(getActivity(), user, mMineHeaderIv);
+		    mMineUsernameTv.setText(user.getNickName());
+	    }
         return v;
     }
 
@@ -72,8 +80,8 @@ public class MineFragment extends Fragment {
             case R.id.mine_publish_tv:
                 break;
             case R.id.mine_setting_tv:
-                SpUtils.getInstance().remove(SpDictionary.SP_USER);
-                break;
+
+	            break;
             case R.id.mine_publish_bt:
                 startActivity(new Intent(getActivity(), PublishActivity1.class));
                 break;

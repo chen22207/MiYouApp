@@ -9,7 +9,7 @@ import java.util.Properties;
  * 网络请求配置文件读取工具
  * Created by chenshuai12619 on 2016/4/7 10:21.
  */
-public class PropretiesUtil {
+public class PropertiesUtil {
 	private static Properties mProperties;
 
 	public enum PropertyType {

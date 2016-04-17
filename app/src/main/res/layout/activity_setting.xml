@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@drawable/background"
+	android:orientation="vertical"
+	tools:context="com.firstblood.miyo.activity.other.SettingActivity">
+
+	<include layout="@layout/activity_base_title_bar"/>
+
+	<TextView
+		android:id="@+id/setting_feedback_tv"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/middle_space"
+		android:background="@color/white"
+		android:drawableLeft="@drawable/icon_mine_edit_info"
+		android:drawablePadding="@dimen/middle_space"
+		android:drawableRight="@drawable/icon_next"
+		android:padding="@dimen/middle_space"
+		android:text="@string/setting_feedfack"/>
+
+	<include layout="@layout/line_break"/>
+
+	<TextView
+		android:id="@+id/setting_change_pwd_tv"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/white"
+		android:drawableLeft="@drawable/icon_change_pwd"
+		android:drawablePadding="@dimen/middle_space"
+		android:drawableRight="@drawable/icon_next"
+		android:padding="@dimen/middle_space"
+		android:text="@string/setting_change_pwd"/>
+
+	<Button
+		android:id="@+id/setting_logout_bt"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/shape_blue_rectangle_bg"
+		android:text="@string/setting_logout"
+		android:textColor="@color/white"
+		android:layout_margin="@dimen/large_space"/>
+</LinearLayout>

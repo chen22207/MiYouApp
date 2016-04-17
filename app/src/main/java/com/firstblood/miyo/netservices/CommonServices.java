@@ -1,6 +1,7 @@
 package com.firstblood.miyo.netservices;
 
 import com.cs.networklibrary.entity.HttpResult;
+import com.firstblood.miyo.module.Token;
 import com.firstblood.miyo.module.Vcode;
 
 import retrofit2.http.Field;
@@ -15,5 +16,8 @@ public interface CommonServices {
     @FormUrlEncoded
     @POST("sendVCodeAPI.aspx")
     Observable<HttpResult<Vcode>> sendVcode(@Field("phone") String phone);
+
+	@POST("getToken.aspx")
+	Observable<HttpResult<Token>> getToken();
 }
 
