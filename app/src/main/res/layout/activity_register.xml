@@ -72,7 +72,7 @@
 		android:id="@+id/register_submit_bt"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="@drawable/shape_blue_rectangle_bg"
+		android:background="@drawable/shape_button_rectangle_selector"
 		android:text="@string/register_register"
 		android:textColor="@color/white"
 		android:layout_margin="@dimen/large_space" />

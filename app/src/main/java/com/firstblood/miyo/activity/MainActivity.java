@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.firstblood.miyo.R;
+import com.firstblood.miyo.activity.other.SettingActivity;
 import com.firstblood.miyo.activity.user.LoginActivity;
 import com.firstblood.miyo.database.SpDictionary;
 import com.firstblood.miyo.database.SpUtils;
@@ -47,7 +48,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 	private RxBus bus;
 	private CompositeSubscription compositeSubscription;
-	private boolean isLogin = false;
+	private boolean loginAct = false;
+	private boolean logoutAct = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,23 +71,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 		bus = RxBus.getInstance();
 		compositeSubscription = new CompositeSubscription();
-		compositeSubscription.add(bus.toObserverable(LoginActivity.LoginSuccess.class).subscribe(loginSuccess -> isLogin = true));
+		compositeSubscription.add(bus.toObserverable(LoginActivity.LoginSuccess.class).subscribe(loginSuccess -> loginAct = true));
+		compositeSubscription.add(bus.toObserverable(SettingActivity.LogoutAction.class).subscribe(logoutAction -> logoutAct = true));
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (isLogin) {//只有登录成功或注册成功，才会执行。
-			if (intentTag.equals(FRAGMENT_TAG[4])) {//点击“我”
+		if (loginAct) {//只有登录成功或注册成功，才会执行。
+			if (intentTag.equals(FRAGMENT_TAG[4])) {//未登录时点击“我”，跳转到登录界面（或注册界面），登陆成功（或注册成功）之后回来。
 				mMainTabMineIb.performClick();
 			}
+		}
+		if (logoutAct) {
+			mMainTabHomeIb.performClick();
 		}
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		isLogin = false;
+		loginAct = false;
+		logoutAct = false;
 	}
 
 	@Override

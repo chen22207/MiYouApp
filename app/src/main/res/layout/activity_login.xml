@@ -15,7 +15,8 @@
 		android:padding="@dimen/large_space"
 		android:background="@color/white"
 		android:hint="@string/login_username_hint"
-		android:layout_marginTop="@dimen/large_space" />
+		android:layout_marginTop="@dimen/large_space"
+		android:inputType="phone"/>
 
 	<include layout="@layout/line_break" />
 

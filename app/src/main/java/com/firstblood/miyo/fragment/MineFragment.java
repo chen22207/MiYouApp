@@ -13,7 +13,6 @@ import com.firstblood.miyo.R;
 import com.firstblood.miyo.activity.other.SettingActivity;
 import com.firstblood.miyo.activity.publish.PublishActivity1;
 import com.firstblood.miyo.activity.user.UserInfoCompleteActivity;
-import com.firstblood.miyo.database.SpDictionary;
 import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.module.User;
 import com.firstblood.miyo.util.CommonUtils;
@@ -55,7 +54,7 @@ public class MineFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_mine, container, false);
         ButterKnife.inject(this, v);
 
-	    user = (User) SpUtils.getInstance().getModule(SpDictionary.SP_USER);
+	    user = SpUtils.getInstance().getUser();
 	    if (user != null) {
 		    CommonUtils.loadHeadImage(getActivity(), user, mMineHeaderIv);
 		    mMineUsernameTv.setText(user.getNickName());

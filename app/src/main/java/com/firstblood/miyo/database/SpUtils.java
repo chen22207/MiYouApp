@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Base64;
 
 import com.firstblood.miyo.module.User;
+import com.orhanobut.logger.Logger;
 
 import net.grandcentrix.tray.core.ItemNotFoundException;
 
@@ -124,6 +125,16 @@ public class SpUtils {
 	/**
 	 * ------------以下是针对某些常用参数的便捷获取方式-------------
 	 **/
+
+	public User getUser() {
+		Object module = getInstance().getModule(SpDictionary.SP_USER);
+		if (module != null) {
+			return (User) module;
+		} else {
+			Logger.wtf("用户信息为空");
+			return null;
+		}
+	}
 
 	public String getUserId() {
 		String userId = "";

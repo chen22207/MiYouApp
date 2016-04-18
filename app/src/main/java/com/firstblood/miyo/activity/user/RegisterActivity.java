@@ -9,10 +9,10 @@ import android.widget.EditText;
 
 import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
+import com.firstblood.miyo.BuildConfig;
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.database.SpDictionary;
 import com.firstblood.miyo.database.SpUtils;
-import com.firstblood.miyo.module.Vcode;
 import com.firstblood.miyo.netservices.CommonServices;
 import com.firstblood.miyo.netservices.UserServices;
 import com.firstblood.miyo.subscribers.ProgressSubscriber;
@@ -144,9 +144,11 @@ public class RegisterActivity extends AppCompatActivity {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
 		            .subscribe(new ProgressSubscriber<>(this, o -> {
-			            vCode = ((Vcode) o).getvCode();
-                        //TODO 仅测试使用
-                        registerSmsEt.setText(vCode);
+			            vCode = o.getvCode();
+			            //TODO 仅测试使用
+			            if (BuildConfig.DEBUG) {
+				            registerSmsEt.setText(vCode);
+			            }
 		            }));
         } else {
             registerUsernameEt.setError("手机号位数不正确");

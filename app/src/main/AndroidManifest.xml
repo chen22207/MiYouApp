@@ -67,8 +67,9 @@
 		<activity
 			android:name=".activity.house.HouseDetailActivity"
 			android:screenOrientation="portrait"/>
-		<activity android:name=".activity.user.PasswordModifyActivity">
-		</activity>
+		<activity
+			android:name=".activity.user.PasswordModifyActivity"
+			android:screenOrientation="portrait"/>
 	</application>
 
 </manifest>

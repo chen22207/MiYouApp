@@ -33,6 +33,10 @@ public interface UserServices {
 	@POST("setUserInfoAPI.aspx")
 	Observable<HttpResult<NoData>> updateUserInfo(@FieldMap Map<String, String> map);
 
+	@FormUrlEncoded
+	@POST("updatePwd.aspx")
+	Observable<HttpResult<NoData>> updatePwd(@Field("account") String account, @Field("newpassword") String newPwd);
+
 
 
 }
