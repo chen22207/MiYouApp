@@ -34,11 +34,11 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':csnetworklibrary')
     compile project(':cswidgetlibrary')
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:design:23.2.1'
-    compile 'com.jakewharton:butterknife:5.1.1'
-    compile 'com.android.support:support-v4:23.2.1'
     compile project(':multi-image-selector')
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
+    compile 'com.jakewharton:butterknife:5.1.1'
+    compile 'com.android.support:support-v4:23.3.0'
     compile 'net.grandcentrix.tray:tray:1.0.0-rc3'
     compile 'com.qiniu:qiniu-android-sdk:7.1.2'
     compile 'com.isseiaoki:simplecropview:1.1.0'

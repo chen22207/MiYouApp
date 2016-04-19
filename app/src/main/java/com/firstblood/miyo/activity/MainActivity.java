@@ -15,6 +15,7 @@ import com.firstblood.miyo.activity.user.LoginActivity;
 import com.firstblood.miyo.database.SpDictionary;
 import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.fragment.HomePageFragment;
+import com.firstblood.miyo.fragment.MessageFragment;
 import com.firstblood.miyo.fragment.MineFragment;
 import com.firstblood.miyo.util.RxBus;
 
@@ -81,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		if (loginAct) {//只有登录成功或注册成功，才会执行。
 			if (intentTag.equals(FRAGMENT_TAG[4])) {//未登录时点击“我”，跳转到登录界面（或注册界面），登陆成功（或注册成功）之后回来。
 				mMainTabMineIb.performClick();
+			} else if (intentTag.equals(FRAGMENT_TAG[3])) {//点击“我的消息”
+				mMainTabMessageIb.performClick();
 			}
 		}
 		if (logoutAct) {
@@ -151,12 +154,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			}
 
 		} else if (v == mMainTabMessageIb) {
+			if (SpUtils.getInstance().getModule(SpDictionary.SP_USER) == null) {
+				intentTag = FRAGMENT_TAG[3];
+				intentToLogin();
+				return;
+			}
 			if (currentTag.equals(FRAGMENT_TAG[3])) {
 				return;
 			} else {
 				resetTabImage();
 				currentTag = FRAGMENT_TAG[3];
 				mMainTabMessageIb.setImageResource(R.drawable.iconfont_xiaoxi_checked);
+			}
+			hideAllFragment();
+			Fragment f3 = fragmentManager.findFragmentByTag(FRAGMENT_TAG[3]);
+			if (f3 != null) {
+				fragmentManager.beginTransaction().show(f3).commit();
+			} else {
+				MessageFragment messageFragment = MessageFragment.newInstance();
+				fragmentList.add(messageFragment);
+				fragmentManager.beginTransaction().add(R.id.main_fl, messageFragment, FRAGMENT_TAG[3]).commit();
 			}
 		} else if (v == mMainTabMineIb) {
 			if (SpUtils.getInstance().getModule(SpDictionary.SP_USER) == null) {

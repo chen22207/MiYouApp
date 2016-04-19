@@ -14,11 +14,8 @@ import com.firstblood.miyo.R;
 public class Navigation {
     private FragmentActivity mActivity;
 
-    public Navigation() {
-    }
-
-    public Navigation(FragmentActivity activity) {
-        this.mActivity = activity;
+	private Navigation(FragmentActivity activity) {
+		this.mActivity = activity;
     }
 
     public static Navigation getInstance(FragmentActivity activity) {
@@ -26,8 +23,10 @@ public class Navigation {
     }
 
     public Navigation setBack() {
-        mActivity.findViewById(R.id.base_header_back_iv).setOnClickListener(v -> mActivity.finish());
-        return this;
+	    View view = mActivity.findViewById(R.id.base_header_back_iv);
+	    view.setVisibility(View.VISIBLE);
+	    view.setOnClickListener(v -> mActivity.finish());
+	    return this;
     }
 
     public Navigation setTitle(String title) {

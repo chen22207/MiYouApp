@@ -13,7 +13,9 @@
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true"
 		android:padding="@dimen/middle_space"
-		android:src="@drawable/ic_back_white" />
+		android:src="@drawable/ic_back_white"
+		android:visibility="gone"
+		tools:visibility="visible"/>
 
 	<TextView
         android:id="@+id/base_header_title_tv"
