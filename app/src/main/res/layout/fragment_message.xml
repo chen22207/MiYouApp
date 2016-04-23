@@ -11,16 +11,10 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
-		<android.support.v4.widget.SwipeRefreshLayout
-			android:id="@+id/message_srl"
+		<com.jcodecraeer.xrecyclerview.XRecyclerView
+			android:id="@+id/message_rv"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
-
-			<android.support.v7.widget.RecyclerView
-				android:id="@+id/message_rv"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"/>
-		</android.support.v4.widget.SwipeRefreshLayout>
+			android:layout_height="match_parent"/>
 
 		<RelativeLayout
 			android:id="@+id/message_no_data_rl"

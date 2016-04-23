@@ -4,7 +4,6 @@ package com.firstblood.miyo.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,6 +20,7 @@ import com.firstblood.miyo.R;
 import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.module.Message;
 import com.firstblood.miyo.netservices.MessageServices;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -38,22 +38,19 @@ import rx.schedulers.Schedulers;
  */
 public class MessageFragment extends Fragment {
 
+	private static final int TYPE_REFRESH = 1;
+	private static final int TYPE_LOAD_MORE = 2;
 
 	@InjectView(R.id.base_header_title_tv)
 	TextView mBaseHeaderTitleTv;
 	@InjectView(R.id.message_rv)
-	RecyclerView mMessageRv;
-	@InjectView(R.id.message_srl)
-	SwipeRefreshLayout mMessageSrl;
+	XRecyclerView mMessageRv;
 	@InjectView(R.id.message_no_data_rl)
 	RelativeLayout mMessageNoDataRl;
 
+
 	private final int messageNumber = 20;
-
 	private MyRecyclerAdapter adapter;
-	private LinearLayoutManager layoutManager;
-
-	private boolean isLoading = false;
 
 	public MessageFragment() {
 	}
@@ -73,67 +70,37 @@ public class MessageFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_message, container, false);
 		ButterKnife.inject(this, view);
 		mBaseHeaderTitleTv.setText("消息");
-		layoutManager = new LinearLayoutManager(getActivity());
+		LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		mMessageRv.setLayoutManager(layoutManager);
 		adapter = new MyRecyclerAdapter();
-		adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+		mMessageRv.setAdapter(adapter);
+		mMessageRv.setLoadingListener(new XRecyclerView.LoadingListener() {
 			@Override
-			public void onItemRangeChanged(int positionStart, int itemCount) {
-				super.onItemRangeChanged(positionStart, itemCount);
-				isLoading = false;
+			public void onRefresh() {
+				requestRefresh();
+			}
+
+			@Override
+			public void onLoadMore() {
+				requestMessageList(TYPE_LOAD_MORE);
 			}
 		});
-		mMessageRv.setAdapter(adapter);
-		mMessageRv.addOnScrollListener(onScrollListener);
-		mMessageSrl.setColorSchemeResources(android.R.color.holo_blue_light);
-		mMessageSrl.setOnRefreshListener(onRefreshListener);
 		return view;
 	}
-
-	private SwipeRefreshLayout.OnRefreshListener onRefreshListener = this::requestRefresh;
-
-	private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-		boolean isMesaured = false;
-		boolean isAfterTouch = false;
-
-		@Override
-		public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-			super.onScrollStateChanged(recyclerView, newState);
-			if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-				isAfterTouch = true;
-			}
-		}
-
-		@Override
-		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-			super.onScrolled(recyclerView, dx, dy);
-			int visibleItem = recyclerView.getChildCount();
-			if (visibleItem < adapter.getItemCount() && !isMesaured && isAfterTouch) {
-				adapter.setMinNumberItemShowFooter(adapter.getItemCount());
-				isMesaured = true;
-			}
-
-			int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
-			if (lastVisibleItemPosition == adapter.getItemCount() - 1 && !isLoading) {
-				isLoading = true;
-				requestMessageList();
-			}
-
-		}
-	};
 
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		mMessageSrl.post(() -> mMessageSrl.setRefreshing(true));
-		requestMessageList();
+		requestRefresh();
 	}
 
 	private void requestRefresh() {
-		requestMessageList();
+		adapter.clearData();
+		requestMessageList(TYPE_REFRESH);
 	}
 
-	private void requestMessageList() {
+	private void requestMessageList(int type) {
 		MessageServices services = HttpMethods.getInstance().getClassInstance(MessageServices.class);
 		services.getMessageList(SpUtils.getInstance().getUserId(), messageNumber)
 				.map(new HttpResultFunc<>())
@@ -142,7 +109,11 @@ public class MessageFragment extends Fragment {
 				.subscribe(new Subscriber<List<Message>>() {
 					@Override
 					public void onCompleted() {
-
+						if (type == TYPE_LOAD_MORE) {
+							mMessageRv.loadMoreComplete();
+						} else if (type == TYPE_REFRESH) {
+							mMessageRv.refreshComplete();
+						}
 					}
 
 					@Override
@@ -154,14 +125,17 @@ public class MessageFragment extends Fragment {
 						} else {
 							Toast.makeText(getActivity(), "错误:" + e.getMessage(), Toast.LENGTH_SHORT).show();
 						}
-						mMessageSrl.setRefreshing(false);
+						if (type == TYPE_LOAD_MORE) {
+							mMessageRv.loadMoreComplete();
+						} else if (type == TYPE_REFRESH) {
+							mMessageRv.refreshComplete();
+						}
 					}
 
 					@Override
 					public void onNext(List<Message> messages) {
 						adapter.addData(messages);
 						adapter.notifyDataSetChanged();
-						mMessageSrl.setRefreshing(false);
 						if (messages.isEmpty()) {
 							mMessageNoDataRl.setVisibility(View.VISIBLE);
 						} else {
@@ -172,22 +146,15 @@ public class MessageFragment extends Fragment {
 	}
 
 	private class MyRecyclerAdapter extends RecyclerView.Adapter {
-		private static final int TYPE_ITEM = 1;
-		private static final int TYPE_FOOTER = 2;
-		public static final int DEFAULT_MINNUMBERITEM = 10;
 
-		private int minNumberItemShowFooter = DEFAULT_MINNUMBERITEM;//item个数不小于此数量才显示footer。
 		private List<Message> mMessages;
 
 		public MyRecyclerAdapter() {
 			mMessages = new ArrayList<>();
 		}
 
-		public void setData(List<Message> messages) {
-			if (!messages.isEmpty()) {
-				mMessages.clear();
-				mMessages.addAll(messages);
-			}
+		public void clearData() {
+			this.mMessages.clear();
 		}
 
 		public void addData(List<Message> messages) {
@@ -196,52 +163,26 @@ public class MessageFragment extends Fragment {
 			}
 		}
 
-		public void setMinNumberItemShowFooter(int minNumberItemShowFooter) {
-			this.minNumberItemShowFooter = minNumberItemShowFooter;
-		}
-
-		@Override
-		public int getItemViewType(int position) {
-			if (position == getItemCount() - 1 && getItemCount() > minNumberItemShowFooter) {
-				return TYPE_FOOTER;
-			} else {
-				return TYPE_ITEM;
-			}
-		}
-
 		@Override
 		public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-			if (viewType == TYPE_ITEM) {
-				View v = View.inflate(parent.getContext(), R.layout.listitem_message, null);
-				v.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
-				return new ItemViewHolder(v);
-			}
-			if (viewType == TYPE_FOOTER) {
-				View view = View.inflate(parent.getContext(), R.layout.listitem_footer, null);
-				view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
-				return new FooterViewHolder(view);
-			}
-			return null;
+			View v = View.inflate(parent.getContext(), R.layout.listitem_message, null);
+			v.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+			return new ItemViewHolder(v);
 		}
 
 		@Override
 		public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-			if (holder instanceof ItemViewHolder) {
-				ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-				Message message = mMessages.get(position);
-				itemViewHolder.mListItemMessageTitleTv.setText(message.getType() == 1 ? "合租消息" : "系统消息");
-				itemViewHolder.mListItemMessageTypeIv.setImageResource(message.getType() == 1 ? R.drawable.icon_message_hezu : R.drawable.icon_message_system);
-				itemViewHolder.mListItemMessageContentTv.setText(message.getContent());
-				itemViewHolder.mListItemMessageTimeTv.setText(message.getTime());
-			}
-			if (holder instanceof FooterViewHolder) {
-
-			}
+			ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+			Message message = mMessages.get(position);
+			itemViewHolder.mListItemMessageTitleTv.setText(message.getType() == 1 ? "合租消息" : "系统消息");
+			itemViewHolder.mListItemMessageTypeIv.setImageResource(message.getType() == 1 ? R.drawable.icon_message_hezu : R.drawable.icon_message_system);
+			itemViewHolder.mListItemMessageContentTv.setText(message.getContent());
+			itemViewHolder.mListItemMessageTimeTv.setText(message.getTime());
 		}
 
 		@Override
 		public int getItemCount() {
-			return mMessages.size() > minNumberItemShowFooter ? mMessages.size() + 1 : mMessages.size();
+			return mMessages.size();
 		}
 
 		class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -256,13 +197,6 @@ public class MessageFragment extends Fragment {
 				mListItemMessageTitleTv = (TextView) itemView.findViewById(R.id.list_item_message_title_tv);
 				mListItemMessageContentTv = (TextView) itemView.findViewById(R.id.list_item_message_content_tv);
 				mListItemMessageTimeTv = (TextView) itemView.findViewById(R.id.list_item_message_time_tv);
-			}
-		}
-
-		class FooterViewHolder extends RecyclerView.ViewHolder {
-
-			public FooterViewHolder(View itemView) {
-				super(itemView);
 			}
 		}
 	}

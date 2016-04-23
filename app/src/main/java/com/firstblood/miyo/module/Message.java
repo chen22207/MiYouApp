@@ -21,6 +21,18 @@ public class Message {
 	@SerializedName("houseid")
 	private String houseId;
 
+	public Message(String id, String content, int type, int state, String time, String nickName, String receiveUserId, String sendUserId, String houseId) {
+		this.id = id;
+		this.content = content;
+		this.type = type;
+		this.state = state;
+		this.time = time;
+		this.nickName = nickName;
+		this.receiveUserId = receiveUserId;
+		this.sendUserId = sendUserId;
+		this.houseId = houseId;
+	}
+
 	public String getId() {
 		return id;
 	}

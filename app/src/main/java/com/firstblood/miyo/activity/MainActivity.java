@@ -85,17 +85,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			} else if (intentTag.equals(FRAGMENT_TAG[3])) {//点击“我的消息”
 				mMainTabMessageIb.performClick();
 			}
+			loginAct = false;
 		}
 		if (logoutAct) {
 			mMainTabHomeIb.performClick();
+			logoutAct = false;
 		}
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		loginAct = false;
-		logoutAct = false;
 	}
 
 	@Override
