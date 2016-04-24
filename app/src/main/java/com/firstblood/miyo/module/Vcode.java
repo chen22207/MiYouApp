@@ -1,6 +1,7 @@
 package com.firstblood.miyo.module;
 
 /**
+ * 验证码
  * Created by Administrator on 2016/3/24.
  */
 public class Vcode {

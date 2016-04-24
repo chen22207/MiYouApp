@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 /**
+ * 用户
  * Created by Administrator on 2016/3/18.
  */
 public class User implements Serializable {

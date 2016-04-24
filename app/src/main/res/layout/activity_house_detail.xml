@@ -12,8 +12,9 @@
 		android:orientation="vertical">
 
 		<RelativeLayout
-			android:layout_width="match_parent"
-			android:layout_height="250dp">
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            tools:visibility="gone">
 
 			<ImageView
 				android:id="@+id/house_detail_house_pic_iv"
@@ -265,9 +266,10 @@
 				android:textStyle="bold"/>
 
 			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/middle_space">
 
 				<CheckBox
 					android:id="@+id/house_detail_kuandai_cb"
@@ -296,6 +298,124 @@
 					android:paddingLeft="@dimen/middle_space"
 					android:button="@drawable/icon_ellipse_selector"/>
 			</LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/small_space">
+
+                <CheckBox
+                    android:id="@+id/house_detail_dianshi_cb"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="电视"
+                    android:paddingLeft="@dimen/middle_space"
+                    android:button="@drawable/icon_dianshi_selector"/>
+
+                <CheckBox
+                    android:id="@+id/house_detail_reshuiqi_cb"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="热水器"
+                    android:paddingLeft="@dimen/middle_space"
+                    android:button="@drawable/icon_reshuiqi_selector"/>
+
+                <CheckBox
+                    android:id="@+id/house_detail_kongtiao_cb"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="空调"
+                    android:paddingLeft="@dimen/middle_space"
+                    android:button="@drawable/icon_kongtiao_selector"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/small_space">
+
+                <CheckBox
+                    android:id="@+id/house_detail_menjin_cb"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="门禁"
+                    android:paddingLeft="@dimen/middle_space"
+                    android:button="@drawable/icon_menjin_selector"/>
+
+                <CheckBox
+                    android:id="@+id/house_detail_dianti_cb"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="电梯"
+                    android:paddingLeft="@dimen/middle_space"
+                    android:button="@drawable/icon_dianti_selector"/>
+
+                <CheckBox
+                    android:id="@+id/house_detail_tingche_cb"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="停车位"
+                    android:paddingLeft="@dimen/middle_space"
+                    android:button="@drawable/icon_tingche_selector"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/small_space">
+
+                <CheckBox
+                    android:id="@+id/house_detail_yugang_cb"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="浴缸"
+                    android:paddingLeft="@dimen/middle_space"
+                    android:button="@drawable/icon_yugang_selector"/>
+
+                <CheckBox
+                    android:id="@+id/house_detail_chongwu_cb"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="允许宠物"
+                    android:paddingLeft="@dimen/middle_space"
+                    android:button="@drawable/icon_chongwu_selector"/>
+
+                <CheckBox
+                    android:id="@+id/house_detail_chouyan_cb"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="抽烟"
+                    android:paddingLeft="@dimen/middle_space"
+                    android:button="@drawable/icon_chouyan_selector"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/small_space">
+
+                <CheckBox
+                    android:id="@+id/house_detail_jucan_cb"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="允许聚会"
+                    android:paddingLeft="@dimen/middle_space"
+                    android:button="@drawable/icon_jucan_selector"/>
+            </LinearLayout>
 		</LinearLayout>
 
 

@@ -2,6 +2,8 @@ package com.firstblood.miyo.netservices;
 
 import com.cs.networklibrary.entity.HttpResult;
 import com.firstblood.miyo.module.Message;
+import com.firstblood.miyo.module.MessageDetail;
+import com.firstblood.miyo.module.NoData;
 
 import java.util.List;
 
@@ -16,5 +18,13 @@ import rx.Observable;
 public interface MessageServices {
 	@FormUrlEncoded
 	@POST("getMsgListAPI.aspx")
-	Observable<HttpResult<List<Message>>> getMessageList(@Field("userid") String userId, @Field("count") int count);
+    Observable<HttpResult<List<Message>>> getMessageList(@Field("userid") String userId, @Field("index") int index, @Field("count") int count);
+
+    @FormUrlEncoded
+    @POST("getMsgInfo.aspx")
+    Observable<HttpResult<MessageDetail>> getMessageDetail(@Field("msgid") String msgId);
+
+    @FormUrlEncoded
+    @POST("deleteMsg.aspx")
+    Observable<HttpResult<NoData>> deleteMessage(@Field("msgid") String msgId);
 }
