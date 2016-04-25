@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.firstblood.miyo.R;
+import com.firstblood.miyo.activity.house.HouseSearchActivity;
 import com.firstblood.miyo.activity.other.SettingActivity;
 import com.firstblood.miyo.activity.user.LoginActivity;
 import com.firstblood.miyo.database.SpDictionary;
@@ -147,12 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 				fragmentManager.beginTransaction().add(R.id.main_fl, homePageFragment, FRAGMENT_TAG[1]).commit();
 			}
 		} else if (v == mMainTabSearchIb) {
-			if (currentTag.equals(FRAGMENT_TAG[2])) {
-				return;
-			} else {
-				currentTag = FRAGMENT_TAG[2];
-			}
-
+			startActivity(new Intent(this, HouseSearchActivity.class));
 		} else if (v == mMainTabMessageIb) {
 			if (SpUtils.getInstance().getModule(SpDictionary.SP_USER) == null) {
 				intentTag = FRAGMENT_TAG[3];
