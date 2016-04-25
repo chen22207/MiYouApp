@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+	<include layout="@layout/line_break"/>
+
+	<TextView
+		android:id="@+id/search_order_publish_time_tv"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="@dimen/middle_space"
+		android:text="@string/popup_publish_time_order"/>
+
+	<include layout="@layout/line_break"/>
+
+	<TextView
+		android:id="@+id/search_order_hits_tv"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="@dimen/middle_space"
+		android:text="@string/popup_hits_order"/>
+
+	<include layout="@layout/line_break"/>
+
+	<TextView
+		android:id="@+id/search_order_price_desc_tv"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="@dimen/middle_space"
+		android:text="@string/popup_price_order_desc"/>
+
+	<include layout="@layout/line_break"/>
+
+	<TextView
+		android:id="@+id/search_order_price_asc_tv"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="@dimen/middle_space"
+		android:text="@string/popup_price_order_asc"/>
+
+	<include layout="@layout/line_break"/>
+</LinearLayout>
