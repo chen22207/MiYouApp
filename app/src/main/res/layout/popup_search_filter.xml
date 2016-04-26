@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="@dimen/middle_space"
+		android:layout_marginTop="@dimen/middle_space"
+		android:text="@string/search_filter_price"
+		android:textSize="@dimen/middle_text_size"/>
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:layout_margin="@dimen/middle_space"
+		android:orientation="horizontal">
+
+		<EditText
+			android:id="@+id/search_filter_start_price_et"
+			android:layout_width="100dp"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:inputType="numberDecimal"/>
+
+		<RelativeLayout
+			android:layout_width="40dp"
+			android:layout_height="1dp"
+			android:layout_gravity="center_vertical"
+			android:background="@color/black"/>
+
+		<EditText
+			android:id="@+id/search_filter_end_price_et"
+			android:layout_width="100dp"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:inputType="numberDecimal"/>
+
+	</LinearLayout>
+
+	<include layout="@layout/line_break"/>
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="@dimen/middle_space"
+		android:layout_marginTop="@dimen/middle_space"
+		android:text="@string/search_filter_type"
+		android:textSize="@dimen/middle_text_size"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="@dimen/middle_space"
+		android:orientation="horizontal">
+
+		<RelativeLayout
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1">
+
+			<CheckBox
+				android:id="@+id/search_filter_type_zhengzu_cb"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerInParent="true"
+				android:button="@drawable/icon_hook_selector"
+				android:padding="@dimen/middle_space"
+				android:text="@string/search_filter_type_zhengtao"
+				android:textColor="@drawable/selector_color_checked_blue_black"
+				tools:checked="true"/>
+		</RelativeLayout>
+
+		<RelativeLayout
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1">
+
+			<CheckBox
+				android:id="@+id/search_filter_type_hezu_cb"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerInParent="true"
+				android:button="@drawable/icon_hook_selector"
+				android:padding="@dimen/middle_space"
+				android:text="@string/search_filter_type_hezu"
+				android:textColor="@drawable/selector_color_checked_blue_black"/>
+		</RelativeLayout>
+	</LinearLayout>
+
+	<include layout="@layout/line_break"/>
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="@dimen/middle_space"
+		android:layout_marginTop="@dimen/middle_space"
+		android:text="@string/search_filter_huxing"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="@dimen/middle_space"
+		android:orientation="horizontal">
+
+		<RelativeLayout
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1">
+
+			<CheckBox
+				android:id="@+id/search_filter_yishi_cb"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:button="@drawable/icon_hook_selector"
+				android:padding="@dimen/middle_space"
+				android:text="一室"
+				android:textColor="@drawable/selector_color_checked_blue_black"/>
+		</RelativeLayout>
+
+		<RelativeLayout
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1">
+
+			<CheckBox
+				android:id="@+id/search_filter_ershi_cb"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:button="@drawable/icon_hook_selector"
+				android:padding="@dimen/middle_space"
+				android:text="二室"
+				android:textColor="@drawable/selector_color_checked_blue_black"/>
+		</RelativeLayout>
+
+		<RelativeLayout
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1">
+
+			<CheckBox
+				android:id="@+id/search_filter_sanshi_cb"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:button="@drawable/icon_hook_selector"
+				android:padding="@dimen/middle_space"
+				android:text="三室"
+				android:textColor="@drawable/selector_color_checked_blue_black"/>
+		</RelativeLayout>
+
+		<RelativeLayout
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1.5">
+
+			<CheckBox
+				android:id="@+id/search_filter_sishi_cb"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:button="@drawable/icon_hook_selector"
+				android:padding="@dimen/middle_space"
+				android:text="四室以上"
+				android:textColor="@drawable/selector_color_checked_blue_black"/>
+		</RelativeLayout>
+	</LinearLayout>
+
+	<include layout="@layout/line_break"/>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"/>
+
+	<include layout="@layout/line_break"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+
+		<Button
+			android:id="@+id/search_filter_clear_bt"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_margin="@dimen/middle_space"
+			android:layout_weight="1"
+			android:background="@drawable/shape_blue_rectangle_border_bg"
+			android:text="清除筛选"
+			android:textColor="@color/colorPrimary"/>
+
+		<Button
+			android:id="@+id/search_filter_confirm_bt"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_margin="@dimen/middle_space"
+			android:layout_weight="1"
+			android:background="@drawable/shape_blue_rectangle_border_bg"
+			android:text="确定"
+			android:textColor="@color/colorPrimary"/>
+	</LinearLayout>
+
+</LinearLayout>

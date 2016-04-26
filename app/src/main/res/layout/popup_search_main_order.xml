@@ -41,4 +41,10 @@
 		android:text="@string/popup_price_order_asc"/>
 
 	<include layout="@layout/line_break"/>
+
+	<RelativeLayout
+		android:id="@+id/search_order_outside_rl"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/transparent_50_black"/>
 </LinearLayout>

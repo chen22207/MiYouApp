@@ -87,5 +87,10 @@
 	<string name="popup_hits_order">按点击率</string>
 	<string name="popup_price_order_desc">按价格从高到低</string>
 	<string name="popup_price_order_asc">按价格从低到高</string>
+	<string name="search_filter_price">价格区间（元）</string>
+	<string name="search_filter_type">出租类型</string>
+	<string name="search_filter_type_zhengtao">整套出租</string>
+	<string name="search_filter_type_hezu">合租房间</string>
+	<string name="search_filter_huxing">房屋户型</string>
 
 </resources>
