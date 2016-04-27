@@ -9,10 +9,10 @@
 
 	<android.support.v7.widget.Toolbar
 		android:id="@+id/house_search_tb"
+		style="@style/AppTheme.AppBarOverlay"
 		android:layout_width="match_parent"
 		android:layout_height="?attr/actionBarSize"
-		android:background="@color/colorPrimary"
-		style="@style/AppTheme.AppBarOverlay"/>
+		android:background="@color/colorPrimary"/>
 
 	<include layout="@layout/line_break"/>
 
@@ -20,8 +20,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
-		android:paddingTop="@dimen/middle_space"
-		android:paddingBottom="@dimen/middle_space">
+		android:paddingBottom="@dimen/middle_space"
+		android:paddingTop="@dimen/middle_space">
 
 		<RelativeLayout
 			android:layout_width="0dp"
@@ -33,10 +33,11 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_centerInParent="true"
-				android:drawableRight="@drawable/icon_arrow_up_black"
 				android:drawablePadding="@dimen/small_space"
-				android:textSize="@dimen/middle_text_size"
-				android:text="@string/search_time_order"/>
+				android:drawableRight="@drawable/icon_arrow_up_black"
+				android:gravity="center"
+				android:text="@string/search_time_order"
+				android:textSize="@dimen/middle_text_size"/>
 		</RelativeLayout>
 
 		<RelativeLayout
@@ -49,8 +50,8 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_centerInParent="true"
-				android:textSize="@dimen/middle_text_size"
-				android:text="@string/search_location_select"/>
+				android:text="@string/search_location_select"
+				android:textSize="@dimen/middle_text_size"/>
 		</RelativeLayout>
 
 		<RelativeLayout
@@ -63,17 +64,37 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_centerInParent="true"
-				android:textSize="@dimen/middle_text_size"
-				android:drawableRight="@drawable/icon_arrow_up_black"
 				android:drawablePadding="@dimen/small_space"
-				android:text="@string/search_filter"/>
+				android:drawableRight="@drawable/icon_arrow_up_black"
+				android:text="@string/search_filter"
+				android:textSize="@dimen/middle_text_size"/>
 		</RelativeLayout>
 	</LinearLayout>
 
 	<include layout="@layout/line_break"/>
 
-	<com.jcodecraeer.xrecyclerview.XRecyclerView
-		android:id="@+id/search_xrv"
+	<FrameLayout
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"/>
+		android:layout_height="match_parent">
+
+		<com.jcodecraeer.xrecyclerview.XRecyclerView
+			android:id="@+id/search_xrv"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"/>
+
+		<RelativeLayout
+			android:id="@+id/search_no_data_rl"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:visibility="gone">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerInParent="true"
+				android:text="暂无消息"
+				android:textSize="@dimen/large_text_size"/>
+		</RelativeLayout>
+
+	</FrameLayout>
 </LinearLayout>

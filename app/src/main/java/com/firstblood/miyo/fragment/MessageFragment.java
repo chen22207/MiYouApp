@@ -22,6 +22,7 @@ import com.firstblood.miyo.R;
 import com.firstblood.miyo.activity.message.MessageDetailActivity;
 import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.module.Message;
+import com.firstblood.miyo.module.MessageModule;
 import com.firstblood.miyo.netservices.MessageServices;
 import com.firstblood.miyo.subscribers.ProgressSubscriber;
 import com.firstblood.miyo.util.AlertMessageUtil;
@@ -47,16 +48,13 @@ public class MessageFragment extends Fragment {
 
     private static final int TYPE_REFRESH = 1;
     private static final int TYPE_LOAD_MORE = 2;
-
-    @InjectView(R.id.base_header_title_tv)
+	private final int msgCount = 15;
+	@InjectView(R.id.base_header_title_tv)
     TextView mBaseHeaderTitleTv;
     @InjectView(R.id.message_rv)
     XRecyclerView mMessageRv;
     @InjectView(R.id.message_no_data_rl)
     RelativeLayout mMessageNoDataRl;
-
-
-    private final int msgCount = 20;
     private int index = 0;
     private MyRecyclerAdapter adapter;
     private MessageServices services;
@@ -117,7 +115,6 @@ public class MessageFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mMessageRv.setRefreshing(true);
-        requestRefresh();
     }
 
     private void requestRefresh() {
@@ -136,8 +133,8 @@ public class MessageFragment extends Fragment {
                 .map(new HttpResultFunc<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Message>>() {
-                    @Override
+		        .subscribe(new Subscriber<MessageModule>() {
+			        @Override
                     public void onCompleted() {
 
                     }
@@ -159,19 +156,19 @@ public class MessageFragment extends Fragment {
                     }
 
                     @Override
-                    public void onNext(List<Message> messages) {
-                        adapter.addData(messages);
-                        adapter.notifyDataSetChanged();
+                    public void onNext(MessageModule message) {
+	                    adapter.addData(message.getData());
+	                    adapter.notifyDataSetChanged();
                         if (type == TYPE_LOAD_MORE) {
                             mMessageRv.loadMoreComplete();
-                            if (messages.isEmpty()) {
-                                AlertMessageUtil.showAlert(getActivity(), "没有更多了");
+	                        if (message.getData().isEmpty()) {
+		                        AlertMessageUtil.showAlert(getActivity(), "没有更多了");
                                 mMessageRv.setLoadingMoreEnabled(false);
                             }
                         } else if (type == TYPE_REFRESH) {
                             mMessageRv.refreshComplete();
-                            if (messages.isEmpty()) {
-                                mMessageNoDataRl.setVisibility(View.VISIBLE);
+	                        if (message.getData().isEmpty()) {
+		                        mMessageNoDataRl.setVisibility(View.VISIBLE);
                             } else {
                                 mMessageNoDataRl.setVisibility(View.GONE);
                                 mMessageRv.setLoadingMoreEnabled(true);
@@ -182,84 +179,11 @@ public class MessageFragment extends Fragment {
                 });
     }
 
-    private class MyRecyclerAdapter extends RecyclerView.Adapter {
-
-        private List<Message> mMessages;
-
-        public MyRecyclerAdapter() {
-            mMessages = new ArrayList<>();
-        }
-
-        public void clearData() {
-            this.mMessages.clear();
-        }
-
-        public void addData(List<Message> messages) {
-            if (!messages.isEmpty()) {
-                mMessages.addAll(messages);
-            }
-        }
-
-        public List<Message> getData() {
-            return this.mMessages;
-        }
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = View.inflate(parent.getContext(), R.layout.listitem_message, null);
-            v.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
-            return new ItemViewHolder(v);
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-            Message message = mMessages.get(position);
-            itemViewHolder.mListItemMessageTitleTv.setText((message.getType() == 1 ? "合租消息" : "系统消息") + "--" + (message.getState() == 0 ? "未读" : "已读"));
-            itemViewHolder.mListItemMessageTypeIv.setImageResource(message.getType() == 1 ? R.drawable.icon_message_hezu : R.drawable.icon_message_system);
-            itemViewHolder.mListItemMessageContentTv.setText(message.getContent());
-            itemViewHolder.mListItemMessageTimeTv.setText(message.getTime());
-            itemViewHolder.itemView.setOnClickListener(v -> intentToDetail(message.getId()));
-            itemViewHolder.itemView.setOnLongClickListener(v -> {
-                new AlertDialog.Builder(getActivity())
-                        .setTitle("确认删除此消息？")
-                        .setPositiveButton("删除", (dialog, which) -> {
-                            requestDeleteMsg(message.getId());
-                            dialog.dismiss();
-                        })
-                        .setNegativeButton("取消", (dialog, which) -> dialog.dismiss())
-                        .show();
-                return true;
-            });
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return mMessages.size();
-        }
-
-        class ItemViewHolder extends RecyclerView.ViewHolder {
-            ImageView mListItemMessageTypeIv;
-            TextView mListItemMessageTitleTv;
-            TextView mListItemMessageContentTv;
-            TextView mListItemMessageTimeTv;
-
-            public ItemViewHolder(View itemView) {
-                super(itemView);
-                mListItemMessageTypeIv = (ImageView) itemView.findViewById(R.id.list_item_message_type_iv);
-                mListItemMessageTitleTv = (TextView) itemView.findViewById(R.id.list_item_message_title_tv);
-                mListItemMessageContentTv = (TextView) itemView.findViewById(R.id.list_item_message_content_tv);
-                mListItemMessageTimeTv = (TextView) itemView.findViewById(R.id.list_item_message_time_tv);
-            }
-        }
-    }
-
-    private void intentToDetail(String msgId) {
-        Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
-        intent.putExtra("msgId", msgId);
-        getActivity().startActivity(intent);
-    }
+	private void intentToDetail(String msgId) {
+		Intent intent = new Intent(getActivity(), MessageDetailActivity.class);
+		intent.putExtra("msgId", msgId);
+		getActivity().startActivity(intent);
+	}
 
     private void requestDeleteMsg(String msgId) {
         services.deleteMessage(msgId)
@@ -284,5 +208,78 @@ public class MessageFragment extends Fragment {
         if (!subscribe.isUnsubscribed()) {
             subscribe.unsubscribe();
         }
+    }
+
+	private class MyRecyclerAdapter extends RecyclerView.Adapter {
+
+		private List<Message> mMessages;
+
+		public MyRecyclerAdapter() {
+			mMessages = new ArrayList<>();
+		}
+
+		public void clearData() {
+			this.mMessages.clear();
+		}
+
+		public void addData(List<Message> messages) {
+			if (!messages.isEmpty()) {
+				mMessages.addAll(messages);
+			}
+		}
+
+		public List<Message> getData() {
+			return this.mMessages;
+		}
+
+		@Override
+		public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+			View v = View.inflate(parent.getContext(), R.layout.listitem_message, null);
+			v.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+			return new ItemViewHolder(v);
+		}
+
+		@Override
+		public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+			ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+			Message message = mMessages.get(position);
+			itemViewHolder.mListItemMessageTitleTv.setText((message.getType() == 1 ? "合租消息" : "系统消息") + "--" + (message.getState() == 0 ? "未读" : "已读"));
+			itemViewHolder.mListItemMessageTypeIv.setImageResource(message.getType() == 1 ? R.drawable.icon_message_hezu : R.drawable.icon_message_system);
+			itemViewHolder.mListItemMessageContentTv.setText(message.getContent());
+			itemViewHolder.mListItemMessageTimeTv.setText(message.getTime());
+			itemViewHolder.itemView.setOnClickListener(v -> intentToDetail(message.getId()));
+			itemViewHolder.itemView.setOnLongClickListener(v -> {
+				new AlertDialog.Builder(getActivity())
+						.setTitle("确认删除此消息？")
+						.setPositiveButton("删除", (dialog, which) -> {
+							requestDeleteMsg(message.getId());
+							dialog.dismiss();
+						})
+						.setNegativeButton("取消", (dialog, which) -> dialog.dismiss())
+						.show();
+				return true;
+			});
+
+		}
+
+		@Override
+		public int getItemCount() {
+			return mMessages.size();
+		}
+
+		class ItemViewHolder extends RecyclerView.ViewHolder {
+			ImageView mListItemMessageTypeIv;
+			TextView mListItemMessageTitleTv;
+			TextView mListItemMessageContentTv;
+			TextView mListItemMessageTimeTv;
+
+			public ItemViewHolder(View itemView) {
+				super(itemView);
+				mListItemMessageTypeIv = (ImageView) itemView.findViewById(R.id.list_item_message_type_iv);
+				mListItemMessageTitleTv = (TextView) itemView.findViewById(R.id.list_item_message_title_tv);
+				mListItemMessageContentTv = (TextView) itemView.findViewById(R.id.list_item_message_content_tv);
+				mListItemMessageTimeTv = (TextView) itemView.findViewById(R.id.list_item_message_time_tv);
+			}
+		}
     }
 }

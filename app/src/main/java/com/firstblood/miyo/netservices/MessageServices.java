@@ -1,11 +1,9 @@
 package com.firstblood.miyo.netservices;
 
 import com.cs.networklibrary.entity.HttpResult;
-import com.firstblood.miyo.module.Message;
 import com.firstblood.miyo.module.MessageDetail;
+import com.firstblood.miyo.module.MessageModule;
 import com.firstblood.miyo.module.NoData;
-
-import java.util.List;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -18,7 +16,7 @@ import rx.Observable;
 public interface MessageServices {
 	@FormUrlEncoded
 	@POST("getMsgListAPI.aspx")
-    Observable<HttpResult<List<Message>>> getMessageList(@Field("userid") String userId, @Field("index") int index, @Field("count") int count);
+	Observable<HttpResult<MessageModule>> getMessageList(@Field("userid") String userId, @Field("index") int index, @Field("count") int count);
 
     @FormUrlEncoded
     @POST("getMsgInfo.aspx")
