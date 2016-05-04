@@ -8,6 +8,8 @@ import android.widget.CheckBox;
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.util.Navigation;
 
+import java.util.HashMap;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -40,14 +42,36 @@ public class PublishActivity3 extends AppCompatActivity {
     @InjectView(R.id.publish_match_jucan)
     CheckBox publishMatchJucan;
 
+	private HashMap<String, Object> dataMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish3);
         ButterKnife.inject(this);
-        Navigation.getInstance(this).setBack().setTitle(getString(R.string.title_publish3)).setRight(getString(R.string.publish_next), v -> {
+	    dataMap = (HashMap<String, Object>) getIntent().getSerializableExtra("dataMap");
+	    Navigation.getInstance(this).setBack().setTitle(getString(R.string.title_publish3)).setRight(getString(R.string.publish_next), v -> {
             Intent intent = new Intent(this, PublishActivity4.class);
-            startActivity(intent);
+	        setData();
+	        intent.putExtra("dataMap", dataMap);
+		    startActivity(intent);
         });
     }
+
+	private void setData() {
+		dataMap.put("wifi", publishMatchKuandai.isChecked() ? 1 : 0);
+		dataMap.put("heater", publishMatchReshuiqi.isChecked() ? 1 : 0);
+		dataMap.put("television", publishMatchDianshi.isChecked() ? 1 : 0);
+		dataMap.put("airconditioner", publishMatchKongtiao.isChecked() ? 1 : 0);
+		dataMap.put("refrigerator", publishMatchBingxiang.isChecked() ? 1 : 0);
+		dataMap.put("washingmachine", publishMatchXiyiji.isChecked() ? 1 : 0);
+		dataMap.put("elevator", publishMatchDianti.isChecked() ? 1 : 0);
+		dataMap.put("accesscontrol", publishMatchMenjin.isChecked() ? 1 : 0);
+		dataMap.put("parkingspace", publishMatchTingche.isChecked() ? 1 : 0);
+		dataMap.put("smoking", publishMatchChouyan.isChecked() ? 1 : 0);
+		dataMap.put("bathtub", publishMatchYugang.isChecked() ? 1 : 0);
+		dataMap.put("keepingpets", publishMatchChongwu.isChecked() ? 1 : 0);
+		dataMap.put("paty", publishMatchJucan.isChecked() ? 1 : 0);
+
+	}
 }

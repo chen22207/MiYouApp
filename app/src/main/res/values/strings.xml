@@ -46,7 +46,7 @@
 	<string name="publish_zhengzu_hint">出租您的整套房子</string>
 	<string name="publish_hezu">合租</string>
 	<string name="publish_hezu_hint">出租您的单间房子</string>
-	<string name="publish_house_type">您要出租的户型</string>
+	<string name="publish_house_type">出租的户型</string>
 	<string name="publish_house_type_shi">室</string>
 	<string name="publish_house_type_ting">厅</string>
 	<string name="publish_house_type_wei">卫</string>
@@ -92,5 +92,7 @@
 	<string name="search_filter_type_zhengtao">整套出租</string>
 	<string name="search_filter_type_hezu">合租房间</string>
 	<string name="search_filter_huxing">房屋户型</string>
+	<string name="pulish_house_mianji">房源面积</string>
+	<string name="publish_house_chaoxiang">房源朝向</string>
 
 </resources>

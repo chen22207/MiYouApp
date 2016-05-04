@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.firstblood.miyo.R;
+import com.firstblood.miyo.activity.MapActivity;
 import com.firstblood.miyo.activity.other.SettingActivity;
 import com.firstblood.miyo.activity.publish.PublishActivity1;
 import com.firstblood.miyo.activity.user.UserInfoCompleteActivity;
@@ -30,11 +31,6 @@ public class MineFragment extends Fragment {
 
     @InjectView(R.id.mine_publish_bt)
     Button minePublishBt;
-
-    public static MineFragment newInstance() {
-        return new MineFragment();
-    }
-
     @InjectView(R.id.mine_header_iv)
     CircleImageView mMineHeaderIv;
     @InjectView(R.id.mine_username_tv)
@@ -45,9 +41,12 @@ public class MineFragment extends Fragment {
     TextView mMinePublishTv;
     @InjectView(R.id.mine_setting_tv)
     TextView mMineSettingTv;
-
     private RxBus bus;
 	private User user;
+
+	public static MineFragment newInstance() {
+		return new MineFragment();
+	}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,7 +78,8 @@ public class MineFragment extends Fragment {
                 getActivity().startActivity(new Intent(getActivity(), UserInfoCompleteActivity.class));
                 break;
             case R.id.mine_publish_tv:
-                break;
+	            getActivity().startActivityForResult(new Intent(getActivity(), MapActivity.class), 1);
+	            break;
             case R.id.mine_setting_tv:
 	            startActivity(new Intent(getActivity(), SettingActivity.class));
 	            break;

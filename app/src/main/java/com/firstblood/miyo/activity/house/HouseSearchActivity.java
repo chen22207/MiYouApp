@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -64,16 +66,20 @@ public class HouseSearchActivity extends AppCompatActivity {
 
 	private int provinceOption = 10, cityOption = 2, zoneOption = 4;//代表杭州西湖区。
 	private OptionsPickerView<String> optionsPickerView;
-	private SearchSort currentSort = SearchSort.PUBLISH;
+	private SearchSort currentSort = SearchSort.PUBLISH_TIME;
 
 	private PopupWindow sortPw;
 	private PopupWindow filterPw;
-	private double startPrice;
-	private double endPrice;
+	private int minPrice;
+	private int maxPrice;
 	private FilterType currentFilterType = FilterType.NONE;
 	private ShiType currentShiType = ShiType.NONE;
 	private String locationStr;
+	private String searchText;
 	private MyAdapter adapter;
+
+	private int index = 0;
+	private int count = 20;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +91,9 @@ public class HouseSearchActivity extends AppCompatActivity {
 		mHouseSearchTb.setNavigationIcon(R.drawable.ic_back_white);
 		mHouseSearchTb.setNavigationOnClickListener(v -> finish());
 		adapter = new MyAdapter(this);
+		LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+		mSearchXrv.setLayoutManager(layoutManager);
 		mSearchXrv.setAdapter(adapter);
 		mSearchXrv.setLoadingListener(new XRecyclerView.LoadingListener() {
 			@Override
@@ -114,6 +123,7 @@ public class HouseSearchActivity extends AppCompatActivity {
 
 					@Override
 					public void onError(Throwable e) {
+						AlertMessageUtil.showAlert(HouseSearchActivity.this, e.getMessage());
 						if (type == Constant.TYPE_REFRESH) {
 							mSearchXrv.refreshComplete();
 						} else if (type == Constant.TYPE_LOADMORE) {
@@ -125,7 +135,6 @@ public class HouseSearchActivity extends AppCompatActivity {
 					public void onNext(HouseSearchModule houseSearchModule) {
 						if (type == Constant.TYPE_REFRESH) {
 							adapter.clearData();
-							mSearchXrv.refreshComplete();
 							if (houseSearchModule.getData().isEmpty()) {
 								mSearchNoDataRl.setVisibility(View.VISIBLE);
 							} else {
@@ -134,6 +143,7 @@ public class HouseSearchActivity extends AppCompatActivity {
 								mSearchXrv.setLoadingMoreEnabled(true);
 							}
 							adapter.notifyDataSetChanged();
+							mSearchXrv.refreshComplete();
 						} else if (type == Constant.TYPE_LOADMORE) {
 							adapter.addData(houseSearchModule.getData());
 							adapter.notifyDataSetChanged();
@@ -147,12 +157,70 @@ public class HouseSearchActivity extends AppCompatActivity {
 				});
 	}
 
-	private HashMap<String, String> getMap() {
-		HashMap<String, String> map = new HashMap<>();
-		if (locationStr != null) {
+	private HashMap<String, Object> getMap() {
+		HashMap<String, Object> map = new HashMap<>();
+		if (!TextUtils.isEmpty(locationStr)) {
 			map.put("city", locationStr);
 		}
-
+		if (!TextUtils.isEmpty(searchText)) {
+			map.put("search", searchText);
+		}
+		int filterType = 0;
+		switch (currentFilterType) {
+			case NONE:
+				filterType = 0;
+				break;
+			case ZHENGZU:
+				filterType = 1;
+				break;
+			case HEZU:
+				filterType = 2;
+				break;
+		}
+		map.put("isflatshare", filterType);
+		int shiType = 0;
+		switch (currentShiType) {
+			case NONE:
+				shiType = 0;
+				break;
+			case YISHI:
+				shiType = 1;
+				break;
+			case LIANGSHI:
+				shiType = 2;
+				break;
+			case SANSHI:
+				shiType = 3;
+				break;
+			case SISHI:
+				shiType = 4;
+				break;
+		}
+		map.put("specification", shiType);
+		map.put("index", index);
+		map.put("count", count);
+		if (minPrice != 0) {
+			map.put("pricemin", minPrice);
+		}
+		if (maxPrice != 0) {
+			map.put("pricemax", maxPrice);
+		}
+		int sortType = 1001;
+		switch (currentSort) {
+			case PUBLISH_TIME:
+				sortType = 1001;
+				break;
+			case HITS:
+				sortType = 1002;
+				break;
+			case PRICE_ASC:
+				sortType = 1003;
+				break;
+			case PRICE_DESC:
+				sortType = 1004;
+				break;
+		}
+		map.put("sortype", sortType);
 		return map;
 	}
 
@@ -206,7 +274,7 @@ public class HouseSearchActivity extends AppCompatActivity {
 		TextView priceAscTv = (TextView) v.findViewById(R.id.search_order_price_asc_tv);
 		RelativeLayout outsideRl = (RelativeLayout) v.findViewById(R.id.search_order_outside_rl);
 		publishTimeTv.setOnClickListener(v1 -> {
-			currentSort = SearchSort.PUBLISH;
+			currentSort = SearchSort.PUBLISH_TIME;
 			mSearchMainOrderTv.setText(getString(R.string.popup_publish_time_order));
 			sortPw.dismiss();
 		});
@@ -228,7 +296,7 @@ public class HouseSearchActivity extends AppCompatActivity {
 		outsideRl.setOnClickListener(v1 -> sortPw.dismiss());
 		final int color = ContextCompat.getColor(this, R.color.colorPrimary);
 		switch (currentSort) {
-			case PUBLISH:
+			case PUBLISH_TIME:
 				publishTimeTv.setTextColor(color);
 				break;
 			case HITS:
@@ -345,8 +413,8 @@ public class HouseSearchActivity extends AppCompatActivity {
 			resetCb(zhengzuCb, hezuCb, yishiCb, liangshiCb, sanshiCb, sishiCb);
 		});
 		confirmBt.setOnClickListener(v2 -> {
-			startPrice = Double.parseDouble(startPriceEt.getText().toString());
-			endPrice = Double.parseDouble(endPriceEt.getText().toString());
+			minPrice = Integer.parseInt(startPriceEt.getText().toString());
+			maxPrice = Integer.parseInt(endPriceEt.getText().toString());
 			if (zhengzuCb.isChecked()) {
 				currentFilterType = FilterType.ZHENGZU;
 			} else if (hezuCb.isChecked()) {
@@ -393,7 +461,7 @@ public class HouseSearchActivity extends AppCompatActivity {
 	}
 
 	private enum SearchSort {
-		PUBLISH, HITS, PRICE_DESC, PRICE_ASC
+		PUBLISH_TIME, HITS, PRICE_DESC, PRICE_ASC
 	}
 
 	private enum FilterType {//整租、合租、不选
@@ -406,12 +474,13 @@ public class HouseSearchActivity extends AppCompatActivity {
 
 	private class MyAdapter extends XRecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-		private ArrayList<HouseSearch> houseSearches = new ArrayList<>();
+		private ArrayList<HouseSearch> houseSearches;
 
 		private Context context;
 
 		public MyAdapter(Context context) {
 			this.context = context;
+			houseSearches = new ArrayList<>();
 		}
 
 		public void addData(ArrayList<HouseSearch> searches) {

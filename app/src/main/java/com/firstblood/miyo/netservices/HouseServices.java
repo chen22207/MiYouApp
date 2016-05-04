@@ -16,5 +16,5 @@ import rx.Observable;
 public interface HouseServices {
 	@FormUrlEncoded
 	@POST("getHousesAPI.aspx")
-	Observable<HttpResult<HouseSearchModule>> getHouses(@FieldMap HashMap<String, String> map);
+	Observable<HttpResult<HouseSearchModule>> getHouses(@FieldMap HashMap<String, Object> map);
 }
