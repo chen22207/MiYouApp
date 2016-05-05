@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_vertical"
+              android:orientation="horizontal">
+
+	<ImageView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:padding="@dimen/large_space"
+		android:src="@drawable/icon_poi_location"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:padding="@dimen/middle_space">
+
+		<TextView
+			android:id="@+id/listitem_map_poi_title_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:ellipsize="end"
+			android:singleLine="true"
+			android:textColor="@color/colorPrimary"
+			android:textSize="@dimen/large_text_size"
+			android:textStyle="bold"
+			tools:text="菜鸟驿站（xxxxx)"/>
+
+		<TextView
+			android:id="@+id/listitem_map_poi_des_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:ellipsize="end"
+			android:singleLine="true"
+			tools:text="文汇路就打开附件是开机后付款"/>
+	</LinearLayout>
+</LinearLayout>

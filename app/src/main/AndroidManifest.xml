@@ -14,9 +14,6 @@
 	<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
 	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
 
-	<meta-data
-		android:name="com.amap.api.v2.apikey"
-		android:value="2abd573bd5b2abb533cf0f1bdedd196c"/>
 
 	<application
 		android:name=".application.MainApplication"
@@ -25,6 +22,11 @@
 		android:label="@string/app_name"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
+		<meta-data
+			android:name="com.amap.api.v2.apikey"
+			android:value="4d842ed85a97431a1ed20cdbbbd7c053"/>
+		<service android:name="com.amap.api.location.APSService"/>
+
 		<activity
 			android:name=".activity.MainActivity"
 			android:screenOrientation="portrait"
