@@ -35,6 +35,7 @@ import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
+import com.cs.widget.recyclerview.RecyclerViewDivider;
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.util.AlertMessageUtil;
 import com.orhanobut.logger.Logger;
@@ -75,6 +76,7 @@ public class MapActivity extends AppCompatActivity implements LocationSource, AM
 		LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		mMapRv.setLayoutManager(layoutManager);
+		mMapRv.addItemDecoration(new RecyclerViewDivider(this, LinearLayoutManager.VERTICAL));
 		adapter = new MyAdapter();
 		mMapRv.setAdapter(adapter);
 	}
@@ -111,7 +113,7 @@ public class MapActivity extends AppCompatActivity implements LocationSource, AM
 			locationClientOption = new AMapLocationClientOption();
 			locationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
 			locationClientOption.setNeedAddress(true);
-			locationClientOption.setGpsFirst(true);
+			locationClientOption.setGpsFirst(false);
 			locationClient.setLocationListener(this);
 			locationClient.setLocationOption(locationClientOption);
 			locationClient.startLocation();
@@ -204,7 +206,7 @@ public class MapActivity extends AppCompatActivity implements LocationSource, AM
 	}
 
 	private void searchAround(LatLng latLng) {
-		PoiSearch.Query query = new PoiSearch.Query("", "", "");
+		PoiSearch.Query query = new PoiSearch.Query("", "公司企业|商务住宅|道路附属设施|地名地址信息|公共设施", "");
 		query.setPageSize(10);
 		query.setPageNum(1);
 		PoiSearch search = new PoiSearch(this, query);
@@ -242,8 +244,8 @@ public class MapActivity extends AppCompatActivity implements LocationSource, AM
 		public void onBindViewHolder(ViewHolder holder, int position) {
 			ViewHolder h = holder;
 			PoiItem item = aroundPois.get(position);
-			h.title.setText(item.getAdName());
-			h.description.setText(item.getTitle());
+			h.title.setText(item.getTitle());
+			h.description.setText(item.getSnippet());
 		}
 
 		@Override
