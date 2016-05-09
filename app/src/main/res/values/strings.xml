@@ -94,5 +94,13 @@
 	<string name="search_filter_huxing">房屋户型</string>
 	<string name="pulish_house_mianji">房源面积</string>
 	<string name="publish_house_chaoxiang">房源朝向</string>
+	<string name="publish5_house_title">房源标题</string>
+	<string name="publish5_house_title_hint">为您的房源拟写标题</string>
+	<string name="publish5_house_description">房源描述</string>
+	<string name="publish5_house_description_hint">为您的房源拟写标题</string>
+	<string name="publish5_delete">删除</string>
+	<string name="publish5_publish">发布房源</string>
+	<string name="publish2_zhuangxiu">装修程度</string>
+
 
 </resources>

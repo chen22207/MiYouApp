@@ -11,6 +11,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:background="@color/colorPrimary"
+		android:focusable="true"
+		android:focusableInTouchMode="true"
 		android:orientation="horizontal">
 
 		<ImageView
@@ -20,21 +22,43 @@
 			android:padding="@dimen/large_space"
 			android:src="@drawable/ic_back_white"/>
 
-		<SearchView
-			android:id="@+id/map_sv"
+		<EditText
+			android:id="@+id/map_search_et"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"/>
+			android:layout_height="wrap_content"
+			android:drawableLeft="@drawable/iconfont_search_small"
+			android:textColor="@color/white"/>
 	</LinearLayout>
 
-	<com.amap.api.maps2d.MapView
-		android:id="@+id/map_view"
+	<FrameLayout
 		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:layout_weight="5"/>
+		android:layout_height="match_parent">
 
-	<android.support.v7.widget.RecyclerView
-		android:id="@+id/map_rv"
-		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:layout_weight="4"/>
+		<LinearLayout
+			android:id="@+id/map_main_ll"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical">
+
+			<com.amap.api.maps2d.MapView
+				android:id="@+id/map_view"
+				android:layout_width="match_parent"
+				android:layout_height="0dp"
+				android:layout_weight="5"/>
+
+			<android.support.v7.widget.RecyclerView
+				android:id="@+id/map_rv"
+				android:layout_width="match_parent"
+				android:layout_height="0dp"
+				android:layout_weight="4"/>
+		</LinearLayout>
+
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/map_search_rv"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:visibility="gone"/>
+	</FrameLayout>
+
+
 </LinearLayout>

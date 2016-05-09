@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import com.cs.networklibrary.util.PropertiesUtil;
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.module.User;
 import com.isseiaoki.simplecropview.util.Utils;
@@ -40,7 +41,7 @@ public class CommonUtils {
 		} else {
 			if (!TextUtils.isEmpty(user.getHeadImg())) {
 				Picasso.with(context)
-						.load(user.getHeadImg())
+						.load(PropertiesUtil.getProperty("QINIU_URL") + "/" + user.getHeadImg())
 						.placeholder(R.drawable.icon_default_head_img)
 						.tag(MultiImageSelectorFragment.TAG)
 						.centerCrop()

@@ -7,15 +7,20 @@ import android.view.View;
 
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.util.Navigation;
+import com.firstblood.miyo.util.RxBus;
 
 import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscription;
 
 public class PublishActivity1 extends AppCompatActivity {
 
 	private HashMap<String, String> dataMap;
+
+	private RxBus bus;
+	private Subscription mSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,8 @@ public class PublishActivity1 extends AppCompatActivity {
         ButterKnife.inject(this);
         Navigation.getInstance(this).setBack().setTitle(getString(R.string.title_publish1));
 	    dataMap = new HashMap<>();
+	    bus = RxBus.getInstance();
+	    mSubscription = bus.toObserverable(PublishActivity5.publishSucceed.class).subscribe(publishSucceed -> finish());
     }
 
     @OnClick({R.id.publish_zhengzu_rl, R.id.publish_hezu_rl})
@@ -40,4 +47,12 @@ public class PublishActivity1 extends AppCompatActivity {
 	    intent.putExtra("dataMap", dataMap);
 	    startActivity(intent);
     }
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (!mSubscription.isUnsubscribed()) {
+			mSubscription.unsubscribe();
+		}
+	}
 }

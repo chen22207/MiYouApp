@@ -35,6 +35,8 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_centerInParent="true"
+					android:focusable="true"
+					android:focusableInTouchMode="true"
 					android:gravity="center_vertical"
 					android:orientation="horizontal">
 
@@ -45,7 +47,8 @@
 						android:layout_margin="@dimen/middle_space"
 						android:background="@drawable/shape_gray_rectangle_border_bg"
 						android:inputType="numberSigned"
-						android:minWidth="100dp"/>
+						android:minWidth="100dp"
+						android:padding="@dimen/small_space"/>
 
 					<TextView
 						android:layout_width="wrap_content"
@@ -60,7 +63,7 @@
 				android:layout_gravity="center_horizontal"
 				android:layout_margin="@dimen/large_space"
 				android:layout_marginTop="@dimen/super_space"
-				android:text="房源装修程度"
+				android:text="@string/publish2_zhuangxiu"
 				android:textSize="@dimen/large_text_size"/>
 
 			<LinearLayout

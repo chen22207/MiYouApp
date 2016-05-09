@@ -31,7 +31,7 @@ public interface UserServices {
 
 	@FormUrlEncoded
 	@POST("setUserInfoAPI.aspx")
-	Observable<HttpResult<NoData>> updateUserInfo(@FieldMap Map<String, String> map);
+	Observable<HttpResult<NoData>> updateUserInfo(@FieldMap Map<String, Object> map);
 
 	@FormUrlEncoded
 	@POST("updatePwd.aspx")

@@ -10,7 +10,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.firstblood.miyo.R;
-import com.firstblood.miyo.activity.house.HouseSearchActivity;
 import com.firstblood.miyo.activity.other.SettingActivity;
 import com.firstblood.miyo.activity.user.LoginActivity;
 import com.firstblood.miyo.database.SpDictionary;
@@ -18,6 +17,7 @@ import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.fragment.HomePageFragment;
 import com.firstblood.miyo.fragment.MessageFragment;
 import com.firstblood.miyo.fragment.MineFragment;
+import com.firstblood.miyo.fragment.SearchFragment;
 import com.firstblood.miyo.util.RxBus;
 
 import java.util.ArrayList;
@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private CompositeSubscription compositeSubscription;
 	private boolean loginAct = false;
 	private boolean logoutAct = false;
+
+	private OnParentBackPressed onParentBackPressed;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +150,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 				fragmentManager.beginTransaction().add(R.id.main_fl, homePageFragment, FRAGMENT_TAG[1]).commit();
 			}
 		} else if (v == mMainTabSearchIb) {
-			startActivity(new Intent(this, HouseSearchActivity.class));
+//			startActivity(new Intent(this, HouseSearchActivity.class));
+			if (currentTag.equals(FRAGMENT_TAG[2])) {
+				return;
+			} else {
+				resetTabImage();
+				currentTag = FRAGMENT_TAG[2];
+			}
+			hideAllFragment();
+			Fragment f = fragmentManager.findFragmentByTag(FRAGMENT_TAG[2]);
+			if (f != null) {
+				fragmentManager.beginTransaction().show(f).commit();
+			} else {
+				SearchFragment searchFragment = SearchFragment.newInstance();
+				onParentBackPressed = searchFragment;
+				fragmentList.add(searchFragment);
+				fragmentManager.beginTransaction().add(R.id.main_fl, searchFragment, FRAGMENT_TAG[2]).commit();
+			}
 		} else if (v == mMainTabMessageIb) {
 			if (SpUtils.getInstance().getModule(SpDictionary.SP_USER) == null) {
 				intentTag = FRAGMENT_TAG[3];
@@ -205,5 +223,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 	private void intentToLogin() {
 		startActivity(new Intent(this, LoginActivity.class));
+	}
+
+
+	@Override
+	public void onBackPressed() {
+		if (onParentBackPressed == null || !onParentBackPressed.OnBackPressed())
+			super.onBackPressed();
+	}
+
+	public interface OnParentBackPressed {
+		boolean OnBackPressed();
 	}
 }

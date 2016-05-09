@@ -7,12 +7,22 @@
 	android:orientation="vertical"
 	tools:context="com.firstblood.miyo.activity.house.HouseSearchActivity">
 
-	<android.support.v7.widget.Toolbar
-		android:id="@+id/house_search_tb"
-		style="@style/AppTheme.AppBarOverlay"
+	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="?attr/actionBarSize"
-		android:background="@color/colorPrimary"/>
+		android:layout_height="wrap_content"
+		android:background="@color/colorPrimary"
+		android:focusable="true"
+		android:focusableInTouchMode="true"
+		android:orientation="horizontal">
+
+		<EditText
+			android:id="@+id/search_query_et"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:drawableLeft="@drawable/iconfont_search_small"
+			android:hint="请输入搜索内容"
+			android:textColor="@color/white"/>
+	</LinearLayout>
 
 	<include layout="@layout/line_break"/>
 

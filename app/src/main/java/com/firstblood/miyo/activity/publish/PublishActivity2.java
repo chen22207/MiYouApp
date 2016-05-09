@@ -14,12 +14,14 @@ import android.widget.TextView;
 
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.util.Navigation;
+import com.firstblood.miyo.util.RxBus;
 
 import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import rx.Subscription;
 
 public class PublishActivity2 extends AppCompatActivity {
 
@@ -79,6 +81,9 @@ public class PublishActivity2 extends AppCompatActivity {
 
 	private HashMap<String, Object> dataMap;
 
+	private RxBus bus;
+	private Subscription mSubscription;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -93,6 +98,8 @@ public class PublishActivity2 extends AppCompatActivity {
 			intent.putExtra("dataMap", dataMap);
 			startActivity(intent);
 		});
+		bus = RxBus.getInstance();
+		mSubscription = bus.toObserverable(PublishActivity5.publishSucceed.class).subscribe(publishSucceed -> finish());
 	}
 
 	private void setData() {
@@ -188,6 +195,14 @@ public class PublishActivity2 extends AppCompatActivity {
 				}
 				publishTypeYangtaiNumberTv.setText(tai + "");
 				break;
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (!mSubscription.isUnsubscribed()) {
+			mSubscription.unsubscribe();
 		}
 	}
 }

@@ -7,11 +7,13 @@ import android.widget.CheckBox;
 
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.util.Navigation;
+import com.firstblood.miyo.util.RxBus;
 
 import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Subscription;
 
 public class PublishActivity3 extends AppCompatActivity {
 
@@ -43,6 +45,8 @@ public class PublishActivity3 extends AppCompatActivity {
     CheckBox publishMatchJucan;
 
 	private HashMap<String, Object> dataMap;
+	private RxBus bus;
+	private Subscription mSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,8 @@ public class PublishActivity3 extends AppCompatActivity {
 	        intent.putExtra("dataMap", dataMap);
 		    startActivity(intent);
         });
+	    bus = RxBus.getInstance();
+	    mSubscription = bus.toObserverable(PublishActivity5.publishSucceed.class).subscribe(publishSucceed -> finish());
     }
 
 	private void setData() {
@@ -73,5 +79,13 @@ public class PublishActivity3 extends AppCompatActivity {
 		dataMap.put("keepingpets", publishMatchChongwu.isChecked() ? 1 : 0);
 		dataMap.put("paty", publishMatchJucan.isChecked() ? 1 : 0);
 
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (!mSubscription.isUnsubscribed()) {
+			mSubscription.unsubscribe();
+		}
 	}
 }

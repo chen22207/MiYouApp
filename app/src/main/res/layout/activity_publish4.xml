@@ -109,6 +109,7 @@
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:gravity="center_vertical"
 				android:orientation="horizontal">
 
 				<ImageView
@@ -117,13 +118,13 @@
 					android:layout_gravity="center_vertical"
 					android:src="@drawable/icon_location"/>
 
-				<EditText
-					android:id="@+id/publish_price_location_et"
+				<TextView
+					android:id="@+id/publish_price_location_tv"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="@dimen/middle_space"
 					android:background="@color/white"
-					android:hint="请输入详细地址"/>
+					android:text="请输入详细地址"/>
 			</LinearLayout>
 
 		</LinearLayout>

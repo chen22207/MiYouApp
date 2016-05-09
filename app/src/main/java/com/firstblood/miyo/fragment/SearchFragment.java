@@ -1,18 +1,15 @@
-package com.firstblood.miyo.activity.house;
+package com.firstblood.miyo.fragment;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,27 +25,36 @@ import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
 import com.cs.widget.viewwraper.db.LocalCityDbUtils;
 import com.firstblood.miyo.R;
+import com.firstblood.miyo.activity.MainActivity;
 import com.firstblood.miyo.database.Constant;
 import com.firstblood.miyo.module.HouseSearch;
 import com.firstblood.miyo.module.HouseSearchModule;
 import com.firstblood.miyo.netservices.HouseServices;
 import com.firstblood.miyo.util.AlertMessageUtil;
+import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import rx.Observer;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class HouseSearchActivity extends AppCompatActivity {
-
-
+/**
+ * Created by cs on 16/5/6.
+ */
+public class SearchFragment extends Fragment implements MainActivity.OnParentBackPressed {
+	@InjectView(R.id.search_query_et)
+	EditText mHouseSearchEt;
 	@InjectView(R.id.search_main_order_tv)
 	TextView mSearchMainOrderTv;
 	@InjectView(R.id.search_location_order_tv)
@@ -79,28 +85,37 @@ public class HouseSearchActivity extends AppCompatActivity {
 	private int index = 0;
 	private int count = 20;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_house_search);
-		ButterKnife.inject(this);
-		adapter = new MyAdapter(this);
-		LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-		mSearchXrv.setLayoutManager(layoutManager);
-		mSearchXrv.setAdapter(adapter);
-		mSearchXrv.setLoadingListener(new XRecyclerView.LoadingListener() {
-			@Override
-			public void onRefresh() {
-				requestHouseSearch(Constant.TYPE_REFRESH);
-			}
+	private Subscription subscription;
 
-			@Override
-			public void onLoadMore() {
-				requestHouseSearch(Constant.TYPE_LOADMORE);
-			}
-		});
-		mSearchXrv.setRefreshing(true);
+	public static SearchFragment newInstance() {
+		return new SearchFragment();
+	}
+
+	@Nullable
+	@Override
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		View v = View.inflate(getActivity(), R.layout.activity_house_search, null);
+		ButterKnife.inject(this, v);
+		subscription = RxTextView.textChangeEvents(mHouseSearchEt)
+				.debounce(400, TimeUnit.MILLISECONDS)
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Observer<TextViewTextChangeEvent>() {
+					@Override
+					public void onCompleted() {
+
+					}
+
+					@Override
+					public void onError(Throwable e) {
+
+					}
+
+					@Override
+					public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
+						requestHouseSearch(Constant.TYPE_REFRESH);
+					}
+				});
+		return v;
 	}
 
 	private void requestHouseSearch(int type) {
@@ -117,7 +132,7 @@ public class HouseSearchActivity extends AppCompatActivity {
 
 					@Override
 					public void onError(Throwable e) {
-						AlertMessageUtil.showAlert(HouseSearchActivity.this, e.getMessage());
+						AlertMessageUtil.showAlert(getActivity(), e.getMessage());
 						if (type == Constant.TYPE_REFRESH) {
 							mSearchXrv.refreshComplete();
 						} else if (type == Constant.TYPE_LOADMORE) {
@@ -143,7 +158,7 @@ public class HouseSearchActivity extends AppCompatActivity {
 							adapter.notifyDataSetChanged();
 							mSearchXrv.loadMoreComplete();
 							if (houseSearchModule.getData().isEmpty()) {
-								AlertMessageUtil.showAlert(HouseSearchActivity.this, "没有更多了");
+								AlertMessageUtil.showAlert(getActivity(), "没有更多了");
 								mSearchXrv.setLoadingMoreEnabled(false);
 							}
 						}
@@ -218,14 +233,6 @@ public class HouseSearchActivity extends AppCompatActivity {
 		return map;
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_search, menu);
-		MenuItem item = menu.findItem(R.id.action_search);
-		SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-		return true;
-	}
-
 	@OnClick({R.id.search_main_order_tv, R.id.search_location_order_tv, R.id.search_filter_tv})
 	public void onClick(View view) {
 		switch (view.getId()) {
@@ -248,20 +255,20 @@ public class HouseSearchActivity extends AppCompatActivity {
 			} else {
 				initTabView();
 				sortPw.showAsDropDown(mSearchMainOrderTv, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()));
-				mSearchMainOrderTv.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.icon_arrow_down_blue), null);
-				mSearchMainOrderTv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+				mSearchMainOrderTv.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getActivity(), R.drawable.icon_arrow_down_blue), null);
+				mSearchMainOrderTv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
 			}
 		} else {
 			sortPw = new PopupWindow(initSortView(), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-			sortPw.setOnDismissListener(() -> mSearchMainOrderTv.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.icon_arrow_up_blue), null));
+			sortPw.setOnDismissListener(() -> mSearchMainOrderTv.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getActivity(), R.drawable.icon_arrow_up_blue), null));
 			sortPw.setTouchable(true);
-			sortPw.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent)));
+			sortPw.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getActivity(), android.R.color.transparent)));
 			sortPw.showAsDropDown(mSearchMainOrderTv, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()));
 		}
 	}
 
 	private View initSortView() {
-		View v = View.inflate(this, R.layout.popup_search_main_order, null);
+		View v = View.inflate(getActivity(), R.layout.popup_search_main_order, null);
 		TextView publishTimeTv = (TextView) v.findViewById(R.id.search_order_publish_time_tv);
 		TextView hitsTv = (TextView) v.findViewById(R.id.search_order_hits_tv);
 		TextView priceDescTv = (TextView) v.findViewById(R.id.search_order_price_desc_tv);
@@ -288,7 +295,7 @@ public class HouseSearchActivity extends AppCompatActivity {
 			sortPw.dismiss();
 		});
 		outsideRl.setOnClickListener(v1 -> sortPw.dismiss());
-		final int color = ContextCompat.getColor(this, R.color.colorPrimary);
+		final int color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
 		switch (currentSort) {
 			case PUBLISH_TIME:
 				publishTimeTv.setTextColor(color);
@@ -311,9 +318,9 @@ public class HouseSearchActivity extends AppCompatActivity {
 
 		}
 		initTabView();
-		mSearchLocationOrderTv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+		mSearchLocationOrderTv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
 		if (optionsPickerView == null) {
-			optionsPickerView = new OptionsPickerView<>(this);
+			optionsPickerView = new OptionsPickerView<>(getActivity());
 			optionsPickerView.setPicker(c.getProvince(), c.getCity(), c.getZone(), true);
 			optionsPickerView.setTitle("选择地区");
 			optionsPickerView.setCyclic(false, false, false);
@@ -347,20 +354,20 @@ public class HouseSearchActivity extends AppCompatActivity {
 			} else {
 				initTabView();
 				filterPw.showAsDropDown(mSearchFilterTv, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()));
-				mSearchFilterTv.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.icon_arrow_down_blue), null);
-				mSearchFilterTv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+				mSearchFilterTv.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getActivity(), R.drawable.icon_arrow_down_blue), null);
+				mSearchFilterTv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
 			}
 		} else {
 			filterPw = new PopupWindow(initFilterView(), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-			filterPw.setOnDismissListener(() -> mSearchFilterTv.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.icon_arrow_up_blue), null));
+			filterPw.setOnDismissListener(() -> mSearchFilterTv.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getActivity(), R.drawable.icon_arrow_up_blue), null));
 			filterPw.setTouchable(true);
-			filterPw.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent)));
+			filterPw.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getActivity(), android.R.color.transparent)));
 			filterPw.showAsDropDown(mSearchFilterTv, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()));
 		}
 	}
 
 	private View initFilterView() {
-		View v = View.inflate(this, R.layout.popup_search_filter, null);
+		View v = View.inflate(getActivity(), R.layout.popup_search_filter, null);
 		EditText startPriceEt = (EditText) v.findViewById(R.id.search_filter_start_price_et);
 		EditText endPriceEt = (EditText) v.findViewById(R.id.search_filter_end_price_et);
 		CheckBox zhengzuCb = (CheckBox) v.findViewById(R.id.search_filter_type_zhengzu_cb);
@@ -439,19 +446,30 @@ public class HouseSearchActivity extends AppCompatActivity {
 	}
 
 	private void initTabView() {
-		mSearchMainOrderTv.setTextColor(ContextCompat.getColor(this, R.color.black));
-		mSearchFilterTv.setTextColor(ContextCompat.getColor(this, R.color.black));
-		mSearchLocationOrderTv.setTextColor(ContextCompat.getColor(this, R.color.black));
-		mSearchFilterTv.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.icon_arrow_up_black), null);
-		mSearchMainOrderTv.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.icon_arrow_up_black), null);
+		mSearchMainOrderTv.setTextColor(ContextCompat.getColor(getActivity(), R.color.black));
+		mSearchFilterTv.setTextColor(ContextCompat.getColor(getActivity(), R.color.black));
+		mSearchLocationOrderTv.setTextColor(ContextCompat.getColor(getActivity(), R.color.black));
+		mSearchFilterTv.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getActivity(), R.drawable.icon_arrow_up_black), null);
+		mSearchMainOrderTv.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(getActivity(), R.drawable.icon_arrow_up_black), null);
 	}
 
 	@Override
-	public void onBackPressed() {
+	public boolean OnBackPressed() {
 		if (optionsPickerView != null && optionsPickerView.isShowing()) {
 			optionsPickerView.dismiss();
+			return true;
+		} else {
+			return false;
 		}
-		super.onBackPressed();
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.reset(this);
+		if (subscription != null) {
+			subscription.unsubscribe();
+		}
 	}
 
 	private enum SearchSort {
@@ -524,5 +542,4 @@ public class HouseSearchActivity extends AppCompatActivity {
 			}
 		}
 	}
-
 }

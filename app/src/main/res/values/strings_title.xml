@@ -10,4 +10,6 @@
 	<string name="title_feedback">意见反馈</string>
     <string name="title_message_detial">消息详情</string>
 	<string name="title_map">地图</string>
+	<string name="title_publish5">房源图片</string>
+	<string name="title_rental_intent">租房期望</string>
 </resources>
