@@ -179,7 +179,7 @@ public class MyPublishActivity extends AppCompatActivity {
 			h.type.setText(myPublish.getIsflatshare() == 1 ? "整租" : "合租");
 			try {
 				JSONArray array = new JSONArray(myPublish.getImage());
-				String url = "http://" + PropertiesUtil.getProperty("QINIU_URL") + "/" + array.getString(0) + Constant.IMAGE_CROP_RULE;
+				String url = "http://" + PropertiesUtil.getProperty("QINIU_URL") + "/" + array.getString(0) + Constant.IMAGE_CROP_RULE_W_200;
 				Picasso.with(MyPublishActivity.this)
 						.load(url)
 						.placeholder(R.drawable.img_default)

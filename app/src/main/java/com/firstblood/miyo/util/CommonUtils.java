@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.cs.networklibrary.util.PropertiesUtil;
 import com.firstblood.miyo.R;
+import com.firstblood.miyo.database.Constant;
 import com.firstblood.miyo.module.User;
 import com.isseiaoki.simplecropview.util.Utils;
 import com.squareup.picasso.Picasso;
@@ -41,7 +42,7 @@ public class CommonUtils {
 		} else {
 			if (!TextUtils.isEmpty(user.getHeadImg())) {
 				Picasso.with(context)
-						.load(PropertiesUtil.getProperty("QINIU_URL") + "/" + user.getHeadImg())
+						.load(getQiNiuImgUrl(user.getHeadImg(), Constant.IMAGE_CROP_RULE_W_200))
 						.placeholder(R.drawable.icon_default_head_img)
 						.tag(MultiImageSelectorFragment.TAG)
 						.centerCrop()
@@ -83,5 +84,26 @@ public class CommonUtils {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	/**
+	 * 获取七牛图片完整路径
+	 *
+	 * @param imgName 储存在七牛服务器的图片名
+	 * @return 完整路径
+	 */
+	public static String getQiNiuImgUrl(String imgName) {
+		return getQiNiuImgUrl(imgName, "");
+	}
+
+	/**
+	 * 获取七牛图片完整路径
+	 *
+	 * @param imgName  储存在七牛服务器的图片名
+	 * @param cropType 图片压缩裁剪方式，详见七牛官网‘图片高级处理’文档
+	 * @return 完整路径
+	 */
+	public static String getQiNiuImgUrl(String imgName, String cropType) {
+		return "http://" + PropertiesUtil.getProperty("QINIU_URL") + "/" + imgName + cropType;
 	}
 }

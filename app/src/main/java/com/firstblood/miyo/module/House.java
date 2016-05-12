@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by cs on 16/4/27.
  */
-public class HouseSearch {
+public class House {
 	private String id;
 	@SerializedName("userid")
 	private String userId;

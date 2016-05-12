@@ -29,8 +29,8 @@ import com.cs.networklibrary.http.HttpResultFunc;
 import com.cs.widget.viewwraper.db.LocalCityDbUtils;
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.database.Constant;
-import com.firstblood.miyo.module.HouseSearch;
-import com.firstblood.miyo.module.HouseSearchModule;
+import com.firstblood.miyo.module.House;
+import com.firstblood.miyo.module.HouseModule;
 import com.firstblood.miyo.netservices.HouseServices;
 import com.firstblood.miyo.util.AlertMessageUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -109,7 +109,7 @@ public class HouseSearchActivity extends AppCompatActivity {
 				.map(new HttpResultFunc<>())
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Subscriber<HouseSearchModule>() {
+				.subscribe(new Subscriber<HouseModule>() {
 					@Override
 					public void onCompleted() {
 
@@ -126,23 +126,23 @@ public class HouseSearchActivity extends AppCompatActivity {
 					}
 
 					@Override
-					public void onNext(HouseSearchModule houseSearchModule) {
+					public void onNext(HouseModule houseModule) {
 						if (type == Constant.TYPE_REFRESH) {
 							adapter.clearData();
-							if (houseSearchModule.getData().isEmpty()) {
+							if (houseModule.getData().isEmpty()) {
 								mSearchNoDataRl.setVisibility(View.VISIBLE);
 							} else {
-								adapter.addData(houseSearchModule.getData());
+								adapter.addData(houseModule.getData());
 								mSearchNoDataRl.setVisibility(View.GONE);
 								mSearchXrv.setLoadingMoreEnabled(true);
 							}
 							adapter.notifyDataSetChanged();
 							mSearchXrv.refreshComplete();
 						} else if (type == Constant.TYPE_LOADMORE) {
-							adapter.addData(houseSearchModule.getData());
+							adapter.addData(houseModule.getData());
 							adapter.notifyDataSetChanged();
 							mSearchXrv.loadMoreComplete();
-							if (houseSearchModule.getData().isEmpty()) {
+							if (houseModule.getData().isEmpty()) {
 								AlertMessageUtil.showAlert(HouseSearchActivity.this, "没有更多了");
 								mSearchXrv.setLoadingMoreEnabled(false);
 							}
@@ -468,21 +468,21 @@ public class HouseSearchActivity extends AppCompatActivity {
 
 	private class MyAdapter extends XRecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-		private ArrayList<HouseSearch> houseSearches;
+		private ArrayList<House> houses;
 
 		private Context context;
 
 		public MyAdapter(Context context) {
 			this.context = context;
-			houseSearches = new ArrayList<>();
+			houses = new ArrayList<>();
 		}
 
-		public void addData(ArrayList<HouseSearch> searches) {
-			this.houseSearches.addAll(searches);
+		public void addData(ArrayList<House> searches) {
+			this.houses.addAll(searches);
 		}
 
 		public void clearData() {
-			this.houseSearches.clear();
+			this.houses.clear();
 		}
 
 		@Override
@@ -495,18 +495,18 @@ public class HouseSearchActivity extends AppCompatActivity {
 		@Override
 		public void onBindViewHolder(ViewHolder holder, int position) {
 			ViewHolder viewHolder = holder;
-			HouseSearch houseSearch = houseSearches.get(position);
-			viewHolder.title.setText(houseSearch.getTitle());
-			viewHolder.type.setText(houseSearch.getIsflatshareStr());
-			viewHolder.price.setText(houseSearch.getPrice());
+			House house = houses.get(position);
+			viewHolder.title.setText(house.getTitle());
+			viewHolder.type.setText(house.getIsflatshareStr());
+			viewHolder.price.setText(house.getPrice());
 			Picasso.with(context)
-					.load(houseSearch.getIco())
+					.load(house.getIco())
 					.into(viewHolder.iv);
 		}
 
 		@Override
 		public int getItemCount() {
-			return houseSearches.size();
+			return houses.size();
 		}
 
 		class ViewHolder extends XRecyclerView.ViewHolder {

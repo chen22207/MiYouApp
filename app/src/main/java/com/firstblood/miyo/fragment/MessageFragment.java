@@ -110,7 +110,8 @@ public class MessageFragment extends Fragment {
                 requestLoadMore();
             }
         });
-        return view;
+	    mMessageRv.setEmptyView(mMessageNoDataRl);
+	    return view;
     }
 
     @Override
@@ -169,11 +170,8 @@ public class MessageFragment extends Fragment {
                             }
                         } else if (type == TYPE_REFRESH) {
                             mMessageRv.refreshComplete();
-	                        if (message.getData().isEmpty()) {
-		                        mMessageNoDataRl.setVisibility(View.VISIBLE);
-                            } else {
-                                mMessageNoDataRl.setVisibility(View.GONE);
-                                mMessageRv.setLoadingMoreEnabled(true);
+	                        if (!message.getData().isEmpty()) {
+		                        mMessageRv.setLoadingMoreEnabled(true);
                             }
                         }
 

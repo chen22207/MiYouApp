@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         minSdkVersion 16
@@ -23,6 +23,7 @@ dependencies {
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.bigkoo:pickerview:2.0.8'
+    compile 'com.bigkoo:convenientbanner:2.0.5'
     compile 'com.jcodecraeer:xrecyclerview:1.2.7'
     compile 'net.grandcentrix.tray:tray:1.0.0-rc3'
 }

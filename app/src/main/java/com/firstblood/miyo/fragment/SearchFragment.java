@@ -24,16 +24,16 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
-import com.cs.networklibrary.util.PropertiesUtil;
 import com.cs.widget.recyclerview.RecyclerViewDivider;
 import com.cs.widget.viewwraper.db.LocalCityDbUtils;
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.activity.MainActivity;
 import com.firstblood.miyo.database.Constant;
-import com.firstblood.miyo.module.HouseSearch;
-import com.firstblood.miyo.module.HouseSearchModule;
+import com.firstblood.miyo.module.House;
+import com.firstblood.miyo.module.HouseModule;
 import com.firstblood.miyo.netservices.HouseServices;
 import com.firstblood.miyo.util.AlertMessageUtil;
+import com.firstblood.miyo.util.CommonUtils;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -150,7 +150,7 @@ public class SearchFragment extends Fragment implements MainActivity.OnParentBac
 				.map(new HttpResultFunc<>())
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Subscriber<HouseSearchModule>() {
+				.subscribe(new Subscriber<HouseModule>() {
 					@Override
 					public void onCompleted() {
 
@@ -167,23 +167,23 @@ public class SearchFragment extends Fragment implements MainActivity.OnParentBac
 					}
 
 					@Override
-					public void onNext(HouseSearchModule houseSearchModule) {
+					public void onNext(HouseModule houseModule) {
 						if (type == Constant.TYPE_REFRESH) {
 							adapter.clearData();
-							if (houseSearchModule.getData().isEmpty()) {
+							if (houseModule.getData().isEmpty()) {
 								mSearchNoDataRl.setVisibility(View.VISIBLE);
 							} else {
-								adapter.addData(houseSearchModule.getData());
+								adapter.addData(houseModule.getData());
 								mSearchNoDataRl.setVisibility(View.GONE);
 								mSearchXrv.setLoadingMoreEnabled(true);
 							}
 							adapter.notifyDataSetChanged();
 							mSearchXrv.refreshComplete();
 						} else if (type == Constant.TYPE_LOADMORE) {
-							adapter.addData(houseSearchModule.getData());
+							adapter.addData(houseModule.getData());
 							adapter.notifyDataSetChanged();
 							mSearchXrv.loadMoreComplete();
-							if (houseSearchModule.getData().isEmpty()) {
+							if (houseModule.getData().isEmpty()) {
 								AlertMessageUtil.showAlert(getActivity(), "没有更多了");
 								mSearchXrv.setLoadingMoreEnabled(false);
 							}
@@ -512,21 +512,21 @@ public class SearchFragment extends Fragment implements MainActivity.OnParentBac
 
 	private class MyAdapter extends XRecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-		private ArrayList<HouseSearch> houseSearches;
+		private ArrayList<House> houses;
 
 		private Context context;
 
 		public MyAdapter(Context context) {
 			this.context = context;
-			houseSearches = new ArrayList<>();
+			houses = new ArrayList<>();
 		}
 
-		public void addData(ArrayList<HouseSearch> searches) {
-			this.houseSearches.addAll(searches);
+		public void addData(ArrayList<House> searches) {
+			this.houses.addAll(searches);
 		}
 
 		public void clearData() {
-			this.houseSearches.clear();
+			this.houses.clear();
 		}
 
 		@Override
@@ -539,15 +539,14 @@ public class SearchFragment extends Fragment implements MainActivity.OnParentBac
 		@Override
 		public void onBindViewHolder(ViewHolder holder, int position) {
 			ViewHolder viewHolder = holder;
-			HouseSearch houseSearch = houseSearches.get(position);
-			viewHolder.title.setText(houseSearch.getTitle());
-			viewHolder.type.setText(houseSearch.getIsflatshareStr());
-			viewHolder.price.setText(houseSearch.getPrice());
+			House house = houses.get(position);
+			viewHolder.title.setText(house.getTitle());
+			viewHolder.type.setText(house.getIsflatshareStr());
+			viewHolder.price.setText(house.getPrice());
 			try {
-				JSONArray array = new JSONArray(houseSearch.getImage());
-				String url = "http://" + PropertiesUtil.getProperty("QINIU_URL") + "/" + array.getString(0) + Constant.IMAGE_CROP_RULE;
+				JSONArray array = new JSONArray(house.getImage());
 				Picasso.with(context)
-						.load(url)
+						.load(CommonUtils.getQiNiuImgUrl(array.getString(0), Constant.IMAGE_CROP_RULE_W_200))
 						.placeholder(R.drawable.img_default)
 						.error(R.drawable.img_default)
 						.into(viewHolder.iv);
@@ -559,7 +558,7 @@ public class SearchFragment extends Fragment implements MainActivity.OnParentBac
 
 		@Override
 		public int getItemCount() {
-			return houseSearches.size();
+			return houses.size();
 		}
 
 		class ViewHolder extends XRecyclerView.ViewHolder {

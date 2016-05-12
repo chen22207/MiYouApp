@@ -1,20 +1,29 @@
 package com.firstblood.miyo.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.cs.networklibrary.http.ApiException;
+import com.cs.networklibrary.http.HttpMethods;
 import com.cs.widget.imageview.MaterialImageView;
+import com.cs.widget.recyclerview.RecyclerViewDivider;
 import com.firstblood.miyo.R;
+import com.firstblood.miyo.module.Banner;
+import com.firstblood.miyo.module.HomePageData;
+import com.firstblood.miyo.module.House;
+import com.firstblood.miyo.netservices.HouseServices;
+import com.firstblood.miyo.subscribers.ProgressSubscriber;
+import com.firstblood.miyo.view.convenientbanner.LocalImageHolderView;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +31,9 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.hdodenhof.circleimageview.CircleImageView;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  *
@@ -30,16 +42,19 @@ public class HomePageFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    @InjectView(R.id.home_page_lv)
-    ListView homePageLv;
+	@InjectView(R.id.home_page_xrv)
+	XRecyclerView mHomePageXrv;
 
     private MyListAdapter adapter;
 
     private List<ImageView> images = new ArrayList<>();
     private List<ImageView> imageIndexs = new ArrayList<>();
 
-    public HomePageFragment() {
-    }
+	private View headerView;
+	private ConvenientBanner<Banner> convenientBanner;
+
+	public HomePageFragment() {
+	}
 
     public static HomePageFragment newInstance() {
         return new HomePageFragment();
@@ -56,149 +71,102 @@ public class HomePageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home_page, container, false);
         ButterKnife.inject(this, view);
 
-        View header = inflater.inflate(R.layout.listitem_home_page_header, null);
-        ViewPager vp = (ViewPager) header.findViewById(R.id.list_item_home_page_vp);
-        LinearLayout imageIndexLl = (LinearLayout) header.findViewById(R.id.list_item_home_page_image_index_ll);
-
-
-        MyPagerAdapter pagerAdapter = new MyPagerAdapter();
-        for (int i = 0; i < 5; i++) {
-            ImageView iv = new ImageView(getActivity());
-//            iv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
-//            iv.setScaleType(ImageView.ScaleType.FIT_XY);
-            iv.setImageResource(R.drawable.f1);
-            images.add(iv);
-            ImageView iv1 = new ImageView(getActivity());
-            iv1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            iv1.setImageResource(R.drawable.shape_image_index_white);
-            imageIndexs.add(iv1);
-            imageIndexLl.addView(iv1);
-        }
-        vp.setAdapter(pagerAdapter);
-        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                resetAllImageIndex();
-                imageIndexs.get(position).setImageResource(R.drawable.shape_image_index_gray);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        adapter = new MyListAdapter();
-        homePageLv.addHeaderView(header);
-        homePageLv.setAdapter(adapter);
+	    headerView = inflater.inflate(R.layout.listitem_home_page_header, null);
+	    convenientBanner = (ConvenientBanner<Banner>) headerView.findViewById(R.id.list_item_home_page_cb);
 
 	    return view;
     }
 
-    private void resetAllImageIndex() {
-        for (ImageView imageIndex : imageIndexs) {
-            imageIndex.setImageResource(R.drawable.shape_image_index_white);
-        }
-    }
+	@Override
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		HouseServices services = HttpMethods.getInstance().getClassInstance(HouseServices.class);
+		Observable.zip(services.getBanner(), services.getHeadPage(), (arrayListHttpResult, houseModuleHttpResult) -> {
+			if (!arrayListHttpResult.getResultCode().equals("0000")) {
+				throw new ApiException(arrayListHttpResult.getResultMsg());
+			}
+			if (!houseModuleHttpResult.getResultCode().equals("0000")) {
+				throw new ApiException(houseModuleHttpResult.getResultMsg());
+			}
+			return new HomePageData(arrayListHttpResult.getData(), houseModuleHttpResult.getData());
+		})
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new ProgressSubscriber<>(getActivity(), this::initView));
 
-    private class MyListAdapter extends BaseAdapter {
+	}
+
+	private void initView(HomePageData data) {
+		LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+		mHomePageXrv.setLayoutManager(layoutManager);
+		mHomePageXrv.addItemDecoration(new RecyclerViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
+		adapter = new MyListAdapter();
+		adapter.setData(data.getHouseModule().getData());
+		mHomePageXrv.setAdapter(adapter);
+
+		convenientBanner.setPages(LocalImageHolderView::new, data.getBanners())
+				.setPageIndicator(new int[]{R.drawable.shape_image_index_white, R.drawable.shape_image_index_gray})
+				.setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT);
+		mHomePageXrv.addHeaderView(headerView);
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.reset(this);
+	}
+
+	private class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder> {
+
+		private ArrayList<House> houses;
+
+		private MyListAdapter() {
+			houses = new ArrayList<>();
+		}
+
+		public void setData(ArrayList<House> houses) {
+			this.houses.clear();
+			this.houses.addAll(houses);
+		}
+
+		public void addData(ArrayList<House> houses) {
+			this.houses.addAll(houses);
+		}
 
 	    @Override
-	    public int getViewTypeCount() {
-		    return 2;
+	    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		    View v = View.inflate(parent.getContext(), R.layout.listitem_home_page, null);
+		    ViewHolder h = new ViewHolder(v);
+		    return h;
 	    }
 
 	    @Override
-	    public int getItemViewType(int position) {
-		    return position == 0 ? 0 : 1;
+	    public void onBindViewHolder(ViewHolder holder, int position) {
+		    holder.bgIv.setImageResource(R.drawable.f1);
+		    holder.titleTv.setText("西湖文化及阿斯兰肯定句疯啦");
+		    holder.priceTv.setText("￥" + "4500");
+		    holder.headPortraitIv.setImageResource(R.drawable.ic_head_image);
 	    }
 
 	    @Override
-	    public int getCount() {
-		    return 10;
+	    public int getItemCount() {
+		    return houses.size();
 	    }
 
-	    @Override
-	    public Object getItem(int position) {
-		    return null;
-	    }
-
-	    @Override
-	    public long getItemId(int position) {
-		    return 0;
-	    }
-
-	    @Override
-	    public View getView(int position, View convertView, ViewGroup parent) {
-		    if (getItemViewType(position) == 0) {
-			    TextView tv = new TextView(getActivity());
-			    tv.setText("推荐房源");
-			    tv.setPadding(20, 10, 10, 10);
-			    tv.setTextColor(getActivity().getResources().getColor(R.color.gray));
-			    return tv;
-		    } else {
-			    Holder holder = null;
-			    if (convertView == null) {
-				    convertView = LayoutInflater.from(getActivity()).inflate(R.layout.listitem_home_page, null);
-				    holder = new Holder();
-				    holder.bgIv = (MaterialImageView) convertView.findViewById(R.id.list_item_home_page_bg_civ);
-				    holder.headPortraitIv = (CircleImageView) convertView.findViewById(R.id.list_item_home_page_head_portrait_iv);
-				    holder.priceTv = (TextView) convertView.findViewById(R.id.list_item_home_page_price_tv);
-				    holder.titleTv = (TextView) convertView.findViewById(R.id.list_item_home_page_house_title_tv);
-				    convertView.setTag(holder);
-			    } else {
-				    holder = (Holder) convertView.getTag();
-			    }
-			    holder.bgIv.setImageResource(R.drawable.f1);
-			    holder.titleTv.setText("西湖文化及阿斯兰肯定句疯啦");
-			    holder.priceTv.setText("￥" + "4500");
-			    holder.headPortraitIv.setImageResource(R.drawable.ic_head_image);
-			    return convertView;
-		    }
-	    }
-
-	    class Holder {
+		class ViewHolder extends RecyclerView.ViewHolder {
 		    MaterialImageView bgIv;
 		    TextView titleTv;
 		    TextView priceTv;
 		    CircleImageView headPortraitIv;
-	    }
-    }
 
-    private class MyPagerAdapter extends PagerAdapter {
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView(images.get(position));
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            container.addView(images.get(position));
-            return images.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return images.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
-    }
+			public ViewHolder(View itemView) {
+				super(itemView);
+				bgIv = (MaterialImageView) itemView.findViewById(R.id.list_item_home_page_bg_civ);
+				headPortraitIv = (CircleImageView) itemView.findViewById(R.id.list_item_home_page_head_portrait_iv);
+				priceTv = (TextView) itemView.findViewById(R.id.list_item_home_page_price_tv);
+				titleTv = (TextView) itemView.findViewById(R.id.list_item_home_page_house_title_tv);
+			}
+		}
+	}
 }

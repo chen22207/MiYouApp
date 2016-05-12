@@ -4,8 +4,8 @@
              android:layout_height="match_parent"
              tools:context="com.firstblood.miyo.fragment.HomePageFragment">
 
-    <ListView
-        android:id="@+id/home_page_lv"
+	<com.jcodecraeer.xrecyclerview.XRecyclerView
+		android:id="@+id/home_page_xrv"
         android:layout_width="match_parent"
 	    android:layout_height="match_parent"
 	    android:listSelector="@android:color/transparent" />

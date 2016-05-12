@@ -5,10 +5,10 @@ import java.util.ArrayList;
 /**
  * Created by cs on 16/4/27.
  */
-public class HouseSearchModule {
+public class HouseModule {
 	private int index;
 	private int count;
-	private ArrayList<HouseSearch> data;
+	private ArrayList<House> data;
 
 	public int getIndex() {
 		return index;
@@ -26,11 +26,11 @@ public class HouseSearchModule {
 		this.count = count;
 	}
 
-	public ArrayList<HouseSearch> getData() {
+	public ArrayList<House> getData() {
 		return data;
 	}
 
-	public void setData(ArrayList<HouseSearch> data) {
+	public void setData(ArrayList<House> data) {
 		this.data = data;
 	}
 }
