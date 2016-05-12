@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
+import com.cs.widget.recyclerview.RecyclerViewDivider;
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.activity.message.MessageDetailActivity;
 import com.firstblood.miyo.database.SpUtils;
@@ -95,7 +96,8 @@ public class MessageFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mMessageRv.setLayoutManager(layoutManager);
-        adapter = new MyRecyclerAdapter();
+	    mMessageRv.addItemDecoration(new RecyclerViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
+	    adapter = new MyRecyclerAdapter();
         mMessageRv.setAdapter(adapter);
         mMessageRv.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -246,7 +248,7 @@ public class MessageFragment extends Fragment {
 			itemViewHolder.mListItemMessageTitleTv.setText((message.getType() == 1 ? "合租消息" : "系统消息") + "--" + (message.getState() == 0 ? "未读" : "已读"));
 			itemViewHolder.mListItemMessageTypeIv.setImageResource(message.getType() == 1 ? R.drawable.icon_message_hezu : R.drawable.icon_message_system);
 			itemViewHolder.mListItemMessageContentTv.setText(message.getContent());
-			itemViewHolder.mListItemMessageTimeTv.setText(message.getTime());
+			itemViewHolder.mListItemMessageTimeTv.setText(message.getTime().replace("T", " "));
 			itemViewHolder.itemView.setOnClickListener(v -> intentToDetail(message.getId()));
 			itemViewHolder.itemView.setOnLongClickListener(v -> {
 				new AlertDialog.Builder(getActivity())

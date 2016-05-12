@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
 import com.firstblood.miyo.R;
+import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.module.Token;
 import com.firstblood.miyo.netservices.CommonServices;
 import com.firstblood.miyo.netservices.HouseServices;
@@ -173,6 +174,7 @@ public class PublishActivity5 extends AppCompatActivity {
 			jsonArray.put(imgKey);
 		}
 		dataMap.put("image", jsonArray.toString());
+		dataMap.put("userid", SpUtils.getInstance().getUserId());
 
 		HouseServices services = HttpMethods.getInstance().getClassInstance(HouseServices.class);
 		services.publishHouse(dataMap)
@@ -291,6 +293,7 @@ public class PublishActivity5 extends AppCompatActivity {
 					Picasso.with(parent.getContext())
 							.load(file)
 							.resize(mGridWidth, mGridHeight)
+							.centerCrop()
 							.into(vh.iv);
 
 				}

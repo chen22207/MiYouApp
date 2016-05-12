@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@drawable/background"
+	android:orientation="vertical"
+	tools:context="com.firstblood.miyo.activity.user.MyPublishActivity">
+
+	<include layout="@layout/activity_base_title_bar"/>
+
+	<com.jcodecraeer.xrecyclerview.XRecyclerView
+		android:id="@+id/my_publish_xrv"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"/>
+
+	<RelativeLayout
+		android:id="@+id/my_publish_no_data_rl"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:visibility="gone">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:text="暂无消息"
+			android:textSize="@dimen/large_text_size"/>
+	</RelativeLayout>
+</LinearLayout>

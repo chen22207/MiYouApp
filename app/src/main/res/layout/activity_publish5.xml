@@ -64,8 +64,10 @@
 				android:layout_height="wrap_content"
 				android:layout_margin="@dimen/middle_space"
 				android:background="@drawable/shape_gray_rectangle_border_bg"
-				android:hint="@string/publish5_house_description_hint"
-				android:maxLength="20"
+				android:gravity="top"
+				android:hint="为你的房源添加描述"
+				android:maxLength="200"
+				android:minHeight="120dp"
 				android:padding="@dimen/middle_space"/>
 		</LinearLayout>
 	</ScrollView>

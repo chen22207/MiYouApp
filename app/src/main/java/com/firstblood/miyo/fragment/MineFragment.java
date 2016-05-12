@@ -10,9 +10,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.firstblood.miyo.R;
-import com.firstblood.miyo.activity.MapActivity;
 import com.firstblood.miyo.activity.other.SettingActivity;
 import com.firstblood.miyo.activity.publish.PublishActivity1;
+import com.firstblood.miyo.activity.user.MyPublishActivity;
 import com.firstblood.miyo.activity.user.UserInfoCompleteActivity;
 import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.module.User;
@@ -75,10 +75,10 @@ public class MineFragment extends Fragment {
             case R.id.mine_username_tv:
                 break;
             case R.id.mine_edit_info_tv:
-                getActivity().startActivity(new Intent(getActivity(), UserInfoCompleteActivity.class));
-                break;
+	            startActivity(new Intent(getActivity(), UserInfoCompleteActivity.class));
+	            break;
             case R.id.mine_publish_tv:
-	            getActivity().startActivityForResult(new Intent(getActivity(), MapActivity.class), 1);
+	            startActivity(new Intent(getActivity(), MyPublishActivity.class));
 	            break;
             case R.id.mine_setting_tv:
 	            startActivity(new Intent(getActivity(), SettingActivity.class));

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -96,6 +97,23 @@ public class SearchFragment extends Fragment implements MainActivity.OnParentBac
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View v = View.inflate(getActivity(), R.layout.activity_house_search, null);
 		ButterKnife.inject(this, v);
+		adapter = new MyAdapter(getActivity());
+		LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+		mSearchXrv.setLayoutManager(layoutManager);
+		mSearchXrv.setAdapter(adapter);
+		mSearchXrv.setLoadingListener(new XRecyclerView.LoadingListener() {
+			@Override
+			public void onRefresh() {
+				requestHouseSearch(Constant.TYPE_REFRESH);
+			}
+
+			@Override
+			public void onLoadMore() {
+				requestHouseSearch(Constant.TYPE_LOADMORE);
+			}
+		});
+		mSearchXrv.setRefreshing(true);
 		subscription = RxTextView.textChangeEvents(mHouseSearchEt)
 				.debounce(400, TimeUnit.MILLISECONDS)
 				.observeOn(AndroidSchedulers.mainThread())
@@ -112,13 +130,15 @@ public class SearchFragment extends Fragment implements MainActivity.OnParentBac
 
 					@Override
 					public void onNext(TextViewTextChangeEvent textViewTextChangeEvent) {
-						requestHouseSearch(Constant.TYPE_REFRESH);
+						if (textViewTextChangeEvent.count() != 0) {
+							requestHouseSearch(Constant.TYPE_REFRESH);
+						}
 					}
 				});
 		return v;
 	}
 
-	private void requestHouseSearch(int type) {
+	private void requestHouseSearch(final int type) {
 		HouseServices services = HttpMethods.getInstance().getClassInstance(HouseServices.class);
 		services.getHouses(getMap())
 				.map(new HttpResultFunc<>())
@@ -414,8 +434,8 @@ public class SearchFragment extends Fragment implements MainActivity.OnParentBac
 			resetCb(zhengzuCb, hezuCb, yishiCb, liangshiCb, sanshiCb, sishiCb);
 		});
 		confirmBt.setOnClickListener(v2 -> {
-			minPrice = Integer.parseInt(startPriceEt.getText().toString());
-			maxPrice = Integer.parseInt(endPriceEt.getText().toString());
+			minPrice = TextUtils.isEmpty(startPriceEt.getText().toString()) ? 0 : Integer.parseInt(startPriceEt.getText().toString());
+			maxPrice = TextUtils.isEmpty(endPriceEt.getText().toString()) ? 0 : Integer.parseInt(endPriceEt.getText().toString());
 			if (zhengzuCb.isChecked()) {
 				currentFilterType = FilterType.ZHENGZU;
 			} else if (hezuCb.isChecked()) {

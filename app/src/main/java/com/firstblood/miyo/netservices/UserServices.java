@@ -1,6 +1,7 @@
 package com.firstblood.miyo.netservices;
 
 import com.cs.networklibrary.entity.HttpResult;
+import com.firstblood.miyo.module.MyPublishModule;
 import com.firstblood.miyo.module.NoData;
 import com.firstblood.miyo.module.User;
 
@@ -36,6 +37,11 @@ public interface UserServices {
 	@FormUrlEncoded
 	@POST("updatePwd.aspx")
 	Observable<HttpResult<NoData>> updatePwd(@Field("account") String account, @Field("newpassword") String newPwd);
+
+
+	@FormUrlEncoded
+	@POST("getMyReleaseAPI.aspx")
+	Observable<HttpResult<MyPublishModule>> getMyPublishList(@Field("userid") String userid, @Field("index") int index, @Field("count") int count);
 
 
 

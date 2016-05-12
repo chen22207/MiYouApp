@@ -99,6 +99,9 @@
 		<activity
 			android:name=".activity.user.UserRentalIntentActivity"
 			android:screenOrientation="portrait"/>
+		<activity
+			android:name=".activity.user.MyPublishActivity"
+			android:screenOrientation="portrait"/>
 	</application>
 
 </manifest>
