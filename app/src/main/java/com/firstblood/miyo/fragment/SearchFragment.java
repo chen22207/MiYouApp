@@ -24,6 +24,8 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
+import com.cs.networklibrary.util.PropertiesUtil;
+import com.cs.widget.recyclerview.RecyclerViewDivider;
 import com.cs.widget.viewwraper.db.LocalCityDbUtils;
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.activity.MainActivity;
@@ -36,6 +38,9 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,6 +106,7 @@ public class SearchFragment extends Fragment implements MainActivity.OnParentBac
 		LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		mSearchXrv.setLayoutManager(layoutManager);
+		mSearchXrv.addItemDecoration(new RecyclerViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
 		mSearchXrv.setAdapter(adapter);
 		mSearchXrv.setLoadingListener(new XRecyclerView.LoadingListener() {
 			@Override
@@ -537,9 +543,18 @@ public class SearchFragment extends Fragment implements MainActivity.OnParentBac
 			viewHolder.title.setText(houseSearch.getTitle());
 			viewHolder.type.setText(houseSearch.getIsflatshareStr());
 			viewHolder.price.setText(houseSearch.getPrice());
-			Picasso.with(context)
-					.load(houseSearch.getIco())
-					.into(viewHolder.iv);
+			try {
+				JSONArray array = new JSONArray(houseSearch.getImage());
+				String url = "http://" + PropertiesUtil.getProperty("QINIU_URL") + "/" + array.getString(0) + Constant.IMAGE_CROP_RULE;
+				Picasso.with(context)
+						.load(url)
+						.placeholder(R.drawable.img_default)
+						.error(R.drawable.img_default)
+						.into(viewHolder.iv);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
 		}
 
 		@Override

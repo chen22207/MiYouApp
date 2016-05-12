@@ -1,6 +1,5 @@
 package com.cs.networklibrary.converter;
 
-import com.cs.networklibrary.BuildConfig;
 import com.google.gson.TypeAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -25,7 +24,7 @@ final class MyGsonResponseBodyConverter<T> implements Converter<ResponseBody, T>
 	public T convert(ResponseBody value) throws IOException {
 		try {
 			String string = value.string();
-			if (isPrintResult && BuildConfig.DEBUG) {
+			if (isPrintResult) {
 				Logger.json(string);
 			}
 			return mAdapter.fromJson(string);

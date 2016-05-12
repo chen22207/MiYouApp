@@ -183,7 +183,7 @@ public class MyPublishActivity extends AppCompatActivity {
 				Picasso.with(MyPublishActivity.this)
 						.load(url)
 						.placeholder(R.drawable.img_default)
-						.error(R.drawable.f1)
+						.error(R.drawable.img_default)
 						.into(h.iv);
 			} catch (JSONException e) {
 				e.printStackTrace();

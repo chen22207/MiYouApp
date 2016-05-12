@@ -19,6 +19,7 @@ public class HouseSearch {
 	@SerializedName("pricetype")
 	private int priceType;//0面议，1押一付一，2押一付二，3押一付三，4半年付，5年付
 	private String ico;//图片地址
+	private String image;
 	private String price;
 
 	public String getId() {
@@ -107,6 +108,14 @@ public class HouseSearch {
 
 	public void setPriceType(int priceType) {
 		this.priceType = priceType;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public String getIco() {
