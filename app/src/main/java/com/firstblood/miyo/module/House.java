@@ -21,6 +21,7 @@ public class House {
 	private String ico;//图片地址
 	private String image;
 	private String price;
+	private String headphoto;
 
 	public String getId() {
 		return id;
@@ -132,5 +133,13 @@ public class House {
 
 	public void setPrice(String price) {
 		this.price = price;
+	}
+
+	public String getHeadphoto() {
+		return headphoto;
+	}
+
+	public void setHeadphoto(String headphoto) {
+		this.headphoto = headphoto;
 	}
 }

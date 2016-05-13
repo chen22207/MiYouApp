@@ -40,4 +40,23 @@ public class Navigation {
         bt.setOnClickListener(clickListener);
         return this;
     }
+
+	public Navigation setRightDrawable(int resourceId, View.OnClickListener clickListener) {
+		Button bt = ((Button) mActivity.findViewById(R.id.base_header_right_bt));
+		bt.setCompoundDrawablesWithIntrinsicBounds(resourceId, 0, 0, 0);
+		bt.setOnClickListener(clickListener);
+		return this;
+	}
+
+	public Navigation setRightListener(View.OnClickListener clickListener) {
+		Button bt = ((Button) mActivity.findViewById(R.id.base_header_right_bt));
+		bt.setOnClickListener(clickListener);
+		return this;
+	}
+
+	public Navigation setRightDrawable(int resourceId) {
+		Button bt = ((Button) mActivity.findViewById(R.id.base_header_right_bt));
+		bt.setCompoundDrawablesWithIntrinsicBounds(resourceId, 0, 0, 0);
+		return this;
+	}
 }

@@ -20,15 +20,16 @@
 
 			<RelativeLayout
 				android:layout_width="match_parent"
-				android:layout_height="250dp"
+				android:layout_height="220dp"
 				tools:visibility="visible">
 
 				<ImageView
 					android:id="@+id/house_detail_house_pic_iv"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
-					android:scaleType="fitXY"
-					tools:src="@drawable/f1"/>
+					android:scaleType="centerCrop"
+					tools:src="@drawable/f1"
+					tools:visibility="visible"/>
 
 				<LinearLayout
 					android:layout_width="wrap_content"
@@ -56,32 +57,24 @@
 
 				</LinearLayout>
 
-				<LinearLayout
+
+				<TextView
+					android:id="@+id/house_detail_hits_tv"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_alignParentBottom="true"
 					android:layout_alignParentRight="true"
 					android:layout_marginBottom="@dimen/large_space"
+					android:layout_marginLeft="@dimen/small_space"
 					android:background="@color/transparent_50_black"
-					android:orientation="horizontal"
+					android:drawableLeft="@drawable/icon_click_amount"
+					android:drawablePadding="@dimen/middle_space"
 					android:paddingBottom="@dimen/middle_space"
 					android:paddingLeft="@dimen/large_space"
 					android:paddingRight="@dimen/large_space"
-					android:paddingTop="@dimen/middle_space">
-
-					<ImageView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:src="@drawable/icon_next"/>
-
-					<TextView
-						android:id="@+id/house_detail_hits_tv"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginLeft="@dimen/small_space"
-						android:textColor="@color/white"
-						tools:text="80"/>
-				</LinearLayout>
+					android:paddingTop="@dimen/middle_space"
+					android:textColor="@color/white"
+					tools:text="80"/>
 			</RelativeLayout>
 
 			<LinearLayout
@@ -109,10 +102,10 @@
 					android:id="@+id/house_detail_info_detail_tv"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/middle_space"
 					android:layout_marginTop="@dimen/middle_space"
 					android:ellipsize="end"
-					android:maxLines="3"
-					android:minHeight="50dp"
+					android:minLines="3"
 					android:paddingLeft="@dimen/large_space"
 					android:paddingRight="@dimen/large_space"
 					tools:text="卡机的离开房间爱拉斯克奖富利卡就上课浪费骄傲； 世纪东方；了家里；是房价；拉开始就地方；拉进是的；六块腹肌啊；拉斯克奖的费卢卡斯剪短发了空间傻了点开放就拉开圣诞节分类"/>
@@ -127,7 +120,8 @@
 					android:background="@drawable/shape_blue_rectangle_border_bg"
 					android:padding="@dimen/middle_space"
 					android:text="@string/house_detail_read_more"
-					android:textColor="@color/colorPrimary"/>
+					android:textColor="@color/colorPrimary"
+					android:visibility="gone"/>
 
 				<include layout="@layout/line_break"/>
 
@@ -135,7 +129,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_gravity="center_horizontal"
-					android:layout_marginTop="@dimen/middle_space"
+					android:layout_marginTop="@dimen/large_space"
 					android:text="@string/house_detail_fangyuanqingkuang"
 					android:textSize="@dimen/middle_text_size"
 					android:textStyle="bold"/>
@@ -288,7 +282,8 @@
 						android:layout_weight="1"
 						android:button="@drawable/icon_ellipse_selector"
 						android:paddingLeft="@dimen/middle_space"
-						android:text="宽带"/>
+						android:text="宽带"
+						android:textColor="@drawable/selector_color_checked_black_gray"/>
 
 					<CheckBox
 						android:id="@+id/house_detail_bingxiang_cb"
@@ -297,7 +292,8 @@
 						android:layout_weight="1"
 						android:button="@drawable/icon_bingxiang_selector"
 						android:paddingLeft="@dimen/middle_space"
-						android:text="冰箱"/>
+						android:text="冰箱"
+						android:textColor="@drawable/selector_color_checked_black_gray"/>
 
 					<CheckBox
 						android:id="@+id/house_detail_xiyiji_cb"
@@ -306,7 +302,8 @@
 						android:layout_weight="1"
 						android:button="@drawable/icon_ellipse_selector"
 						android:paddingLeft="@dimen/middle_space"
-						android:text="洗衣机"/>
+						android:text="洗衣机"
+						android:textColor="@drawable/selector_color_checked_black_gray"/>
 				</LinearLayout>
 
 				<LinearLayout
@@ -322,7 +319,8 @@
 						android:layout_weight="1"
 						android:button="@drawable/icon_dianshi_selector"
 						android:paddingLeft="@dimen/middle_space"
-						android:text="电视"/>
+						android:text="电视"
+						android:textColor="@drawable/selector_color_checked_black_gray"/>
 
 					<CheckBox
 						android:id="@+id/house_detail_reshuiqi_cb"
@@ -331,7 +329,8 @@
 						android:layout_weight="1"
 						android:button="@drawable/icon_reshuiqi_selector"
 						android:paddingLeft="@dimen/middle_space"
-						android:text="热水器"/>
+						android:text="热水器"
+						android:textColor="@drawable/selector_color_checked_black_gray"/>
 
 					<CheckBox
 						android:id="@+id/house_detail_kongtiao_cb"
@@ -340,7 +339,8 @@
 						android:layout_weight="1"
 						android:button="@drawable/icon_kongtiao_selector"
 						android:paddingLeft="@dimen/middle_space"
-						android:text="空调"/>
+						android:text="空调"
+						android:textColor="@drawable/selector_color_checked_black_gray"/>
 				</LinearLayout>
 
 				<LinearLayout
@@ -356,7 +356,8 @@
 						android:layout_weight="1"
 						android:button="@drawable/icon_menjin_selector"
 						android:paddingLeft="@dimen/middle_space"
-						android:text="门禁"/>
+						android:text="门禁"
+						android:textColor="@drawable/selector_color_checked_black_gray"/>
 
 					<CheckBox
 						android:id="@+id/house_detail_dianti_cb"
@@ -365,7 +366,8 @@
 						android:layout_weight="1"
 						android:button="@drawable/icon_dianti_selector"
 						android:paddingLeft="@dimen/middle_space"
-						android:text="电梯"/>
+						android:text="电梯"
+						android:textColor="@drawable/selector_color_checked_black_gray"/>
 
 					<CheckBox
 						android:id="@+id/house_detail_tingche_cb"
@@ -374,7 +376,8 @@
 						android:layout_weight="1"
 						android:button="@drawable/icon_tingche_selector"
 						android:paddingLeft="@dimen/middle_space"
-						android:text="停车位"/>
+						android:text="停车位"
+						android:textColor="@drawable/selector_color_checked_black_gray"/>
 				</LinearLayout>
 
 				<LinearLayout
@@ -390,7 +393,8 @@
 						android:layout_weight="1"
 						android:button="@drawable/icon_yugang_selector"
 						android:paddingLeft="@dimen/middle_space"
-						android:text="浴缸"/>
+						android:text="浴缸"
+						android:textColor="@drawable/selector_color_checked_black_gray"/>
 
 					<CheckBox
 						android:id="@+id/house_detail_chongwu_cb"
@@ -399,7 +403,8 @@
 						android:layout_weight="1"
 						android:button="@drawable/icon_chongwu_selector"
 						android:paddingLeft="@dimen/middle_space"
-						android:text="允许宠物"/>
+						android:text="允许宠物"
+						android:textColor="@drawable/selector_color_checked_black_gray"/>
 
 					<CheckBox
 						android:id="@+id/house_detail_chouyan_cb"
@@ -408,7 +413,8 @@
 						android:layout_weight="1"
 						android:button="@drawable/icon_chouyan_selector"
 						android:paddingLeft="@dimen/middle_space"
-						android:text="抽烟"/>
+						android:text="抽烟"
+						android:textColor="@drawable/selector_color_checked_black_gray"/>
 				</LinearLayout>
 
 				<LinearLayout
@@ -424,7 +430,8 @@
 						android:layout_weight="1"
 						android:button="@drawable/icon_jucan_selector"
 						android:paddingLeft="@dimen/middle_space"
-						android:text="允许聚会"/>
+						android:text="允许聚会"
+						android:textColor="@drawable/selector_color_checked_black_gray"/>
 				</LinearLayout>
 			</LinearLayout>
 
@@ -462,10 +469,10 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:gravity="center"
-					android:padding="@dimen/large_space"
+					android:padding="@dimen/middle_space"
 					android:text="@string/house_detail_zhengzu"
 					android:textColor="@color/white"
-					android:textSize="@dimen/super_text_size"/>
+					android:textSize="@dimen/large_text_size"/>
 
 				<RelativeLayout
 					android:layout_width="1dp"
@@ -480,12 +487,11 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
 					android:gravity="center"
-					android:padding="@dimen/large_space"
+					android:padding="@dimen/middle_space"
 					android:text="@string/house_detail_hezu"
 					android:textColor="@color/white"
-					android:textSize="@dimen/super_text_size"/>
+					android:textSize="@dimen/large_text_size"/>
 			</LinearLayout>
-
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>

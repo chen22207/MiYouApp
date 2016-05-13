@@ -164,7 +164,7 @@ public class MyPublishActivity extends AppCompatActivity {
 		@Override
 		public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 			View v = View.inflate(parent.getContext(), R.layout.listitem_my_publish, null);
-			v.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+			v.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.MATCH_PARENT));
 			return new ItemViewHolder(v);
 		}
 

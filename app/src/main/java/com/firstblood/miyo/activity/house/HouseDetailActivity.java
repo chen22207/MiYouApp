@@ -7,12 +7,35 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.MarkerOptions;
+import com.cs.networklibrary.http.HttpMethods;
+import com.cs.networklibrary.http.HttpResultFunc;
 import com.firstblood.miyo.R;
+import com.firstblood.miyo.database.Constant;
+import com.firstblood.miyo.database.SpUtils;
+import com.firstblood.miyo.module.HouseDetail;
+import com.firstblood.miyo.module.NoData;
+import com.firstblood.miyo.netservices.HouseServices;
+import com.firstblood.miyo.subscribers.ProgressSubscriber;
+import com.firstblood.miyo.util.AlertMessageUtil;
+import com.firstblood.miyo.util.CommonUtils;
+import com.firstblood.miyo.util.Navigation;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class HouseDetailActivity extends AppCompatActivity {
 
@@ -75,13 +98,155 @@ public class HouseDetailActivity extends AppCompatActivity {
 	@InjectView(R.id.house_detail_hezu_tv)
 	TextView mHouseDetailHezuTv;
 
+	private String houseId;
+	private AMap aMap;
+	private Navigation navigation;
+	private boolean isCollect;
+	private HouseServices services;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_house_detail);
 		ButterKnife.inject(this);
+		mHouseDetailMap.onCreate(savedInstanceState);
+		navigation = Navigation.getInstance(this).setBack();
+		houseId = getIntent().getStringExtra("houseId");
+		requestHouseDetail();
+
+	}
+
+	private void requestHouseDetail() {
+		services = HttpMethods.getInstance().getClassInstance(HouseServices.class);
+		services.getHouseDetail(SpUtils.getInstance().getUserId(), houseId)
+				.map(new HttpResultFunc<>())
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new ProgressSubscriber<>(this, this::initView));
+	}
+
+	private void initView(HouseDetail detail) {
+		try {
+			JSONArray array = new JSONArray(detail.getImage());
+			Picasso.with(this)
+					.load(CommonUtils.getQiNiuImgUrl(array.getString(0), Constant.IMAGE_CROP_RULE_W_720))
+					.placeholder(R.drawable.img_default)
+					.into(mHouseDetailHousePicIv);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		mHouseDetailPriceTv.setText(detail.getPrice());
+		mHouseDetailHitsTv.setText(detail.getClickcount());
+		mHouseDetailInfoTitleTv.setText(detail.getTitle());
+		mHouseDetailInfoDetailTv.setText(detail.getDesctiption());
+		mHouseDetailFangxingTv.setText(detail.getSpecification_s());
+		mHouseDetailMianjiTv.setText(detail.getSize());
+		mHouseDetailChaoxiangTv.setText(CommonUtils.getOrientation(detail.getOrientation()));
+		mHouseDetailZhuangxiuTv.setText(CommonUtils.getZhuangXiu(detail.getRenovation()));
+		mHouseDetailFabushijianTv.setText(detail.getTitle().replace("T", " "));
+		mHouseDetailKuandaiCb.setChecked(detail.getWifi() == 1);
+		mHouseDetailReshuiqiCb.setChecked(detail.getHeater() == 1);
+		mHouseDetailDianshiCb.setChecked(detail.getTelevision() == 1);
+		mHouseDetailKongtiaoCb.setChecked(detail.getAirconditioner() == 1);
+		mHouseDetailBingxiangCb.setChecked(detail.getRefrigerator() == 1);
+		mHouseDetailXiyijiCb.setChecked(detail.getWashingmachine() == 1);
+		mHouseDetailDiantiCb.setChecked(detail.getElevator() == 1);
+		mHouseDetailMenjinCb.setChecked(detail.getAccesscontrol() == 1);
+		mHouseDetailTingcheCb.setChecked(detail.getParkingspace() == 1);
+		mHouseDetailChouyanCb.setChecked(detail.getSmoking() == 1);
+		mHouseDetailYugangCb.setChecked(detail.getBathtub() == 1);
+		mHouseDetailChongwuCb.setChecked(detail.getKeepingpets() == 1);
+		mHouseDetailJucanCb.setChecked(detail.getPaty() == 1);
+		mHouseDetailLocationTv.setText(detail.getAddress());
+
+		isCollect = detail.getIscollect() == 1;
+		if (isCollect) {//未收藏
+			navigation.setRightDrawable(R.drawable.icon_collected);
+		} else {
+			navigation.setRightDrawable(R.drawable.icon_uncollect);
+		}
+		navigation.setRightListener(v -> {
+			if (isCollect) {
+				requestUnCollect();
+			} else {
+				requestCollect();
+			}
+		});
+		initMap(detail.getAddress_y(), detail.getAddress_x());
+	}
+
+	private void initMap(double latitude, double longitude) {
+		//地图
+		aMap = mHouseDetailMap.getMap();
+		aMap.getUiSettings().setMyLocationButtonEnabled(false);
+		aMap.getUiSettings().setScaleControlsEnabled(false);
+		aMap.getUiSettings().setScrollGesturesEnabled(false);
+		aMap.getUiSettings().setZoomControlsEnabled(false);
+		aMap.setMyLocationEnabled(false);
+		aMap.setOnMapClickListener(v -> {
+
+		});
+
+		//移动到指定未知
+		aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 17));
+		LatLng target = aMap.getCameraPosition().target;
+		MarkerOptions markerOptions = new MarkerOptions();
+		markerOptions.position(target);
+		markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_map_location));
+		aMap.addMarker(markerOptions);
+	}
 
 
+	private void requestUnCollect() {
+		navigation.setRightDrawable(R.drawable.icon_uncollect);
+		services.collectHouseCancel(SpUtils.getInstance().getUserId(), houseId)
+				.map(new HttpResultFunc<>())
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Subscriber<NoData>() {
+					@Override
+					public void onCompleted() {
+
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						navigation.setRightDrawable(R.drawable.icon_collected);
+						AlertMessageUtil.showAlert(HouseDetailActivity.this, "取消收藏失败");
+					}
+
+					@Override
+					public void onNext(NoData noData) {
+						isCollect = false;
+						AlertMessageUtil.showAlert(HouseDetailActivity.this, "取消收藏成功");
+					}
+				});
+	}
+
+	private void requestCollect() {
+		navigation.setRightDrawable(R.drawable.icon_collected);
+		services.collectHouse(SpUtils.getInstance().getUserId(), houseId)
+				.map(new HttpResultFunc<>())
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(new Subscriber<NoData>() {
+					@Override
+					public void onCompleted() {
+
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						navigation.setRightDrawable(R.drawable.icon_uncollect);
+						AlertMessageUtil.showAlert(HouseDetailActivity.this, "收藏失败");
+					}
+
+					@Override
+					public void onNext(NoData noData) {
+						isCollect = true;
+						AlertMessageUtil.showAlert(HouseDetailActivity.this, "收藏成功");
+					}
+				});
 	}
 
 	@OnClick({R.id.house_detail_info_more_tv, R.id.house_detail_zhengzu_tv, R.id.house_detail_hezu_tv})
@@ -94,5 +259,11 @@ public class HouseDetailActivity extends AppCompatActivity {
 			case R.id.house_detail_hezu_tv:
 				break;
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mHouseDetailMap.onDestroy();
 	}
 }

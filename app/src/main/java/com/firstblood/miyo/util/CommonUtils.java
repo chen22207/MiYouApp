@@ -106,4 +106,20 @@ public class CommonUtils {
 	public static String getQiNiuImgUrl(String imgName, String cropType) {
 		return "http://" + PropertiesUtil.getProperty("QINIU_URL") + "/" + imgName + cropType;
 	}
+
+	public static String getOrientation(int o) {
+		if (o == 1) return "东";
+		else if (o == 2) return "南";
+		else if (o == 3) return "西";
+		else if (o == 4) return "北";
+		else return "";
+	}
+
+	public static String getZhuangXiu(int z) {
+		if (z == 1) return "简单";
+		else if (z == 2) return "中等";
+		else if (z == 3) return "精装";
+		else if (z == 4) return "豪华";
+		else return "未知";
+	}
 }

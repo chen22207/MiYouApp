@@ -340,8 +340,8 @@ public class MapActivity extends AppCompatActivity implements LocationSource, AM
 			h.description.setText(item.getSnippet());
 			h.itemView.setOnClickListener(v -> {
 				Intent intent = new Intent();
-				intent.putExtra("x", item.getLatLonPoint().getLatitude());
-				intent.putExtra("y", item.getLatLonPoint().getLongitude());
+				intent.putExtra("x", item.getLatLonPoint().getLongitude());
+				intent.putExtra("y", item.getLatLonPoint().getLatitude());
 				intent.putExtra("addressName", item.getTitle());
 				intent.putExtra("address", item.getProvinceName() + item.getCityName() + item.getAdName() + item.getSnippet());
 				setResult(RESULT_OK, intent);

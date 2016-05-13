@@ -2,12 +2,14 @@ package com.firstblood.miyo.netservices;
 
 import com.cs.networklibrary.entity.HttpResult;
 import com.firstblood.miyo.module.Banner;
+import com.firstblood.miyo.module.HouseDetail;
 import com.firstblood.miyo.module.HouseModule;
 import com.firstblood.miyo.module.NoData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -33,6 +35,23 @@ public interface HouseServices {
 	Observable<HttpResult<ArrayList<Banner>>> getBanner();
 
 	//首页房源数据
+	@FormUrlEncoded
 	@POST("getHeadPage.aspx")
-	Observable<HttpResult<HouseModule>> getHeadPage();
+	Observable<HttpResult<HouseModule>> getHeadPage(@Field("index") int index, @Field("count") int count);
+
+	//获取房源详情
+	@FormUrlEncoded
+	@POST("getHouseInfoAPI.aspx")
+	Observable<HttpResult<HouseDetail>> getHouseDetail(@Field("userid") String userid, @Field("houseid") String houseid);
+
+	//收藏房源
+	@FormUrlEncoded
+	@POST("collectHouseAPI.aspx")
+	Observable<HttpResult<NoData>> collectHouse(@Field("userid") String userid, @Field("houseid") String houseid);
+
+	//取消收藏
+	@FormUrlEncoded
+	@POST("deleteCollectAPI.aspx")
+	Observable<HttpResult<NoData>> collectHouseCancel(@Field("userid") String userid, @Field("houseid") String houseid);
+
 }

@@ -1,5 +1,6 @@
 package com.firstblood.miyo.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,13 +18,22 @@ import com.cs.networklibrary.http.HttpMethods;
 import com.cs.widget.imageview.MaterialImageView;
 import com.cs.widget.recyclerview.RecyclerViewDivider;
 import com.firstblood.miyo.R;
+import com.firstblood.miyo.activity.house.HouseDetailActivity;
+import com.firstblood.miyo.activity.user.LoginActivity;
+import com.firstblood.miyo.database.Constant;
+import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.module.Banner;
 import com.firstblood.miyo.module.HomePageData;
 import com.firstblood.miyo.module.House;
 import com.firstblood.miyo.netservices.HouseServices;
 import com.firstblood.miyo.subscribers.ProgressSubscriber;
+import com.firstblood.miyo.util.CommonUtils;
 import com.firstblood.miyo.view.convenientbanner.LocalImageHolderView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,16 +52,15 @@ public class HomePageFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+	private final int count = 20;
 	@InjectView(R.id.home_page_xrv)
 	XRecyclerView mHomePageXrv;
-
     private MyListAdapter adapter;
-
     private List<ImageView> images = new ArrayList<>();
     private List<ImageView> imageIndexs = new ArrayList<>();
-
 	private View headerView;
 	private ConvenientBanner<Banner> convenientBanner;
+	private int index = 0;
 
 	public HomePageFragment() {
 	}
@@ -81,7 +90,7 @@ public class HomePageFragment extends Fragment {
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		HouseServices services = HttpMethods.getInstance().getClassInstance(HouseServices.class);
-		Observable.zip(services.getBanner(), services.getHeadPage(), (arrayListHttpResult, houseModuleHttpResult) -> {
+		Observable.zip(services.getBanner(), services.getHeadPage(index, count), (arrayListHttpResult, houseModuleHttpResult) -> {
 			if (!arrayListHttpResult.getResultCode().equals("0000")) {
 				throw new ApiException(arrayListHttpResult.getResultMsg());
 			}
@@ -108,6 +117,7 @@ public class HomePageFragment extends Fragment {
 		convenientBanner.setPages(LocalImageHolderView::new, data.getBanners())
 				.setPageIndicator(new int[]{R.drawable.shape_image_index_white, R.drawable.shape_image_index_gray})
 				.setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT);
+		convenientBanner.startTurning(3000);
 		mHomePageXrv.addHeaderView(headerView);
 	}
 
@@ -137,16 +147,37 @@ public class HomePageFragment extends Fragment {
 	    @Override
 	    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		    View v = View.inflate(parent.getContext(), R.layout.listitem_home_page, null);
-		    ViewHolder h = new ViewHolder(v);
-		    return h;
+		    v.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+		    return new ViewHolder(v);
 	    }
 
 	    @Override
 	    public void onBindViewHolder(ViewHolder holder, int position) {
-		    holder.bgIv.setImageResource(R.drawable.f1);
-		    holder.titleTv.setText("西湖文化及阿斯兰肯定句疯啦");
-		    holder.priceTv.setText("￥" + "4500");
-		    holder.headPortraitIv.setImageResource(R.drawable.ic_head_image);
+		    House h = houses.get(position);
+		    holder.titleTv.setText(h.getTitle());
+		    holder.priceTv.setText("￥" + h.getPrice());
+		    Picasso.with(getContext())
+				    .load(CommonUtils.getQiNiuImgUrl(h.getHeadphoto(), Constant.IMAGE_CROP_RULE_W_200))
+				    .placeholder(R.drawable.icon_default_head_img)
+				    .into(holder.headPortraitIv);
+		    try {
+			    JSONArray array = new JSONArray(h.getImage());
+			    Picasso.with(getContext())
+					    .load(CommonUtils.getQiNiuImgUrl(array.getString(0), Constant.IMAGE_CROP_RULE_W_720))
+					    .placeholder(R.drawable.img_default)
+					    .into(holder.bgIv);
+		    } catch (JSONException e) {
+			    e.printStackTrace();
+		    }
+		    holder.itemView.setOnClickListener(v -> {
+			    if (SpUtils.getInstance().getUser() == null) {
+				    startActivity(new Intent(getActivity(), LoginActivity.class));
+			    } else {
+				    Intent intent = new Intent(getActivity(), HouseDetailActivity.class);
+				    intent.putExtra("houseId", h.getId());
+				    startActivity(intent);
+			    }
+		    });
 	    }
 
 	    @Override

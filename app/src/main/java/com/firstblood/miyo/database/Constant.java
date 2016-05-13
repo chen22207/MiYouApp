@@ -8,4 +8,5 @@ public class Constant {
 	public static final int TYPE_REFRESH = 2;
 
 	public static final String IMAGE_CROP_RULE_W_200 = "?imageView2/2/w/200";//宽度200，高度等比例缩放
+	public static final String IMAGE_CROP_RULE_W_720 = "?imageView2/2/w/720";//宽度720，高度等比例缩放
 }
