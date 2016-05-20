@@ -119,7 +119,7 @@ public class UserInfoCompleteActivity extends AppCompatActivity {
 	private void initData(User u) {
 		user = u;
 		user.setUserId(SpUtils.getInstance().getUserId());
-		CommonUtils.loadHeadImage(this, user, mUserInfoHeaderIv);
+		CommonUtils.loadHeadImage(this, user, mUserInfoHeaderIv, null);
 		mUserInfoNicknameTv.setText(TextUtils.isEmpty(user.getNickName()) ? "请输入" : user.getNickName());
 		mUserInfoPhoneTv.setText(TextUtils.isEmpty(user.getPhone()) ? "请输入" : user.getPhone());
 		mUserInfoAgeTv.setText(user.getAge() == 0 ? "请输入" : user.getAge() + "");

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/black"
+	tools:context="com.firstblood.miyo.activity.house.HousePicReviewActivity">
+
+	<android.support.v4.view.ViewPager
+		android:id="@+id/house_pic_review_vp"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginBottom="?attr/actionBarSize"
+		android:layout_marginTop="?attr/actionBarSize"
+		/>
+
+	<TextView
+		android:id="@+id/house_pic_review_index_tv"
+		android:layout_width="wrap_content"
+		android:layout_height="?attr/actionBarSize"
+		android:layout_centerHorizontal="true"
+		android:gravity="center"
+		android:textColor="@color/white"
+		android:textSize="@dimen/large_text_size"
+		tools:text="1/2"/>
+
+</RelativeLayout>

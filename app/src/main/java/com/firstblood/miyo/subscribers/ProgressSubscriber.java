@@ -20,15 +20,21 @@ import rx.Subscriber;
 public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCancelListener {
 
 	private SubscriberOnNextListener<T> mSubscriberOnNextListener;
+	private SubscriberOnErrorListener mSubscriberOnErrorListener;
 	private ProgressDialogHandler mProgressDialogHandler;
 
     private Context context;
 
 	public ProgressSubscriber(Context context, SubscriberOnNextListener<T> mSubscriberOnNextListener) {
+		this(context, mSubscriberOnNextListener, null);
+	}
+
+	public ProgressSubscriber(Context context, SubscriberOnNextListener<T> mSubscriberOnNextListener, SubscriberOnErrorListener subscriberOnErrorListener) {
 		this.mSubscriberOnNextListener = mSubscriberOnNextListener;
-        this.context = context;
-        mProgressDialogHandler = new ProgressDialogHandler(context, this, true);
-    }
+		mSubscriberOnErrorListener = subscriberOnErrorListener;
+		this.context = context;
+		mProgressDialogHandler = new ProgressDialogHandler(context, this, true);
+	}
 
     private void showProgressDialog() {
         if (mProgressDialogHandler != null) {
@@ -76,7 +82,9 @@ public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCanc
 	        Toast.makeText(context, "错误:" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         dismissProgressDialog();
-
+	    if (mSubscriberOnErrorListener != null) {
+		    mSubscriberOnErrorListener.onError();
+	    }
     }
 
     /**

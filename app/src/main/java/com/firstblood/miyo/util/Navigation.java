@@ -3,6 +3,7 @@ package com.firstblood.miyo.util;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firstblood.miyo.R;
@@ -16,6 +17,7 @@ public class Navigation {
 
 	private Navigation(FragmentActivity activity) {
 		this.mActivity = activity;
+
     }
 
     public static Navigation getInstance(FragmentActivity activity) {
@@ -42,21 +44,21 @@ public class Navigation {
     }
 
 	public Navigation setRightDrawable(int resourceId, View.OnClickListener clickListener) {
-		Button bt = ((Button) mActivity.findViewById(R.id.base_header_right_bt));
-		bt.setCompoundDrawablesWithIntrinsicBounds(resourceId, 0, 0, 0);
-		bt.setOnClickListener(clickListener);
+		ImageView iv = ((ImageView) mActivity.findViewById(R.id.base_header_right_iv));
+		iv.setImageResource(resourceId);
+		iv.setOnClickListener(clickListener);
 		return this;
 	}
 
-	public Navigation setRightListener(View.OnClickListener clickListener) {
-		Button bt = ((Button) mActivity.findViewById(R.id.base_header_right_bt));
-		bt.setOnClickListener(clickListener);
+	public Navigation setRightDrawableListener(View.OnClickListener clickListener) {
+		ImageView iv = ((ImageView) mActivity.findViewById(R.id.base_header_right_iv));
+		iv.setOnClickListener(clickListener);
 		return this;
 	}
 
 	public Navigation setRightDrawable(int resourceId) {
-		Button bt = ((Button) mActivity.findViewById(R.id.base_header_right_bt));
-		bt.setCompoundDrawablesWithIntrinsicBounds(resourceId, 0, 0, 0);
+		ImageView iv = ((ImageView) mActivity.findViewById(R.id.base_header_right_iv));
+		iv.setImageResource(resourceId);
 		return this;
 	}
 }

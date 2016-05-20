@@ -14,6 +14,7 @@ import com.firstblood.miyo.activity.other.SettingActivity;
 import com.firstblood.miyo.activity.user.LoginActivity;
 import com.firstblood.miyo.database.SpDictionary;
 import com.firstblood.miyo.database.SpUtils;
+import com.firstblood.miyo.fragment.CollectFragment;
 import com.firstblood.miyo.fragment.HomePageFragment;
 import com.firstblood.miyo.fragment.MessageFragment;
 import com.firstblood.miyo.fragment.MineFragment;
@@ -145,9 +146,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			if (f1 != null) {
 				fragmentManager.beginTransaction().show(f1).commit();
 			} else {
-				HomePageFragment homePageFragment = HomePageFragment.newInstance();
-				fragmentList.add(homePageFragment);
-				fragmentManager.beginTransaction().add(R.id.main_fl, homePageFragment, FRAGMENT_TAG[1]).commit();
+				CollectFragment collectFragment = CollectFragment.newInstance();
+				fragmentList.add(collectFragment);
+				fragmentManager.beginTransaction().add(R.id.main_fl, collectFragment, FRAGMENT_TAG[1]).commit();
 			}
 		} else if (v == mMainTabSearchIb) {
 //			startActivity(new Intent(this, HouseSearchActivity.class));

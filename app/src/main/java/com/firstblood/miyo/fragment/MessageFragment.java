@@ -21,6 +21,7 @@ import com.cs.networklibrary.http.HttpResultFunc;
 import com.cs.widget.recyclerview.RecyclerViewDivider;
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.activity.message.MessageDetailActivity;
+import com.firstblood.miyo.database.Constant;
 import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.module.Message;
 import com.firstblood.miyo.module.MessageModule;
@@ -46,9 +47,6 @@ import rx.schedulers.Schedulers;
  * 个人消息
  */
 public class MessageFragment extends Fragment {
-
-    private static final int TYPE_REFRESH = 1;
-    private static final int TYPE_LOAD_MORE = 2;
 	private final int msgCount = 15;
 	@InjectView(R.id.base_header_title_tv)
     TextView mBaseHeaderTitleTv;
@@ -121,14 +119,13 @@ public class MessageFragment extends Fragment {
     }
 
     private void requestRefresh() {
-        adapter.clearData();
         index = 0;
-        requestMessageList(TYPE_REFRESH);
+	    requestMessageList(Constant.TYPE_REFRESH);
     }
 
     private void requestLoadMore() {
         index += msgCount;
-        requestMessageList(TYPE_LOAD_MORE);
+	    requestMessageList(Constant.TYPE_LOADMORE);
     }
 
     private void requestMessageList(int type) {
@@ -151,25 +148,28 @@ public class MessageFragment extends Fragment {
                         } else {
                             Toast.makeText(getActivity(), "错误:" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
-                        if (type == TYPE_LOAD_MORE) {
-                            mMessageRv.loadMoreComplete();
-                        } else if (type == TYPE_REFRESH) {
-                            mMessageRv.refreshComplete();
+	                    if (type == Constant.TYPE_LOADMORE) {
+		                    mMessageRv.loadMoreComplete();
+	                    } else if (type == Constant.TYPE_REFRESH) {
+		                    mMessageRv.refreshComplete();
                         }
                     }
 
                     @Override
                     public void onNext(MessageModule message) {
-	                    adapter.addData(message.getData());
-	                    adapter.notifyDataSetChanged();
-                        if (type == TYPE_LOAD_MORE) {
-                            mMessageRv.loadMoreComplete();
+	                    if (type == Constant.TYPE_LOADMORE) {
+		                    adapter.addData(message.getData());
+		                    adapter.notifyDataSetChanged();
+		                    mMessageRv.loadMoreComplete();
 	                        if (message.getData().isEmpty()) {
 		                        AlertMessageUtil.showAlert(getActivity(), "没有更多了");
                                 mMessageRv.setLoadingMoreEnabled(false);
                             }
-                        } else if (type == TYPE_REFRESH) {
-                            mMessageRv.refreshComplete();
+	                    } else if (type == Constant.TYPE_REFRESH) {
+		                    adapter.clearData();
+		                    adapter.addData(message.getData());
+		                    adapter.notifyDataSetChanged();
+		                    mMessageRv.refreshComplete();
 	                        if (!message.getData().isEmpty()) {
 		                        mMessageRv.setLoadingMoreEnabled(true);
                             }

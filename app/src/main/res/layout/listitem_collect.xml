@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:cs="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="245dp"
+              android:orientation="vertical">
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="200dp">
+
+		<com.cs.widget.imageview.MaterialImageView
+			android:id="@+id/listitem_collect_bg_iv"
+			android:layout_width="match_parent"
+			android:layout_height="220dp"
+			android:scaleType="centerCrop"
+			cs:radius_size="10"
+			cs:shadow_size="5"
+			cs:use_white_bg="false"
+			tools:src="@drawable/f1"/>
+
+		<TextView
+			android:id="@+id/listitem_collect_price_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentRight="true"
+			android:layout_margin="@dimen/super_plus_space"
+			android:background="@color/transparent_50_black"
+			android:padding="@dimen/small_space"
+			android:textColor="@color/white"
+			tools:text="￥3600"/>
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="-30dp"
+		android:padding="@dimen/middle_space">
+
+		<de.hdodenhof.circleimageview.CircleImageView
+			android:id="@+id/listitem_collect_head_portrait_iv"
+			android:layout_width="55dp"
+			android:layout_height="55dp"
+			android:src="@drawable/ic_head_image"
+			cs:civ_border_color="@color/white"
+			cs:civ_border_width="2dp"
+			tools:src="@drawable/icon_default_head_img"/>
+
+		<TextView
+			android:id="@+id/listitem_collect_address_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_above="@+id/listitem_collect_date_tv"
+			android:layout_marginLeft="@dimen/middle_space"
+			android:layout_toRightOf="@+id/listitem_collect_head_portrait_iv"
+			android:ellipsize="end"
+			android:singleLine="true"
+			tools:text="西湖文化广场id也我刚卡死机傅雷家书"/>
+
+		<TextView
+			android:id="@+id/listitem_collect_date_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentRight="true"
+			tools:text="2016-05-30"/>
+	</RelativeLayout>
+</LinearLayout>

@@ -1,6 +1,7 @@
 package com.firstblood.miyo.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,7 +29,10 @@ import com.cs.widget.recyclerview.RecyclerViewDivider;
 import com.cs.widget.viewwraper.db.LocalCityDbUtils;
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.activity.MainActivity;
+import com.firstblood.miyo.activity.house.HouseDetailActivity;
+import com.firstblood.miyo.activity.user.LoginActivity;
 import com.firstblood.miyo.database.Constant;
+import com.firstblood.miyo.database.SpUtils;
 import com.firstblood.miyo.module.House;
 import com.firstblood.miyo.module.HouseModule;
 import com.firstblood.miyo.netservices.HouseServices;
@@ -544,15 +548,27 @@ public class SearchFragment extends Fragment implements MainActivity.OnParentBac
 			viewHolder.type.setText(house.getIsflatshareStr());
 			viewHolder.price.setText(house.getPrice());
 			try {
-				JSONArray array = new JSONArray(house.getImage());
-				Picasso.with(context)
-						.load(CommonUtils.getQiNiuImgUrl(array.getString(0), Constant.IMAGE_CROP_RULE_W_200))
-						.placeholder(R.drawable.img_default)
-						.error(R.drawable.img_default)
-						.into(viewHolder.iv);
+				if (!TextUtils.isEmpty(house.getImage())) {
+					JSONArray array = new JSONArray(house.getImage());
+					Picasso.with(context)
+							.load(CommonUtils.getQiNiuImgUrl(array.getString(0), Constant.IMAGE_CROP_RULE_W_200))
+							.placeholder(R.drawable.img_default)
+							.error(R.drawable.img_default)
+							.into(viewHolder.iv);
+				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
+
+			holder.itemView.setOnClickListener(v -> {
+				if (SpUtils.getInstance().getUser() == null) {
+					startActivity(new Intent(getActivity(), LoginActivity.class));
+				} else {
+					Intent intent = new Intent(getActivity(), HouseDetailActivity.class);
+					intent.putExtra("houseId", house.getId());
+					startActivity(intent);
+				}
+			});
 
 		}
 

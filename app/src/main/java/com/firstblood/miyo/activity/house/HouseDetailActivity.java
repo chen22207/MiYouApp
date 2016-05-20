@@ -1,7 +1,9 @@
 package com.firstblood.miyo.activity.house;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -18,6 +20,7 @@ import com.cs.networklibrary.http.HttpResultFunc;
 import com.firstblood.miyo.R;
 import com.firstblood.miyo.database.Constant;
 import com.firstblood.miyo.database.SpUtils;
+import com.firstblood.miyo.fragment.CollectFragment;
 import com.firstblood.miyo.module.HouseDetail;
 import com.firstblood.miyo.module.NoData;
 import com.firstblood.miyo.netservices.HouseServices;
@@ -25,6 +28,7 @@ import com.firstblood.miyo.subscribers.ProgressSubscriber;
 import com.firstblood.miyo.util.AlertMessageUtil;
 import com.firstblood.miyo.util.CommonUtils;
 import com.firstblood.miyo.util.Navigation;
+import com.firstblood.miyo.util.RxBus;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -103,6 +107,8 @@ public class HouseDetailActivity extends AppCompatActivity {
 	private Navigation navigation;
 	private boolean isCollect;
 	private HouseServices services;
+	private RxBus bus;
+	private String[] housePics;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +116,7 @@ public class HouseDetailActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_house_detail);
 		ButterKnife.inject(this);
 		mHouseDetailMap.onCreate(savedInstanceState);
+		bus = RxBus.getInstance();
 		navigation = Navigation.getInstance(this).setBack();
 		houseId = getIntent().getStringExtra("houseId");
 		requestHouseDetail();
@@ -127,11 +134,17 @@ public class HouseDetailActivity extends AppCompatActivity {
 
 	private void initView(HouseDetail detail) {
 		try {
-			JSONArray array = new JSONArray(detail.getImage());
-			Picasso.with(this)
-					.load(CommonUtils.getQiNiuImgUrl(array.getString(0), Constant.IMAGE_CROP_RULE_W_720))
-					.placeholder(R.drawable.img_default)
-					.into(mHouseDetailHousePicIv);
+			if (!TextUtils.isEmpty(detail.getImage())) {
+				JSONArray array = new JSONArray(detail.getImage());
+				Picasso.with(this)
+						.load(CommonUtils.getQiNiuImgUrl(array.getString(0), Constant.IMAGE_CROP_RULE_W_720))
+						.placeholder(R.drawable.img_default)
+						.into(mHouseDetailHousePicIv);
+				housePics = new String[array.length()];
+				for (int i = 0; i < array.length(); i++) {
+					housePics[i] = array.getString(i);
+				}
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -165,12 +178,13 @@ public class HouseDetailActivity extends AppCompatActivity {
 		} else {
 			navigation.setRightDrawable(R.drawable.icon_uncollect);
 		}
-		navigation.setRightListener(v -> {
+		navigation.setRightDrawableListener(v -> {
 			if (isCollect) {
 				requestUnCollect();
 			} else {
 				requestCollect();
 			}
+			bus.send(new CollectFragment.CollectionChangeAction());
 		});
 		initMap(detail.getAddress_y(), detail.getAddress_x());
 	}
@@ -184,7 +198,10 @@ public class HouseDetailActivity extends AppCompatActivity {
 		aMap.getUiSettings().setZoomControlsEnabled(false);
 		aMap.setMyLocationEnabled(false);
 		aMap.setOnMapClickListener(v -> {
-
+			Intent intent = new Intent(HouseDetailActivity.this, FullScreenMapActivity.class);
+			intent.putExtra("latitude", latitude);
+			intent.putExtra("longitude", longitude);
+			startActivity(intent);
 		});
 
 		//移动到指定未知
@@ -249,10 +266,15 @@ public class HouseDetailActivity extends AppCompatActivity {
 				});
 	}
 
-	@OnClick({R.id.house_detail_info_more_tv, R.id.house_detail_zhengzu_tv, R.id.house_detail_hezu_tv})
+	@OnClick({R.id.house_detail_house_pic_iv, R.id.house_detail_zhengzu_tv, R.id.house_detail_hezu_tv})
 	public void onClick(View view) {
 		switch (view.getId()) {
-			case R.id.house_detail_info_more_tv:
+			case R.id.house_detail_house_pic_iv:
+				if (housePics != null && housePics.length > 0) {
+					Intent intent = new Intent(this, HousePicReviewActivity.class);
+					intent.putExtra("pics", housePics);
+					startActivity(intent);
+				}
 				break;
 			case R.id.house_detail_zhengzu_tv:
 				break;

@@ -102,6 +102,12 @@
 		<activity
 			android:name=".activity.user.MyPublishActivity"
 			android:screenOrientation="portrait"/>
+		<activity
+			android:name=".activity.house.FullScreenMapActivity"
+			android:screenOrientation="portrait"/>
+		<activity
+			android:name=".activity.house.HousePicReviewActivity"
+			android:screenOrientation="portrait"/>
 	</application>
 
 </manifest>

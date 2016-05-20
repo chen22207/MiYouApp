@@ -12,4 +12,5 @@
 	<string name="title_map">地图</string>
 	<string name="title_publish5">房源图片</string>
 	<string name="title_rental_intent">租房期望</string>
+	<string name="title_collection">我的收藏</string>
 </resources>

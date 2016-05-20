@@ -3,6 +3,7 @@ package com.firstblood.miyo.util;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import com.isseiaoki.simplecropview.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
@@ -28,7 +30,7 @@ import rx.schedulers.Schedulers;
  * Created by Administrator on 2016/3/21.
  */
 public class CommonUtils {
-	public static void loadHeadImage(Context context, User user, ImageView imageView) {
+	public static void loadHeadImage(Context context, User user, ImageView imageView, ImageView bg) {
 		File file = new File(context.getCacheDir(), "crop_" + user.getUserId());
 		if (file.exists()) {
 			Uri uri = Uri.fromFile(file);
@@ -37,16 +39,28 @@ public class CommonUtils {
 						.map(uri1 -> Utils.decodeSampledBitmapFromUri(context, uri, 200))
 						.subscribeOn(Schedulers.io())
 						.observeOn(AndroidSchedulers.mainThread())
-						.subscribe(imageView::setImageBitmap);
+						.subscribe(bitmap -> {
+							imageView.setImageBitmap(bitmap);
+							if (bg != null) {
+								bg.setImageBitmap(BitmapUtils.getVirtualBitmap(context, bitmap));
+							}
+						});
 			}
 		} else {
 			if (!TextUtils.isEmpty(user.getHeadImg())) {
-				Picasso.with(context)
-						.load(getQiNiuImgUrl(user.getHeadImg(), Constant.IMAGE_CROP_RULE_W_200))
-						.placeholder(R.drawable.icon_default_head_img)
-						.tag(MultiImageSelectorFragment.TAG)
-						.centerCrop()
-						.into(imageView);
+				try {
+					Bitmap b = Picasso.with(context)
+							.load(getQiNiuImgUrl(user.getHeadImg(), Constant.IMAGE_CROP_RULE_W_200))
+							.placeholder(R.drawable.icon_default_head_img)
+							.tag(MultiImageSelectorFragment.TAG)
+							.get();
+					imageView.setImageBitmap(b);
+					if (bg != null) {
+						bg.setImageBitmap(BitmapUtils.getVirtualBitmap(context, b));
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			} else {
 				imageView.setImageResource(R.drawable.icon_default_head_img);
 			}

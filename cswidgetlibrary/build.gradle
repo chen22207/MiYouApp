@@ -26,4 +26,5 @@ dependencies {
     compile 'com.bigkoo:convenientbanner:2.0.5'
     compile 'com.jcodecraeer:xrecyclerview:1.2.7'
     compile 'net.grandcentrix.tray:tray:1.0.0-rc3'
+    compile 'jp.wasabeef:blurry:2.0.2'
 }

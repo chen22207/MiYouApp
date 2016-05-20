@@ -26,14 +26,29 @@
         android:textSize="@dimen/large_text_size"
         tools:text="标题" />
 
-	<Button
-        android:id="@+id/base_header_right_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:background="@android:color/transparent"
-        android:textColor="@color/white"
-        android:textSize="@dimen/middle_text_size"
-        tools:text="其他" />
+	<FrameLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true">
+
+		<Button
+			android:id="@+id/base_header_right_bt"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="@android:color/transparent"
+			android:textColor="@color/white"
+			android:textSize="@dimen/middle_text_size"
+			tools:text="其他"/>
+
+		<ImageView
+			android:id="@+id/base_header_right_iv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:padding="@dimen/middle_space"
+			tools:src="@drawable/icon_collected"/>
+
+	</FrameLayout>
+
+
 </RelativeLayout>

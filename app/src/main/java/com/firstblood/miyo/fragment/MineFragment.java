@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firstblood.miyo.R;
@@ -41,7 +42,9 @@ public class MineFragment extends Fragment {
     TextView mMinePublishTv;
     @InjectView(R.id.mine_setting_tv)
     TextView mMineSettingTv;
-    private RxBus bus;
+	@InjectView(R.id.mine_header_bg_iv)
+	ImageView mMineHeaderBgIv;
+	private RxBus bus;
 	private User user;
 
 	public static MineFragment newInstance() {
@@ -55,7 +58,8 @@ public class MineFragment extends Fragment {
 
 	    user = SpUtils.getInstance().getUser();
 	    if (user != null) {
-		    CommonUtils.loadHeadImage(getActivity(), user, mMineHeaderIv);
+		    CommonUtils.loadHeadImage(getActivity(), user, mMineHeaderIv, mMineHeaderBgIv);
+
 		    mMineUsernameTv.setText(user.getNickName());
 	    }
         return v;

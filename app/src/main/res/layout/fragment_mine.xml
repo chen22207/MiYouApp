@@ -9,8 +9,14 @@
 
 	<RelativeLayout
 		android:layout_width="match_parent"
-		android:layout_height="200dp"
-		android:background="@drawable/f1">
+		android:layout_height="200dp">
+
+		<ImageView
+			android:id="@+id/mine_header_bg_iv"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:scaleType="centerCrop"
+			tools:src="@drawable/f1"/>
 
 		<de.hdodenhof.circleimageview.CircleImageView
 			android:id="@+id/mine_header_iv"
@@ -73,17 +79,17 @@
 		android:textSize="@dimen/middle_text_size" />
 
 	<Button
-        android:id="@+id/mine_publish_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="我想成为房东"
-        android:textColor="@color/white"
-        android:textSize="@dimen/large_text_size"
-        android:paddingTop="@dimen/middle_space"
-        android:paddingBottom="@dimen/middle_space"
-        android:paddingLeft="@dimen/huge_space"
-        android:paddingRight="@dimen/huge_space"
-        android:background="@drawable/shape_blue_rectangle_bg"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/large_space" />
+		android:id="@+id/mine_publish_bt"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:layout_marginTop="@dimen/large_space"
+		android:background="@drawable/shape_blue_rectangle_bg"
+		android:paddingBottom="@dimen/middle_space"
+		android:paddingLeft="@dimen/huge_space"
+		android:paddingRight="@dimen/huge_space"
+		android:paddingTop="@dimen/middle_space"
+		android:text="我想成为房东"
+		android:textColor="@color/white"
+		android:textSize="@dimen/large_text_size"/>
 </LinearLayout>

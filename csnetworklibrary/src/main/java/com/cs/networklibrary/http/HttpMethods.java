@@ -1,13 +1,14 @@
 package com.cs.networklibrary.http;
 
-import com.cs.networklibrary.converter.MyGsonConverterFracory;
 import com.cs.networklibrary.util.PropertiesUtil;
 
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by chenshuai12619 on 2016/3/17 16:39.
@@ -27,17 +28,18 @@ public class HttpMethods {
 		OkHttpClient.Builder builder = new OkHttpClient.Builder();
 		builder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 
+		if (IS_PRINT_LOG) {
+			HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+			interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+			builder.addInterceptor(interceptor);
+		}
+
 		retrofit = new Retrofit.Builder()
 				.client(builder.build())
-				.addConverterFactory(MyGsonConverterFracory.create(IS_PRINT_LOG))
+				.addConverterFactory(GsonConverterFactory.create())
 				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 				.baseUrl(BASE_URL)
 				.build();
-	}
-
-	//在访问HttpMethods时创建单例
-	private static class SingletonHolder {
-		private static final HttpMethods INSTANCE = new HttpMethods();
 	}
 
 	//获取单例
@@ -48,6 +50,11 @@ public class HttpMethods {
     public <T> T getClassInstance(Class<T> clazz) {
         return retrofit.create(clazz);
     }
+
+	//在访问HttpMethods时创建单例
+	private static class SingletonHolder {
+		private static final HttpMethods INSTANCE = new HttpMethods();
+	}
 
 
 }
