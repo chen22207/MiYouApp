@@ -108,6 +108,8 @@
 		<activity
 			android:name=".activity.house.HousePicReviewActivity"
 			android:screenOrientation="portrait"/>
+		<activity android:name=".activity.pipei.PipeiActivity">
+		</activity>
 	</application>
 
 </manifest>
