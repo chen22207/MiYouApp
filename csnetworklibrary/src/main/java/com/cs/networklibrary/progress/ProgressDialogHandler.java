@@ -7,6 +7,10 @@ import android.os.Message;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 /**
  * Created by chenshuai12619 on 2016/3/17 16:49.
  */
@@ -37,12 +41,29 @@ public class ProgressDialogHandler extends Handler {
                     .setCancellable(cancelable);
 
 			if (cancelable) {
-				pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
-					@Override
-					public void onCancel(DialogInterface dialog) {
-						mProgressCancelListener.onCancelProgress();
-					}
-				});
+				Class temp = pd.getClass();
+				try {
+					Field field = temp.getDeclaredField("mProgressDialog");
+					field.setAccessible(true);
+					Object obj = field.get(pd);
+					Method m = obj.getClass().getDeclaredMethod("setOnCancelListener", DialogInterface.OnCancelListener.class);
+					m.invoke(obj, new DialogInterface.OnCancelListener() {
+						@Override
+						public void onCancel(DialogInterface dialog) {
+							if (mProgressCancelListener != null) {
+								mProgressCancelListener.onCancelProgress();
+							}
+						}
+					});
+				} catch (NoSuchFieldException e) {
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				}
 			}
 
 			if (!pd.isShowing()) {
